@@ -105,7 +105,7 @@ public class ForgotPassword extends HttpServlet {
             try {
                 em.sendEmail(email, "Mật khẩu mới", "<div>Mật khẩu mới :   " + randomPass + "</div>"
                         + "<div> Xin hãy đổi mật khẩu sau khi đăng nhập </div>");
-            } catch (MessagingException ex) {
+            } catch (Exception e) {
                 request.setAttribute("message", "Something failed, please try again |");
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/ForgotPassword.jsp");
                 dispatcher.forward(request, response);

@@ -118,7 +118,7 @@ public class OTPRegister extends HttpServlet {
         try {
             // Send the OTP via email
             em.sendEmail(email, "OTP Đăng ký", "Đây là OTP : " + otp);
-        } catch (MessagingException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(OTPPassword.class.getName()).log(Level.SEVERE, null, ex);
 
             // Handle the error gracefully, redirect with error message
