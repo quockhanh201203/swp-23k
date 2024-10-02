@@ -4,10 +4,7 @@
  */
 package DAO;
 
-import Model.Account;
-import Model.Admin;
-import Model.Customer;
-import Model.Staff;
+import Model.*;
 import java.sql.*;
 
 /**

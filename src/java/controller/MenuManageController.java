@@ -4,15 +4,8 @@
  */
 package controller;
 
-import DAO.MenuDAO;
-import Model.Brand;
-import Model.Buffet;
-import Model.Drink;
-import Model.DrinkCategory;
-import Model.Food;
-import Model.FoodCategory;
-import Model.PriceHistory;
-import Model.Product;
+import DAO.*;
+import Model.*;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;

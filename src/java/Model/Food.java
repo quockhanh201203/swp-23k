@@ -40,6 +40,15 @@ public class Food {
         this.image = image;
     }
 
+    public Food(int foodID, String foodName, int categoryID, int status, String image, FoodCategory foodCategory) {
+        this.foodID = foodID;
+        this.foodName = foodName;
+        this.categoryID = categoryID;
+        this.status = status;
+        this.image = image;
+        this.foodCategory = foodCategory;
+    }
+
     // Getters and Setters
     public int getFoodID() {
         return foodID;
