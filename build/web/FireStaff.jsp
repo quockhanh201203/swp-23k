@@ -35,14 +35,16 @@
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <div class="form-floating">
-                                        <textarea class="form-control" id="fireReason" name="fireReason" placeholder="Reason for Firing" required></textarea>
-                                        <label for="fireReason">Reason for Firing</label>
+                                        <textarea class="form-control" id="reason" name="reason" placeholder="Reason for Firing" required></textarea>
+                                        <label for="reason">Reason for Firing</label>
                                     </div>
                                 </div>
-                                <input type="hidden" name="staffID" value="${staffID}" />
-                                <input type="hidden" name="staffID" value="${staffID}" />
-                                <input type="hidden" name="staffID" value="${staffID}" />
-                                <input type="hidden" name="staffID" value="${staffID}" />
+                                <input type="hidden" name="staffID" value="${staffID}">
+                                <input type="hidden" name="accountID" value="${accountID}">
+                                <input type="hidden" name="currentPage" value="${currentPage}">
+                                <input type="hidden" name="search" value="${search}">
+                                <input type="hidden" name="sortColumn" value="${sortColumn}">
+                                <input type="hidden" name="sortOrder" value="${sortOrder}">
                                 <div class="col-12">
                                     <button class="btn btn-danger w-100 py-3" type="submit">Fire Staff</button>
                                 </div>

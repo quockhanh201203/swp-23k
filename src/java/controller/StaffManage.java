@@ -69,7 +69,7 @@ public class StaffManage extends HttpServlet {
         if (page_raw != null) {
             page = Integer.parseInt(page_raw);
         }
-        int recordsPerPage = 10;
+        int recordsPerPage = 1;
         boolean sortOrder = true;
         if (sortOrder_raw != null) {
             if (sortOrder_raw.equals("desc")) {
@@ -87,7 +87,9 @@ public class StaffManage extends HttpServlet {
         request.setAttribute("staffList", staffList);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
-
+        request.setAttribute("sortColumn", sortColumn);
+        request.setAttribute("sortOrder", sortOrder);
+        request.setAttribute("search", search);
         // Forward to JSP
         request.getRequestDispatcher("staffManage.jsp").forward(request, response);
     }
