@@ -62,7 +62,7 @@ public class ProfileController extends HttpServlet {
         if (isUpdated) {
             response.sendRedirect("profile?status=true&type=profile");
         } else {
-            response.sendRedirect("changePassword?status=false&type=profile");
+            response.sendRedirect("profile?status=false&type=profile");
         }
 
     }
