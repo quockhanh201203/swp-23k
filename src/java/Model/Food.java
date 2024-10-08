@@ -5,6 +5,7 @@
 package Model;
 
 import DAO.MenuDAO;
+import java.util.List;
 
 /**
  *
@@ -17,6 +18,8 @@ public class Food {
     private int status;
     private String image;
     private FoodCategory foodCategory;
+    private String statusString;
+    private List<Ingredient> ingredients;
 
     public FoodCategory getFoodCategory() {
         return new MenuDAO().getFoodCategoryByID(categoryID);
@@ -25,6 +28,28 @@ public class Food {
     public void setFoodCategory(FoodCategory foodCategory) {
         this.foodCategory = foodCategory;
     }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public Food(int foodID, String foodName, int categoryID, int status, String image, List<Ingredient> ingredients) {
+        this.foodID = foodID;
+        this.foodName = foodName;
+        this.categoryID = categoryID;
+        this.status = status;
+        this.image = image;
+        this.ingredients = ingredients;
+    }
+
+    
+    
+    
+    
     
     
     
@@ -38,6 +63,15 @@ public class Food {
         this.categoryID = categoryID;
         this.status = status;
         this.image = image;
+    }
+
+    public Food(int foodID, String foodName, int categoryID, int status, String image, FoodCategory foodCategory) {
+        this.foodID = foodID;
+        this.foodName = foodName;
+        this.categoryID = categoryID;
+        this.status = status;
+        this.image = image;
+        this.foodCategory = foodCategory;
     }
 
     // Getters and Setters
@@ -80,5 +114,7 @@ public class Food {
     public void setImage(String image) {
         this.image = image;
     }
+
+
 }
 

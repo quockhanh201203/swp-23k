@@ -29,6 +29,18 @@ public class Staff {
     }
 
     // Constructor
+
+    public Staff(int staffID, String staffName, String phoneNumber, String email, double salary, boolean newAccount, int accountID, Account account) {
+        this.staffID = staffID;
+        this.staffName = staffName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.salary = salary;
+        this.newAccount = newAccount;
+        this.accountID = accountID;
+        this.account = account;
+    }
+
     public Staff(int staffID, String staffName, String phoneNumber, String email, double salary, boolean newAccount, int accountID) {
         this.staffID = staffID;
         this.staffName = staffName;
@@ -38,6 +50,10 @@ public class Staff {
         this.newAccount = newAccount;
         this.accountID = accountID;
     }
+
+    public Staff() {
+    }
+
 
     // Getters and Setters
     public int getStaffID() {

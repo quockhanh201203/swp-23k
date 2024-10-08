@@ -30,7 +30,7 @@ public class ProfileController extends HttpServlet {
         request.setAttribute("customer", customer);
         request.setAttribute("isSuccess", request.getParameter("status"));
         request.setAttribute("type", request.getParameter("type"));
-        request.getRequestDispatcher("profile.jsp").forward(request, response);
+        request.getRequestDispatcher("UpdateProfile.jsp").forward(request, response);
     }
 
    
