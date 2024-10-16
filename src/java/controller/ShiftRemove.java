@@ -2,11 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+
 package controller;
 
-import DAO.*;
-import Model.*;
-import jakarta.servlet.RequestDispatcher;
+import DAO.ShiftDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,45 +13,41 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
  * @author ADMIN
  */
-@WebServlet(name = "FoodManage", urlPatterns = {"/FoodManage"})
-public class FoodManage extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+@WebServlet(name="ShiftRemove", urlPatterns={"/ShiftRemove"})
+public class ShiftRemove extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet FoodManage</title>");
+            out.println("<title>Servlet ShiftRemove</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet FoodManage at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ShiftRemove at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    }
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -60,31 +55,30 @@ public class FoodManage extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        FoodDAO fd = new FoodDAO();
-        String page_raw = request.getParameter("page");
-        int ContentPerPage = 5;
+    throws ServletException, IOException {
+        ShiftDAO sd = new ShiftDAO();
         
-        int page = 1;
+        // Get shiftID and staffID from the request parameters
+        String shiftID = request.getParameter("shiftID");
+        String staffID = request.getParameter("staffID");
+
+        // Get the week and searchStaff parameters to pass them back to ShiftManage
+        String weekParam = request.getParameter("week");
+        String searchStaff = request.getParameter("searchStaff");
+
+        // Call the DAO to remove the staff from the shift
         try {
-            page = Integer.parseInt(page_raw);
+            sd.deleteShiftStaff(Integer.parseInt(shiftID), Integer.parseInt(staffID));
         } catch (Exception e) {
         }
-        
-        List<Food> food = fd.getPaginatedFoods(page-1, ContentPerPage, null, null, null);
 
-        int totalPage = fd.getTotalPages(ContentPerPage, null);
+        // Redirect back to ShiftManage with the same parameters (week, searchStaff)
+        response.sendRedirect("ShiftManage?week=" + weekParam + "&searchStaff=" + searchStaff);
 
-        request.setAttribute("totalPages", totalPage);
-        request.setAttribute("currentPage", page);
-        request.setAttribute("foodList", food);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/FoodManage.jsp");
-        dispatcher.forward(request, response);
-    }
+    } 
 
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -92,13 +86,12 @@ public class FoodManage extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override
