@@ -2,49 +2,62 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Model;
+package model;
 
 /**
  *
- * @author Legion
+ * @author tran tung
  */
 public class Account {
-    private int accountID;
-    private String username;
-    private String password;
-    private int roleID;
-
-    // Getters and Setters
-    public int getAccountID() {
-        return accountID;
+    private int AccountID;
+    private String Username;
+    private String Password;
+    private int RoleID;
+    public Account(){
+        
+    }
+    public Account(int AccountID, String Username, String Password, int RoleID) {
+        this.AccountID = AccountID;
+        this.Username = Username;
+        this.Password = Password;
+        this.RoleID = RoleID;
     }
 
-    public void setAccountID(int accountID) {
-        this.accountID = accountID;
+    public int getAccountID() {
+        return AccountID;
+    }
+
+    public void setAccountID(int AccountID) {
+        this.AccountID = AccountID;
     }
 
     public String getUsername() {
-        return username;
+        return Username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String Username) {
+        this.Username = Username;
     }
 
     public String getPassword() {
-        return password;
+        return Password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword(String Password) {
+        this.Password = Password;
     }
 
     public int getRoleID() {
-        return roleID;
+        return RoleID;
     }
 
-    public void setRoleID(int roleID) {
-        this.roleID = roleID;
+    public void setRoleID(int RoleID) {
+        this.RoleID = RoleID;
     }
+
+    @Override
+    public String toString() {
+        return "Account{" + "AccountID=" + AccountID + ", Username=" + Username + ", Password=" + Password + ", RoleID=" + RoleID + '}';
+    }
+    
 }
-
