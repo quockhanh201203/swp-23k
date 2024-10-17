@@ -1,10 +1,12 @@
 <%-- 
-    Document   : Login
-    Created on : Sep 19, 2024, 3:17:31 PM
+    Document   : menu
+    Created on : Oct 2, 2024, 6:48:28 AM
     Author     : tran tung
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    
 <!DOCTYPE html>
 <html lang="en">
 
@@ -54,7 +56,7 @@
         <div class="container-xxl position-relative p-0">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
                 <a href="" class="navbar-brand p-0">
-                    <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Restorant</h1>
+                    <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Restoran</h1>
                     <!-- <img src="img/logo.png" alt="Logo"> -->
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -65,11 +67,11 @@
                         <a href="index.html" class="nav-item nav-link">Home</a>
                         <a href="about.html" class="nav-item nav-link">About</a>
                         <a href="service.html" class="nav-item nav-link">Service</a>
-                        <a href="menu.html" class="nav-item nav-link">Menu</a>
+                        <a href="menu.html" class="nav-item nav-link active">Menu</a>
                         <div class="nav-item dropdown">
-                            <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
                             <div class="dropdown-menu m-0">
-                                <a href="booking.html" class="dropdown-item active">Login</a>
+                                <a href="booking.html" class="dropdown-item">Booking</a>
                                 <a href="team.html" class="dropdown-item">Our Team</a>
                                 <a href="testimonial.html" class="dropdown-item">Testimonial</a>
                             </div>
@@ -82,12 +84,12 @@
 
             <div class="container-xxl py-5 bg-dark hero-header mb-5">
                 <div class="container text-center my-5 pt-5 pb-4">
-                    <h1 class="display-3 text-white mb-3 animated slideInDown">Login</h1>
+                    <h1 class="display-3 text-white mb-3 animated slideInDown">Food Menu</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb justify-content-center text-uppercase">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
                             <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                            <li class="breadcrumb-item text-white active" aria-current="page">Login</li>
+                            <li class="breadcrumb-item text-white active" aria-current="page">Menu</li>
                         </ol>
                     </nav>
                 </div>
@@ -96,68 +98,174 @@
         <!-- Navbar & Hero End -->
 
 
-        <!-- Reservation Start -->
-        <div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
-            <div class="row g-0">
-                <div class="col-md-6">
-                    <div class="video">
-                        <button type="button" class="btn-play" data-bs-toggle="modal" data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-bs-target="#videoModal">
-                            <span></span>
-                        </button>
-                    </div>
+        <!-- Menu Start -->
+        <div class="container-xxl py-5">
+            <div class="container">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h5 class="section-title ff-secondary text-center text-primary fw-normal">Food Menu</h5>
+                    <h1 class="mb-5">Most Popular Items</h1>
                 </div>
-                <div class="col-md-6 bg-dark d-flex align-items-center">
-                    <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Reservation</h5>
-                        <h1 class="text-white mb-4">Book A Table Online</h1>
-                        <form action="login" method="post">
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="name" placeholder="Username" name="username">
-                                        <label for="name">Username</label>
-                                    </div>
+                <div class="tab-class text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
+                        <li class="nav-item">
+                            <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
+                                <i class="fa fa-coffee fa-2x text-primary"></i>
+                                <div class="ps-3">
+                                    <small class="text-body">Popular</small>
+                                    <h6 class="mt-n1 mb-0">Food</h6>
                                 </div>
-                                <br/>
-                                <div class="col-md-6">
-                                    <div class="form-floating">
-                                        <input type="password" class="form-control" id="email" placeholder="Password" name="password">
-                                        <label for="email">Password</label>
-                                    </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-2">
+                                <i class="fa fa-hamburger fa-2x text-primary"></i>
+                                <div class="ps-3">
+                                    <small class="text-body">Lovely</small>
+                                    <h6 class="mt-n1 mb-0">Drink</h6>
                                 </div>
-                               
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-3">
+                                <i class="fa fa-utensils fa-2x text-primary"></i>
+                                <div class="ps-3">
+                                    <small class="text-body">Special</small>
+                                    <h6 class="mt-n1 mb-0">Buffet</h6>
                                 </div>
-                                
-                              
-                                <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Login</button>
-                                
-                          
-                            </div>
-                        </form>
-                    </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane fade show p-0 active">
+                             <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
+                        <li class="nav-item">
+                            <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-4">
+                                <div class="ps-3">
+                                    <small class="text-body"></small>
+                                    <h6 class="mt-n1 mb-0">Chicken</h6>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-5">
+                                <div class="ps-3">
+                                    <small class="text-body"></small>
+                                    <h6 class="mt-n1 mb-0">Burger</h6>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-6">
+                                <div class="ps-3">
+                                    <small class="text-body"></small>
+                                    <h6 class="mt-n1 mb-0">Salad and Snacks</h6>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                            <div class="row g-4">
+    <c:forEach items="${foodList}" var="food">
+        <div class="col-lg-6">
+            <div class="d-flex align-items-center">
+                <img class="flex-shrink-0 img-fluid rounded" src="${food.getImage()}" alt="Food Image" style="width: 80px;">
+                <div class="w-100 d-flex flex-column text-start ps-4">
+                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                        <span>${food.getFoodName()}</span>
+                        <span class="text-primary">$${food.getPrice()}</span>
+                    </h5>
+                    <small class="fst-italic">${food.getCategoryName()}</small>
+                    <h6>${food.getStatus()}</h6>
                 </div>
             </div>
         </div>
+    </c:forEach>
+</div>
 
-        <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content rounded-0">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Youtube Video</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- 16:9 aspect ratio -->
-                        <div class="ratio ratio-16x9">
-                            <iframe class="embed-responsive-item" src="" id="video" allowfullscreen allowscriptaccess="always"
-                                allow="autoplay"></iframe>
+
+
+                                
+                                
+                               
+                               
+                               
+                              
+                         
+                        </div>
+                        <div id="tab-2" class="tab-pane fade show p-0">
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <c:forEach items="${drinkList}" var="drink">
+        <div class="d-flex align-items-center">
+            <img class="flex-shrink-0 img-fluid rounded" src="${drink.getImage()}" alt="Food Image" style="width: 80px;">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+                <h5 class="d-flex justify-content-between border-bottom pb-2">
+                        <span>${drink.getDrinkName()}</span>
+                    <span class="text-primary">$${drink.getPrice()}</span>
+                </h5>
+                
+                
+                
+                <small class="fst-italic">${drink.getCategoryName()}</small>
+                <h6>${drink.getStatus()} </h6>
+            </div>
+        </div>
+                    </c:forEach>
+                                    
+                                        </div>
+                            </div>
+                        </div>
+                        
+                        <div id="tab-3" class="tab-pane fade show p-0">
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                      
+                                      <c:forEach items="${buffetList}" var="buffet">
+        <div class="d-flex align-items-center">
+            <img class="flex-shrink-0 img-fluid rounded" src="${buffet.getImage()}" alt="Food Image" style="width: 80px;">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+                <h5 class="d-flex justify-content-between border-bottom pb-2">
+                        <span>${buffet.getBuffetName()}</span>
+                    <span class="text-primary">$${buffet.getPrice()}</span>
+                </h5>
+                 <small class="fst-italic">${buffet.getFoodName()}</small>
+                 <small class="fst-italic">${buffet.getDrinkName() }</small>
+                
+        </div>
+                    </c:forEach>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div id="tab-4" class="tab-pane fade show p-0">
+                            <div class="row g-4">
+                                <div class="col-lg-6">
+                                    <c:forEach items="${chickenList}" var="chicken">
+        <div class="d-flex align-items-center">
+            <img class="flex-shrink-0 img-fluid rounded" src="${drink.getImage()}" alt="Food Image" style="width: 80px;">
+            <div class="w-100 d-flex flex-column text-start ps-4">
+                <h5 class="d-flex justify-content-between border-bottom pb-2">
+                        <span>${chicken.getFoodName()}</span>
+                    <span class="text-primary">$${chicken.getPrice()}</span>
+                </h5>
+                
+                
+                
+                <small class="fst-italic">${chicken.getCategoryName()}</small>
+                <h6>${drink.getStatus()} </h6>
             </div>
         </div>
-        <!-- Reservation Start -->
+                    </c:forEach>
+                                    
+                                        </div>
+                            </div>
+                        </div>          
+                        
+                        
+                        
+                        
+            </div>
+        </div>
+        <!-- Menu End -->
         
 
         <!-- Footer Start -->
