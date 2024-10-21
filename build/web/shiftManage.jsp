@@ -32,7 +32,7 @@
                                 <!-- Week Filter -->
                                 <div class="col-md-3">
                                     <div class="form-floating">
-                                        <input type="week" class="form-control" id="week" name="week" value="${param.week != null ? param.week : currentWeek}">
+                                        <input type="week" class="form-control" id="week" name="week" value="${param.week != null ? param.week : currentWeek}" onchange="this.form.submit()">
                                         <label for="week">Select Week</label>
                                     </div>
                                 </div>
@@ -75,12 +75,15 @@
                                                 <c:forEach var="shift" items="${shifts}">
                                                     <c:if test="${shift.date == date && shift.dayTime == true}">
                                                         <div class="shift">
-                                                            <p>Shift ID: ${shift.shiftID}</p>
+                                                            <p>Date: ${shift.date}</p>
                                                             <c:forEach var="shift_staff" items="${shift.shift_staffs}">
                                                                 <div class="shift">
                                                                     <span>${shift_staff.staff.staffName}</span>
-                                                                    <span style="color: ${shift_staff.status == 'absent' ? 'red' : 'green'};">
-                                                                        ${shift_staff.status}
+                                                                    <span>
+                                                                        <a href="ShiftAttend?StaffID=${shift_staff.staff.staffID}&ShiftID=${shift.shiftID}&action=${shift_staff.status == 'attend' ? 'absent' : 'attend'}&week=${param.week}&searchStaff=${param.searchStaff}" 
+                                                                           style="color: ${shift_staff.status == 'future' ? 'yellow' : shift_staff.status == 'absent' ? 'red' : 'green'};">
+                                                                            ${shift_staff.status}
+                                                                        </a>
                                                                     </span>
                                                                     <span><a href="ShiftRemove?shiftID=${shift.shiftID}&staffID=${shift_staff.staff.staffID}&page=${i}&week=${param.week}&searchStaff=${param.searchStaff}" 
                                                                              class="btn btn-danger" style="padding: 0.1rem 0.3rem; line-height: 1;"
@@ -90,7 +93,7 @@
                                                                 </div>
                                                             </c:forEach>
                                                         </div>
-                                                            <a class="btn btn-success" href="AddStaffShift?shiftID=${shift.shiftID}&staffID=${shift_staff.staff.staffID}&page=${i}&week=${param.week}&searchStaff=${param.searchStaff}" >Add Staff</a>
+                                                        <a class="btn btn-success" href="AddStaffShift?shiftID=${shift.shiftID}&staffID=${shift_staff.staff.staffID}&page=${i}&week=${param.week}&searchStaff=${param.searchStaff}" >Add Staff</a>
                                                     </c:if>
                                                 </c:forEach>
                                             </td>
@@ -106,12 +109,15 @@
                                                 <c:forEach var="shift" items="${shifts}">
                                                     <c:if test="${shift.date == date && shift.dayTime == false}">
                                                         <div class="shift">
-                                                            <p>Shift ID: ${shift.shiftID}</p>
+                                                            <p>Date: ${shift.date}</p>
                                                             <c:forEach var="shift_staff" items="${shift.shift_staffs}">
                                                                 <div class="shift">
                                                                     <span>${shift_staff.staff.staffName}</span>
-                                                                    <span style="color: ${shift_staff.status == 'absent' ? 'red' : 'green'};">
-                                                                        ${shift_staff.status}
+                                                                    <span>
+                                                                        <a href="ShiftAttend?StaffID=${shift_staff.staff.staffID}&ShiftID=${shift.shiftID}&action=${shift_staff.status == 'attend' ? 'absent' : 'attend'}&week=${param.week}&searchStaff=${param.searchStaff}" 
+                                                                           style="color: ${shift_staff.status == 'future' ? 'yellow' : shift_staff.status == 'absent' ? 'red' : 'green'};">
+                                                                            ${shift_staff.status}
+                                                                        </a>
                                                                     </span>
                                                                     <span><a href="ShiftRemove?shiftID=${shift.shiftID}&staffID=${shift_staff.staff.staffID}&page=${i}&week=${param.week}&searchStaff=${param.searchStaff}" 
                                                                              class="btn btn-danger" style="padding: 0.1rem 0.3rem; line-height: 1;"
@@ -121,7 +127,7 @@
                                                                 </div>
                                                             </c:forEach>
                                                         </div>
-                                                        <a class="btn btn-success">Add Staff</a>
+                                                        <a class="btn btn-success" href="AddStaffShift?shiftID=${shift.shiftID}&staffID=${shift_staff.staff.staffID}&page=${i}&week=${param.week}&searchStaff=${param.searchStaff}" >Add Staff</a>
                                                     </c:if>
                                                 </c:forEach>
                                             </td>

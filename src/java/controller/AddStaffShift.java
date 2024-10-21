@@ -132,12 +132,12 @@ public class AddStaffShift extends HttpServlet {
         String searchStaff = request.getParameter("searchStaff");
         String search = request.getParameter("search");
         String sortColumn = request.getParameter("sortColumn");
-        String sortOrder = request.getParameter("sortOrder");
+        String sortOrder_raw = request.getParameter("sortOrder");
         
         ShiftDAO shd = new ShiftDAO();
-        ShiftDAO sd = new ShiftDAO();
+        StaffDAO sd = new StaffDAO();
 
-        sd.addShiftStaff(Integer.parseInt(shiftID), Integer.parseInt(staffID), "future");
+        shd.addShiftStaff(Integer.parseInt(shiftID), Integer.parseInt(staffID), "future");
 
         // Set the retrieved values as request attributes to forward to the JSP
         Shift shift = new Shift();
@@ -145,7 +145,26 @@ public class AddStaffShift extends HttpServlet {
             shift = shd.getShiftByShiftID(Integer.parseInt(shiftID));
         } catch (Exception ex) {
         }
+        
+        int recordsPerPage = 10;
+        boolean sortOrder = true;
+        if (sortOrder_raw != null) {
+            if (sortOrder_raw.equals("desc")) {
+                sortOrder = false;
+            }
+        }
 
+        // Fetch filtered, sorted, paginated staff list
+        List<Staff> staffList = sd.findStaffByPage(Integer.parseInt(currentPage), recordsPerPage, search, sortColumn, sortOrder);
+        //List<Staff> staffList = sd.findStaffByPage(page, 1, search, sortColumn, sortOrder);
+        int totalRecords = sd.getTotalPages(recordsPerPage, search);
+        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+
+        try {
+            shift = shd.getShiftByShiftID(Integer.parseInt(shiftID));
+        } catch (Exception ex) {
+        }
+        request.setAttribute("staffList", staffList);
         request.setAttribute("shift", shift);
         request.setAttribute("staffID", staffID);
         request.setAttribute("currentPage", currentPage);

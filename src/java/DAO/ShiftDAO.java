@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -20,8 +22,87 @@ import java.time.temporal.ChronoUnit;
  */
 public class ShiftDAO extends DBContext {
 
+    public List<Shift> getMyShiftsByDateRange(Date startDate, Date endDate, Integer staffID) throws Exception {
+        List<Shift> shifts = new ArrayList<>();
+        Map<Integer, Shift> shiftMap = new HashMap<>(); // To track shifts by ShiftID
+        StringBuilder query = new StringBuilder("SELECT s.ShiftID, s.StaffQuantity, s.WEEKDATE, s.date, s.DayTime, "
+                + "ss.StaffID, ss.Status, st.StaffName, st.PhoneNumber, st.Email, st.Salary, st.NewAccount "
+                + "FROM Shift s "
+                + "LEFT JOIN Shift_Staff ss ON s.ShiftID = ss.ShiftID "
+                + "LEFT JOIN Staff st ON ss.StaffID = st.StaffID "
+                + "WHERE s.date BETWEEN ? AND ? ");
+
+        // Append condition for StaffID if it's not null
+        if (staffID != null) {
+            query.append("AND ss.StaffID = ? ");
+        }
+        query.append("ORDER BY s.date ASC");
+
+        try (PreparedStatement statement = connection.prepareStatement(query.toString())) {
+            statement.setDate(1, startDate);
+            statement.setDate(2, endDate);
+
+            // Set StaffID parameter if it's provided
+            if (staffID != null) {
+                statement.setInt(3, staffID);
+            }
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    int shiftID = resultSet.getInt("ShiftID");
+
+                    // Retrieve the existing Shift object from the map, or create a new one
+                    Shift shift = shiftMap.get(shiftID);
+                    if (shift == null) {
+                        // Initialize Shift object if it's not already in the map
+                        shift = new Shift();
+                        shift.setShiftID(shiftID);
+                        shift.setStaffQuantity(resultSet.getInt("StaffQuantity"));
+                        shift.setWeekDate(resultSet.getString("WEEKDATE"));
+                        shift.setDate(resultSet.getDate("date"));
+                        shift.setDayTime(resultSet.getBoolean("DayTime"));
+
+                        // Create the shift_staffs list
+                        shift.setShift_staffs(new ArrayList<>());
+
+                        // Add the shift to the map and to the shifts list
+                        shiftMap.put(shiftID, shift);
+                        shifts.add(shift);
+                    }
+
+                    // Handle the staff details only if a valid StaffID is found
+                    int foundStaffID = resultSet.getInt("StaffID");
+                    if (foundStaffID > 0) { // Only add ShiftStaff if StaffID is valid
+                        ShiftStaff shiftStaff = new ShiftStaff();
+                        shiftStaff.setShiftID(shift.getShiftID());
+                        shiftStaff.setStaffID(foundStaffID);
+                        shiftStaff.setStatus(resultSet.getString("Status"));
+
+                        // Create Staff object
+                        Staff staff = new Staff();
+                        staff.setStaffID(foundStaffID);
+                        staff.setStaffName(resultSet.getString("StaffName"));
+                        staff.setPhoneNumber(resultSet.getString("PhoneNumber"));
+                        staff.setEmail(resultSet.getString("Email"));
+                        staff.setSalary(resultSet.getInt("Salary"));
+                        staff.setNewAccount(resultSet.getBoolean("NewAccount"));
+
+                        // Associate Staff with ShiftStaff
+                        shiftStaff.setStaff(staff);
+
+                        // Add ShiftStaff to the shift's shift_staffs list
+                        shift.getShift_staffs().add(shiftStaff);
+                    }
+                }
+            }
+        }
+        System.out.println(query);
+        return shifts;
+    }
+
     public List<Shift> getShiftsByDateRange(Date startDate, Date endDate, String staffName) throws Exception {
         List<Shift> shifts = new ArrayList<>();
+        Map<Integer, Shift> shiftMap = new HashMap<>(); // To track shifts by ShiftID
         StringBuilder query = new StringBuilder("SELECT s.ShiftID, s.StaffQuantity, s.WEEKDATE, s.date, s.DayTime, "
                 + "ss.StaffID, ss.Status, st.StaffName, st.PhoneNumber, st.Email, st.Salary, st.NewAccount "
                 + "FROM Shift s "
@@ -46,20 +127,28 @@ public class ShiftDAO extends DBContext {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    // Initialize Shift object
-                    Shift shift = new Shift();
-                    shift.setShiftID(resultSet.getInt("ShiftID"));
-                    shift.setStaffQuantity(resultSet.getInt("StaffQuantity"));
-                    shift.setWeekDate(resultSet.getString("WEEKDATE"));
-                    shift.setDate(resultSet.getDate("date"));
-                    shift.setDayTime(resultSet.getBoolean("DayTime"));
+                    int shiftID = resultSet.getInt("ShiftID");
 
-                    // Create the shift_staffs list if it's null
-                    if (shift.getShift_staffs() == null) {
+                    // Retrieve the existing Shift object from the map, or create a new one
+                    Shift shift = shiftMap.get(shiftID);
+                    if (shift == null) {
+                        // Initialize Shift object if it's not already in the map
+                        shift = new Shift();
+                        shift.setShiftID(shiftID);
+                        shift.setStaffQuantity(resultSet.getInt("StaffQuantity"));
+                        shift.setWeekDate(resultSet.getString("WEEKDATE"));
+                        shift.setDate(resultSet.getDate("date"));
+                        shift.setDayTime(resultSet.getBoolean("DayTime"));
+
+                        // Create the shift_staffs list
                         shift.setShift_staffs(new ArrayList<>());
+
+                        // Add the shift to the map and to the shifts list
+                        shiftMap.put(shiftID, shift);
+                        shifts.add(shift);
                     }
 
-                    // Create ShiftStaff object
+                    // Handle the staff details only if a valid StaffID is found
                     int staffID = resultSet.getInt("StaffID");
                     if (staffID > 0) { // Only add ShiftStaff if StaffID is valid
                         ShiftStaff shiftStaff = new ShiftStaff();
@@ -82,8 +171,6 @@ public class ShiftDAO extends DBContext {
                         // Add ShiftStaff to the shift's shift_staffs list
                         shift.getShift_staffs().add(shiftStaff);
                     }
-
-                    shifts.add(shift);
                 }
             }
         }
@@ -339,7 +426,7 @@ public class ShiftDAO extends DBContext {
             for (ShiftStaff oldShiftStaff : oldShift.getShift_staffs()) {
                 ShiftStaff newShiftStaff = new ShiftStaff();
                 newShiftStaff.setStaffID(oldShiftStaff.getStaffID());
-                newShiftStaff.setStatus(oldShiftStaff.getStatus());
+                newShiftStaff.setStatus("future");
                 newShiftStaff.setStaff(oldShiftStaff.getStaff()); // Copy Staff info
 
                 newShiftStaffs.add(newShiftStaff);
@@ -455,11 +542,11 @@ public class ShiftDAO extends DBContext {
         String message = "";
 
         // SQL to update the status of Shift_Staff records where the Shift date is before today and the current status matches oldStatus
-        String sqlUpdate = "UPDATE Shift_Staff ss "
-                + "SET ss.Status = ? "
-                + "WHERE ss.Status = ? "
-                + "AND ss.ShiftID IN ("
-                + "  SELECT s.ShiftID FROM Shift s WHERE s.date < CURRENT_DATE"
+        String sqlUpdate = "UPDATE Shift_Staff "
+                + "SET Status = ? "
+                + "WHERE Status = ? "
+                + "AND ShiftID IN ("
+                + "  SELECT s.ShiftID FROM Shift s WHERE s.date < GETDATE()"
                 + ")";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sqlUpdate)) {
@@ -485,38 +572,39 @@ public class ShiftDAO extends DBContext {
 
         return message;
     }
-    
-    public String updateShiftStaffStatusById(int shiftStaffID, String newStatus) {
-    String message = "";
-    
-    // SQL query to update the status of the Shift_Staff record for a specific Shift_StaffID
-    String sqlUpdate = "UPDATE Shift_Staff "
-                     + "SET Status = ? "
-                     + "WHERE Shift_StaffID = ?";
 
-    try (PreparedStatement pstmt = connection.prepareStatement(sqlUpdate)) {
-        
-        // Set the new status and the Shift_StaffID
-        pstmt.setString(1, newStatus);
-        pstmt.setInt(2, shiftStaffID);
+    public String updateShiftStaffStatusById(int shiftID, int staffID, String newStatus) {
+        String message = "";
 
-        // Execute the update query
-        int rowsAffected = pstmt.executeUpdate();
+        // SQL query to update the status of the Shift_Staff record for a specific ShiftID and StaffID
+        String sqlUpdate = "UPDATE Shift_Staff "
+                + "SET Status = ? "
+                + "WHERE ShiftID = ? AND StaffID = ?";
 
-        // Generate the success or failure message based on rows affected
-        if (rowsAffected > 0) {
-            message = "Successfully updated status to '" + newStatus + "' for Shift_StaffID: " + shiftStaffID;
-        } else {
-            message = "No Shift_Staff record found with Shift_StaffID: " + shiftStaffID;
+        try (PreparedStatement pstmt = connection.prepareStatement(sqlUpdate)) {
+
+            // Set the new status, ShiftID, and StaffID
+            pstmt.setString(1, newStatus);
+            pstmt.setInt(2, shiftID);
+            pstmt.setInt(3, staffID);
+
+            // Execute the update query
+            int rowsAffected = pstmt.executeUpdate();
+
+            // Generate the success or failure message based on rows affected
+            if (rowsAffected > 0) {
+                message = "Successfully updated status to '" + newStatus + "' for ShiftID: " + shiftID + " and StaffID: " + staffID;
+            } else {
+                message = "No Shift_Staff record found with ShiftID: " + shiftID + " and StaffID: " + staffID;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log the error or handle it accordingly
+            message = "Error updating Shift_Staff status: " + e.getMessage();
         }
 
-    } catch (SQLException e) {
-        e.printStackTrace(); // Log the error or handle it accordingly
-        message = "Error updating Shift_Staff status: " + e.getMessage();
+        return message;
     }
-
-    return message;
-}
 
     public static void main(String[] args) throws Exception {
         ShiftDAO sd = new ShiftDAO();

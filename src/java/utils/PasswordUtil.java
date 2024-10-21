@@ -6,12 +6,14 @@ package utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
 /**
  *
  * @author Admin
  */
 public class PasswordUtil {
-      // Phương thức để mã hóa mật khẩu bằng MD5
+    // Phương thức để mã hóa mật khẩu bằng MD5
+
     public static String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -29,7 +31,7 @@ public class PasswordUtil {
     }
 
     public static void main(String[] args) {
-        String password = "123456";
+        String password = "123";
         String hashedPassword = hashPassword(password);
         System.out.println("Mật khẩu sau khi mã hóa MD5: " + hashedPassword);
     }

@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -23,8 +24,12 @@
             <div class="row justify-content-center">
                 <div class="col-12 bg-dark d-flex align-items-center">
                     <div class="p-5 w-100">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Staff List</h5>
-                        <h1 class="text-white mb-4">Browse Our Staff</h1>
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">
+                            <a href="ShiftManage?week=${weekParam}&searchStaff=${searchStaff}" class="text-primary">
+                                Back to Shift Manage
+                            </a>
+                        </h5>
+                        <h1 class="text-white mb-4">Staff List</h1>
 
                         <!-- Search, Filter, Sort Form -->
                         <form action="AddStaffShift" method="get" class="mb-4">
@@ -126,9 +131,18 @@
                                                     <td>${staff.salary}</td>
                                                     <td>${staff.newAccount ? 'Yes' : 'No'}</td>
                                                     <td>
+                                                        <c:set var="isInShift" value="false" />
+                                                        <c:forEach var="shiftStaff" items="${shift.shift_staffs}">
+                                                            <c:if test="${shiftStaff.staff.staffID == staff.staffID}">
+                                                                <c:set var="isInShift" value="true" />
+                                                            </c:if>
+                                                        </c:forEach>
                                                         <c:choose>
                                                             <c:when test="${staff.accountID == 0}">
-                                                                Staff Fired
+                                                                <p style="color:'red'">Staff Fired</p>
+                                                            </c:when>
+                                                            <c:when test="${isInShift == true}">
+                                                                <p style="color:'yellow'">Already in</p>
                                                             </c:when>
                                                             <c:otherwise>
                                                                 <form action="AddStaffShift" method="post" style="display:inline;">
@@ -148,6 +162,7 @@
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
+
                                     </table>
                                 </div>
                             </c:otherwise>
