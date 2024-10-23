@@ -10,15 +10,23 @@
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/web/myFeedback.jsp</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/controller/EditStaffSalary.java</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/web/AddFeedback.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/web/reservationList.jsp</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/Model/Customer.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/web/staffManage.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/DAO/ReservationDAO.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/controller/myReservation.java</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/controller/myFeedBack.java</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/controller/FeedbackServlet.java</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/web/shiftManage.jsp</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/web/AddStaffShift.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/Model/TableReservation.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/Model/Responde.java</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/DAO/FeedbackDAO.java</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/web/AddResponde.jsp</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/controller/myShift.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/web/myreservation.jsp</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/DAO/StaffDAO.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/controller/ReservationList.java</file>
         </group>
     </open-files>
 </project-private>
