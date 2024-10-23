@@ -17,7 +17,7 @@ public class UserDAO extends DBContext {
 
     public UserDAO() {
         try {
-            connection = getConnection();
+            this.connection = getConnection();
         } catch (Exception e) {
             System.out.println(e);
         }

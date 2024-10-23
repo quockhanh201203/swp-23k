@@ -5,6 +5,7 @@
 package DAO;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -153,5 +154,30 @@ public class FoodDAO extends DBContext {
         int totalPages = (int) Math.ceil((double) totalFoods / size);
         return totalPages;
     }
+    
+    
+    
+    public double getFoodPrice(int foodId) {
+        double price = -1.0;
+        String query = "SELECT TOP 1 Price FROM Product WHERE FoodID = ? ORDER BY ProductID DESC";
+
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+
+            stmt.setInt(1, foodId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                price = rs.getDouble("Price");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return price;
+    }
+    
+    
+
 
 }

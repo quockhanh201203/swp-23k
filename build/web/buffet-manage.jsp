@@ -52,6 +52,7 @@
                     <tr>
                         <th>Buffet ID</th>
                         <th>Buffet Name</th>
+                        <th>Price</th>
                         <th>Image</th>
                         <th>Actions</th>
                     </tr>
@@ -61,6 +62,7 @@
                         <tr>
                             <td>${buffet.buffetID}</td>
                             <td>${buffet.buffetName}</td>
+                            <td>${buffet.price}</td>
                             <td><img src="${buffet.image}" alt="Buffet Image" width="100" height="100"/></td>
                             <td>
                                 <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#editBuffetModal_${buffet.buffetID}">Edit</button>
@@ -84,6 +86,12 @@
                                                     <div class="mb-3">
                                                         <label for="buffetName" class="form-label">Buffet Name</label>
                                                         <input type="text" class="form-control" name="buffetName" value="${buffet.buffetName}" required>
+                                                    </div>
+                                                    
+                                                    <!-- Buffet Name -->
+                                                    <div class="mb-3">
+                                                        <label for="buffetName" class="form-label">Buffet Price</label>
+                                                        <input type="text" class="form-control" name="price" value="${buffet.price}" required>
                                                     </div>
 
                                                     <!-- Buffet Image -->
@@ -159,7 +167,7 @@
             
             $(document).ready(function () {
                 $('#buffetTable').DataTable({
-                    pageLength: 5,
+                    pageLength: 10,
                     "lengthChange": false,
                     "sScrollY": ($(window).height() - 300)
                 });

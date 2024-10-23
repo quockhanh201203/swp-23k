@@ -86,10 +86,16 @@ public class BuffetManageController extends HttpServlet {
         int buffetId = Integer.parseInt(request.getParameter("buffetId")); // Assuming buffetId is passed for updates
         String buffetName = request.getParameter("buffetName");
         String buffetImage = request.getParameter("image");
+        double price = Double.parseDouble(request.getParameter("price"));
 
         // Update the existing buffet in the database
         Buffet buffet = new Buffet(buffetId, buffetName, buffetImage);
         menuDAO.updateBuffet(buffet); // Assume this method exists in your DAO
+        
+        Product product = new Product(0, 0, buffetId, 0, price);
+        int productID = menuDAO.insertProduct(product);
+        PriceHistory priceHistory = new PriceHistory(productID, price, null, null);
+        menuDAO.insertPriceHistory(priceHistory);
     }
 
 }

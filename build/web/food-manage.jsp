@@ -54,6 +54,7 @@
                         <th>Food ID</th>
                         <th>Food Name</th>
                         <th>Category ID</th>
+                        <th>Price</th>
                         <th>Status</th>
                         <th>Image</th>
                         <th>Actions</th>
@@ -65,10 +66,23 @@
                             <td>${food.foodID}</td>
                             <td>${food.foodName}</td>
                             <td>${food.foodCategory.categoryName}</td>
-                            <td>${food.status == 1 ? 'Active' : 'De-Active'}</td>
+                            <td>${food.price}</td>
+                            <td>${food.status == 1 ? 'Active' : 'Inactive'}</td>
                             <td><img src="${food.image}" alt="Food Image" width="100" height="100"/></td>
                             <td>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#updateFoodModal_${food.foodID}">Edit</button>
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#updateFoodModal_${food.foodID}">Edit</button>
+                                <form action="foods" " method="post" style="display:inline-block;">
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="status" value="${food.status == 1 ? 0 : 1}">
+                                    <input type="hidden" name="id" value="${food.foodID}">
+                                    <c:if test="${food.status == 1}">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </c:if>
+                                        <c:if test="${food.status != 1}">
+                                        <button type="submit" class="btn btn-success">Active</button>
+                                    </c:if>
+                                    
+                                </form>
                                 <!-- Food Update Modal -->
                                 <div class="modal fade" id="updateFoodModal_${food.foodID}" tabindex="-1" aria-labelledby="updateFoodModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -108,6 +122,11 @@
                                                             <option value="Available" ${food.status == 1 ? 'selected' : ''}>Active</option>
                                                             <option value="Unavailable" ${food.status == 0 ? 'selected' : ''}>De-Active</option>
                                                         </select>
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label for="image" class="form-label">Price</label>
+                                                        <input type="text" class="form-control" name="price" value="${food.price}" required>
                                                     </div>
 
                                                     <!-- Image URL -->

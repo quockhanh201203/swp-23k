@@ -58,6 +58,8 @@ public class FoodManageController extends HttpServlet {
             addFood(request);
         } else if ("update".equals(action)) {
             updateFood(request);
+        } else if ("delete".equals(action)) {
+            deleteFood(request);
         }
 
         response.sendRedirect("foods");
@@ -82,10 +84,24 @@ public class FoodManageController extends HttpServlet {
         String foodName = request.getParameter("foodName");
         String foodImage = request.getParameter("image");
         int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+        double price = Double.parseDouble(request.getParameter("price"));
 
         // Update the existing food in the database
         Food food = new Food(foodId, foodName, categoryId, 1, foodImage);
         menuDAO.updateFood(food); // Assume this method exists in your DAO
+        Product product = new Product(0, foodId, 0, 0, price);
+        int productID = menuDAO.insertProduct(product);
+        PriceHistory priceHistory = new PriceHistory(productID, price, null, null);
+        menuDAO.insertPriceHistory(priceHistory);
+    }
+
+    private void deleteFood(HttpServletRequest request) {
+        int foodId = Integer.parseInt(request.getParameter("id")); // Assuming foodId is passed for updates
+        int status = Integer.parseInt(request.getParameter("status"));
+        Food food = new Food();
+        food.setFoodID(foodId);
+        food.setStatus(status);
+        menuDAO.deleteFood(food);
     }
 
 }

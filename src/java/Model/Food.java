@@ -4,6 +4,7 @@
  */
 package Model;
 
+import DAO.FoodDAO;
 import DAO.MenuDAO;
 import java.util.List;
 
@@ -20,6 +21,17 @@ public class Food {
     private FoodCategory foodCategory;
     private String statusString;
     private List<Ingredient> ingredients;
+    private double price;
+
+    public double getPrice() {
+        return new FoodDAO().getFoodPrice(foodID);
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    
+    
 
     public FoodCategory getFoodCategory() {
         return new MenuDAO().getFoodCategoryByID(categoryID);

@@ -66,14 +66,26 @@
                         <tr>
                             <td>${drink.drinkID}</td>
                             <td>${drink.drinkName}</td>
-                            <td>${drink.drinkPrice}</td>
+                            <td>${drink.price}</td>
                             <td>${drink.quantity}</td>
                             <td>${drink.drinkCategory.categoryName}</td>
                             <td>${drink.brand.brandName}</td>
-                            <td>${drink.status == 1 ? 'Active' : 'De-Active'}</td>
+                            <td>${drink.status == 1 ? 'Active' : 'Inactive'}</td>
                             <td><img src="${drink.image}" alt="Drink Image" width="100" height="100"/></td>
                             <td>
-                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#editDrinkModal_${drink.drinkID}">Edit</button>
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editDrinkModal_${drink.drinkID}">Edit</button>
+                                <form action="drinks" " method="post" style="display:inline-block;">
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="status" value="${drink.status == 1 ? 0 : 1}">
+                                    <input type="hidden" name="id" value="${drink.drinkID}">
+                                    <c:if test="${drink.status == 1}">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </c:if>
+                                    <c:if test="${drink.status != 1}">
+                                        <button type="submit" class="btn btn-success">Active</button>
+                                    </c:if>
+
+                                </form>
                                 <!-- Drink Update Modal -->
                                 <div class="modal fade" id="editDrinkModal_${drink.drinkID}" tabindex="-1" aria-labelledby="updateDrinkModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -97,10 +109,9 @@
                                                         <input type="text" class="form-control" name="drinkName" value="${drink.drinkName}" required>
                                                     </div>
 
-                                                    <!-- Drink Price -->
                                                     <div class="mb-3">
-                                                        <label for="drinkPrice" class="form-label">Drink Price</label>
-                                                        <input type="number" step="0.01" class="form-control" name="drinkPrice" value="${drink.drinkPrice}" required>
+                                                        <label for="image" class="form-label">Price</label>
+                                                        <input type="text" class="form-control" name="price" value="${drink.price}" required>
                                                     </div>
 
                                                     <!-- Quantity -->
@@ -180,9 +191,10 @@
                                 <label for="drinkName">Drink Name</label>
                                 <input type="text" class="form-control" id="drinkName" name="drinkName" required>
                             </div>
+
                             <div class="form-group">
                                 <label for="drinkPrice">Drink Price</label>
-                                <input type="number" class="form-control" id="drinkPrice" name="drinkPrice" required>
+                                <input type="number" class="form-control" id="drinkPrice" name="price" required>
                             </div>
                             <div class="form-group">
                                 <label for="drinkImage">Image URL</label>
@@ -222,7 +234,7 @@
         </div>
 
 
-        
+
 
 
 
@@ -242,12 +254,12 @@
             });
             $(document).ready(function () {
                 $('#drinkTable').DataTable({
-                    pageLength: 5,
+                    pageLength: 10,
                     lengthChange: false,
                     "sScrollY": ($(window).height() - 300)
                 });
             });
-           
+
 
         </script>
 

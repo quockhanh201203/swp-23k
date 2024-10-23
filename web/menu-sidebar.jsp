@@ -61,9 +61,11 @@
 <!-- Sidebar -->
 <nav class="sidebar">
     <ul>
-        <li><a href="fooods"><i class="fas fa-tshirt mr-2"></i>Food List</a></li>
+        <li><a href="foods"><i class="fas fa-tshirt mr-2"></i>Food List</a></li>
+        <li><a href="food-category"><i class="fas fa-tshirt mr-2"></i>Food Category</a></li>
                 <li><a href="buffets"><i class="fas fa-tshirt mr-2"></i>Buffet List</a></li>
         <li><a href="drinks"><i class="fas fa-tshirt mr-2"></i>Drink List</a></li>
+        <li><a href="drink-category"><i class="fas fa-tshirt mr-2"></i>Drink Category</a></li>
 
         
     </ul>

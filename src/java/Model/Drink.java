@@ -4,6 +4,7 @@
  */
 package Model;
 
+import DAO.FoodDAO;
 import DAO.MenuDAO;
 
 /**
@@ -19,9 +20,18 @@ public class Drink {
     private int brandID;
     private int status;
     private String image;
+    private double price;
     
     private DrinkCategory drinkCategory;
     private Brand brand;
+    
+    public double getPrice() {
+        return new MenuDAO().getDrinkPrice(drinkID);
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     
     
