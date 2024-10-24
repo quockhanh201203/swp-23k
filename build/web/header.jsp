@@ -69,7 +69,7 @@
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0">
-                                    <a href="booking.html" class="dropdown-item active">Login</a>
+                                    <a href="profile" class="dropdown-item active">Profile</a>
                                     <a href="team.html" class="dropdown-item">Our Team</a>
                                     <a href="testimonial.html" class="dropdown-item">Testimonial</a>
                                 </div>

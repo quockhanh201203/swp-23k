@@ -99,31 +99,7 @@
 
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="p-3 py-5">
-                        <form action="staff-profile" method="post">
-                            <input type="hidden" name="action" value="changePassword">
-                            <input type="hidden" name="action" value="${customer.account.username}">
-                            <div class="d-flex justify-content-between align-items-center experience"><span>Account Information</span></div><br>
-                            <div class="col-md-12"><label class="labels">Username</label><input type="text" class="form-control" name="username"  value="${staff.account.username}" readonly></div> <br>
-                            <div class="col-md-12"><label class="labels">Password</label><input type="password" class="form-control" name="currentPassword" ></div>
-                            <div class="col-md-12"><label class="labels">New Password</label><input type="password" class="form-control" name="newPassword" value=""></div>
-                            <div class="col-md-12"><label class="labels">Confirm Password</label><input type="password" class="form-control" name="confirmNewPassword" value=""></div>
-                            <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Change Password</button></div>
-                        </form>
-                        <c:if test="${isSuccess ne null && isSuccess && type eq 'pass'}">
-                            <div class="alert alert-success alert-dismissible fade show mt-2" role="alert" id="mess">
-                                <strong>Update password success!</strong> You should check information above.
-                            </div>
-                        </c:if>
-                        <c:if test="${isSuccess ne null && !isSuccess && type eq 'pass'}">
-                            <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" id="mess">
-                                <strong>Update password failed!</strong> You should check your network.
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        </c:if>
-                    </div>
-                </div>
+<!--            
             </div>
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

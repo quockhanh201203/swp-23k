@@ -80,7 +80,7 @@ public class AdminProfileController extends HttpServlet {
 
         if (!newPassword.equals(confirmNewPassword)) {
             // Passwords don't match
-            response.sendRedirect("admin-profile?status=true&type=pass");
+            response.sendRedirect("admin-profile?status=false&type=pass");
             return;
         }
 

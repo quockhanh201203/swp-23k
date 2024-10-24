@@ -46,38 +46,30 @@
                     <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
                         <h5 class="section-title ff-secondary text-start text-primary fw-normal">Customer</h5>
                         <h1 class="text-white mb-4">Update Information</h1>
-                        <form action="updateCustomer" method="post">
-                            <div class="row g-3">
-                                <!-- Customer Name -->
-                                <div class="col-md-12">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="customerName" placeholder="Customer Name" name="customerName" required>
-                                        <label for="customerName">Customer Name</label>
-                                    </div>
-                                </div>
-                                <!-- Phone Number -->
-                                <div class="col-md-12">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="phoneNumber" placeholder="Phone Number" name="phoneNumber" required>
-                                        <label for="phoneNumber">Phone Number</label>
-                                    </div>
-                                </div>
-                                <!-- Email -->
-                                <div class="col-md-12">
-                                    <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" placeholder="Email" name="email" required>
-                                        <label for="email">Email</label>
-                                    </div>
-                                </div>
-                                <!-- Account ID (Hidden) -->
-                                <input type="hidden" name="accountID" value="<!-- Add dynamic AccountID here -->">
-
-                                <!-- Submit Button -->
-                                <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Update Information</button>
-                                </div>
+                        <form action="profile" method="post">
+                            <input type="hidden" name="action" value="updateProfile">
+                            <input type="hidden" name="customerID" value="${customer.customerID}">
+                            <div class="row mt-2">
+                                <div class="col-md-12"><label class="labels">Customer Name</label><input type="text" name="customerName" class="form-control" value="${customer.customerName}"></div>
                             </div>
+                            <div class="row mt-3">
+                                <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" name="phoneNumber" value="${customer.phoneNumber}"></div>
+                                <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control"  value="${customer.email}" readonly></div>
+                                <div class="col-md-12"><label class="labels">Point</label><input type="text" class="form-control"  value="${customer.point}" readonly></div>
+                            </div>
+                            <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
                         </form>
+                        <c:if test="${isSuccess ne null && isSuccess && type eq 'profile'}">
+                            <div class="alert alert-success alert-dismissible fade show mt-2" role="alert" id="mess">
+                                <strong>Update profile success!</strong> You should check information above.
+                            </div>
+                        </c:if>
+                        <c:if test="${isSuccess ne null && !isSuccess && type eq 'profile'}">
+                            <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" id="mess">
+                                <strong>Update profile failed!</strong> You should check your network.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </c:if>
                     </div>
                 </div>
             </div>

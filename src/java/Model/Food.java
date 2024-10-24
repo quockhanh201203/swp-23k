@@ -4,7 +4,9 @@
  */
 package Model;
 
+import DAO.FoodDAO;
 import DAO.MenuDAO;
+import java.util.List;
 
 /**
  *
@@ -17,6 +19,19 @@ public class Food {
     private int status;
     private String image;
     private FoodCategory foodCategory;
+    private String statusString;
+    private List<Ingredient> ingredients;
+    private double price;
+
+    public double getPrice() {
+        return new FoodDAO().getFoodPrice(foodID);
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+    
+    
 
     public FoodCategory getFoodCategory() {
         return new MenuDAO().getFoodCategoryByID(categoryID);
@@ -25,6 +40,28 @@ public class Food {
     public void setFoodCategory(FoodCategory foodCategory) {
         this.foodCategory = foodCategory;
     }
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    public Food(int foodID, String foodName, int categoryID, int status, String image, List<Ingredient> ingredients) {
+        this.foodID = foodID;
+        this.foodName = foodName;
+        this.categoryID = categoryID;
+        this.status = status;
+        this.image = image;
+        this.ingredients = ingredients;
+    }
+
+    
+    
+    
+    
     
     
     
@@ -89,5 +126,7 @@ public class Food {
     public void setImage(String image) {
         this.image = image;
     }
+
+
 }
 

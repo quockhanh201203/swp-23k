@@ -4,6 +4,8 @@
  */
 package Model;
 
+import DAO.MenuDAO;
+
 /**
  *
  * @author Legion
@@ -12,6 +14,15 @@ public class Buffet {
     private int buffetID;
     private String buffetName;
     private String image;
+    private double price;
+    
+    public double getPrice() {
+        return new MenuDAO().getBuffetPrice(buffetID);
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
     // Constructor
     public Buffet() {}
