@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Staff Management</title>
+        <title>Reservation Management</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -19,50 +19,54 @@
 
         <%@ include file="header.jsp" %>
 
-        <!-- Staff List Container -->
+        <!-- Reservation List Container -->
         <div class="container-fluid py-5 bg-secondary">
             <div class="row justify-content-center">
                 <div class="col-12 bg-dark d-flex align-items-center">
                     <div class="p-5 w-100">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Staff List</h5>
-                        <h1 class="text-white mb-4">Browse Our Staff</h1>
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Reservation List</h5>
+                        <h1 class="text-white mb-4">Manage Reservations</h1>
 
                         <!-- Search, Filter, Sort Form -->
-                        <form action="StaffManage" method="get" class="mb-4">
+                        <form action="myReservation" method="get" class="mb-4">
                             <div class="row g-3">
-                                <!-- Search Field -->
+                                <!-- Search Fields -->
                                 <div class="col-md-3">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="search" name="search" placeholder="Search by staff name" value="${param.search}">
-                                        <label for="search">Search by Staff Name</label>
+                                        <input type="date" class="form-control" id="reservationDate" name="reservationDate" value="${param.reservationDate}">
+                                        <label for="reservationDate">Reservation Date</label>
                                     </div>
                                 </div>
 
-                                <!-- Sort Options -->
                                 <div class="col-md-3">
                                     <div class="form-floating">
-                                        <select class="form-control" id="sortColumn" name="sortColumn">
-                                            <option value="StaffName" ${param.sortColumn == 'StaffName' ? 'selected' : ''}>Staff Name</option>
-                                            <option value="PhoneNumber" ${param.sortColumn == 'PhoneNumber' ? 'selected' : ''}>Phone Number</option>
-                                            <option value="Email" ${param.sortColumn == 'Email' ? 'selected' : ''}>Email</option>
-                                            <option value="Salary" ${param.sortColumn == 'Salary' ? 'selected' : ''}>Salary</option>
-                                        </select>
-                                        <label for="sortColumn">Sort by</label>
+                                        <input type="time" class="form-control" id="reservationTime" name="reservationTime" value="${param.reservationTime}">
+                                        <label for="reservationTime">Reservation Time</label>
                                     </div>
                                 </div>
 
-                                <!-- Sort Order -->
                                 <div class="col-md-3">
                                     <div class="form-floating">
-                                        <select class="form-control" id="sortOrder" name="sortOrder">
-                                            <option value="asc" ${param.sortOrder == 'asc' ? 'selected' : ''}>Ascending</option>
-                                            <option value="desc" ${param.sortOrder == 'desc' ? 'selected' : ''}>Descending</option>
-                                        </select>
-                                        <label for="sortOrder">Sort Order</label>
+                                        <input type="number" class="form-control" id="numberOfGuests" name="numberOfGuests" placeholder="Guests" value="${param.numberOfGuests}">
+                                        <label for="numberOfGuests">Number of Guests</label>
                                     </div>
-                                    <!-- Search Button -->
                                 </div>
 
+                                <div class="col-md-3">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="status" name="status" placeholder="Status" value="${param.status}">
+                                        <label for="status">Status</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="tableName" name="tableName" placeholder="Table Name" value="${param.tableName}">
+                                        <label for="tableName">Table Name</label>
+                                    </div>
+                                </div>
+
+                                <!-- Search Button -->
                                 <div class="col-md-3">
                                     <button class="btn btn-primary w-100 py-3" type="submit">Search & Filter</button>
                                 </div>
@@ -70,13 +74,13 @@
                         </form>
 
                         <div class="mb-4 text-end">
-                            <a href="AddStaff" class="btn btn-success">Add New Staff</a>
+                            <a href="addReservation.jsp" class="btn btn-success">Add New Reservation</a>
                         </div>
 
-                        <!-- Staff List Table -->
+                        <!-- Reservation List Table -->
                         <c:choose>
-                            <c:when test="${empty staffList}">
-                                <div class="alert alert-warning text-center">No Staff Found</div>
+                            <c:when test="${empty reservations}">
+                                <div class="alert alert-warning text-center">No Reservations Found</div>
                             </c:when>
                             <c:otherwise>
                                 <div class="table-responsive">
@@ -84,32 +88,34 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Staff Name</th>
+                                                <th>Reservation Date</th>
+                                                <th>Reservation Time</th>
+                                                <th>Guests</th>
+                                                <th>Status</th>
+                                                <th>Table Name</th>
+                                                <th>Customer Name</th>
                                                 <th>Phone Number</th>
                                                 <th>Email</th>
-                                                <th>Salary</th>
-                                                <th>New Account</th>
+                                                <th>Notes</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <c:forEach var="staff" items="${staffList}">
+                                            <c:forEach var="reservation" items="${reservations}">
                                                 <tr>
-                                                    <td>${staff.staffID}</td>
-                                                    <td>${staff.staffName}</td>
-                                                    <td>${staff.phoneNumber}</td>
-                                                    <td>${staff.email}</td>
-                                                    <td>${staff.salary}</td>
-                                                    <td>${staff.newAccount ? 'Yes' : 'No'}</td>
+                                                    <td>${reservation.reservationID}</td>
+                                                    <td>${reservation.reservationDate}</td>
+                                                    <td>${reservation.reservationTime}</td>
+                                                    <td>${reservation.numberOfGuests}</td>
+                                                    <td>${reservation.status}</td>
+                                                    <td>${reservation.table.tableName}</td>
+                                                    <td>${reservation.customer.customerName}</td>
+                                                    <td>${reservation.customer.phoneNumber}</td>
+                                                    <td>${reservation.customer.email}</td>
+                                                    <td>${reservation.notes}</td>
                                                     <td>
-                                                        <c:choose>
-                                                            <c:when test="${staff.accountID == 0}">
-                                                                <p style="color:'red'">Staff Fired</p>
-                                                            </c:when>
-                                                            <c:otherwise>
-                                                                <a href="FireStaff?staffID=${staff.staffID}&page=${currentPage}&accountID=${staff.accountID}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}" class="btn btn-danger btn-sm">Fire</a>
-                                                            </c:otherwise>
-                                                        </c:choose>
+                                                        <a href="editReservation.jsp?reservationID=${reservation.reservationID}" class="btn btn-warning btn-sm">Edit</a>
+                                                        <a href="deleteReservation?reservationID=${reservation.reservationID}" class="btn btn-danger btn-sm">Delete</a>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -124,19 +130,19 @@
                             <ul class="pagination justify-content-center">
                                 <c:if test="${currentPage > 1}">
                                     <li class="page-item">
-                                        <a class="page-link" href="StaffManage?page=${currentPage - 1}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}" aria-label="Previous">
+                                        <a class="page-link" href="reservations?page=${currentPage - 1}" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
                                 </c:if>
                                 <c:forEach var="i" begin="1" end="${totalPages}">
                                     <li class="page-item ${currentPage == i ? 'active' : ''}">
-                                        <a class="page-link" href="StaffManage?page=${i}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}">${i}</a>
+                                        <a class="page-link" href="reservations?page=${i}">${i}</a>
                                     </li>
                                 </c:forEach>
                                 <c:if test="${currentPage < totalPages}">
                                     <li class="page-item">
-                                        <a class="page-link" href="StaffManage?page=${currentPage + 1}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}" aria-label="Next">
+                                        <a class="page-link" href="reservations?page=${currentPage + 1}" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>
@@ -149,6 +155,7 @@
         </div>
 
         <%@ include file="footer.jsp" %>
+
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

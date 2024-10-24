@@ -4,8 +4,9 @@
  */
 package controller;
 
-import DAO.*;
-import Model.*;
+import DAO.ShiftDAO;
+import DAO.StaffDAO;
+import Model.Staff;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,13 +15,16 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import Model.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author ADMIN
  */
-@WebServlet(name = "StaffManage", urlPatterns = {"/StaffManage"})
-public class StaffManage extends HttpServlet {
+@WebServlet(name = "AddStaffShift", urlPatterns = {"/AddStaffShift"})
+public class AddStaffShift extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,15 +38,15 @@ public class StaffManage extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet StaffManage</title>");
+            out.println("<title>Servlet AddStaff</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet StaffManage at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AddStaff at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,12 +65,17 @@ public class StaffManage extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         StaffDAO sd = new StaffDAO();
+        ShiftDAO shd = new ShiftDAO();
+        String shiftID = request.getParameter("shiftID");
+        String weekParam = request.getParameter("week");
+        String searchStaff = request.getParameter("searchStaff");
+
         String search = request.getParameter("search");
         String sortColumn = request.getParameter("sortColumn");
         String sortOrder_raw = request.getParameter("sortOrder");
         String page_raw = request.getParameter("page");
         int page = 1;
-        if (page_raw != null) {
+        if (page_raw != null && !page_raw.trim().isEmpty()) {
             page = Integer.parseInt(page_raw);
         }
         int recordsPerPage = 10;
@@ -83,7 +92,17 @@ public class StaffManage extends HttpServlet {
         int totalRecords = sd.getTotalPages(recordsPerPage, search);
         int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
 
-        // Set attributes to pass to the JSP
+        Shift shift = new Shift();
+
+        try {
+            shift = shd.getShiftByShiftID(Integer.parseInt(shiftID));
+        } catch (Exception ex) {
+        }
+
+        request.setAttribute("shift", shift);
+        request.setAttribute("shiftID", shiftID);
+        request.setAttribute("weekParam", weekParam);
+        request.setAttribute("searchStaff", searchStaff);
         request.setAttribute("staffList", staffList);
         request.setAttribute("currentPage", page);
         request.setAttribute("totalPages", totalPages);
@@ -91,7 +110,7 @@ public class StaffManage extends HttpServlet {
         request.setAttribute("sortOrder", sortOrder);
         request.setAttribute("search", search);
         // Forward to JSP
-        request.getRequestDispatcher("staffManage.jsp").forward(request, response);
+        request.getRequestDispatcher("AddStaffShift.jsp").forward(request, response);
     }
 
     /**
@@ -105,7 +124,59 @@ public class StaffManage extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        // Retrieve form parameters
+        String staffID = request.getParameter("staffID");
+        String currentPage = request.getParameter("page");
+        String shiftID = request.getParameter("shiftID");
+        String weekParam = request.getParameter("weekParam");
+        String searchStaff = request.getParameter("searchStaff");
+        String search = request.getParameter("search");
+        String sortColumn = request.getParameter("sortColumn");
+        String sortOrder_raw = request.getParameter("sortOrder");
+        
+        ShiftDAO shd = new ShiftDAO();
+        StaffDAO sd = new StaffDAO();
 
+        shd.addShiftStaff(Integer.parseInt(shiftID), Integer.parseInt(staffID), "future");
+
+        // Set the retrieved values as request attributes to forward to the JSP
+        Shift shift = new Shift();
+        try {
+            shift = shd.getShiftByShiftID(Integer.parseInt(shiftID));
+        } catch (Exception ex) {
+        }
+        
+        int recordsPerPage = 10;
+        boolean sortOrder = true;
+        if (sortOrder_raw != null) {
+            if (sortOrder_raw.equals("desc")) {
+                sortOrder = false;
+            }
+        }
+
+        // Fetch filtered, sorted, paginated staff list
+        List<Staff> staffList = sd.findStaffByPage(Integer.parseInt(currentPage), recordsPerPage, search, sortColumn, sortOrder);
+        //List<Staff> staffList = sd.findStaffByPage(page, 1, search, sortColumn, sortOrder);
+        int totalRecords = sd.getTotalPages(recordsPerPage, search);
+        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+
+        try {
+            shift = shd.getShiftByShiftID(Integer.parseInt(shiftID));
+        } catch (Exception ex) {
+        }
+        request.setAttribute("staffList", staffList);
+        request.setAttribute("shift", shift);
+        request.setAttribute("staffID", staffID);
+        request.setAttribute("currentPage", currentPage);
+        request.setAttribute("shiftID", shiftID);
+        request.setAttribute("weekParam", weekParam);
+        request.setAttribute("searchStaff", searchStaff);
+        request.setAttribute("search", search);
+        request.setAttribute("sortColumn", sortColumn);
+        request.setAttribute("sortOrder", sortOrder);
+
+        // Forward to AddStaffShift.jsp
+        request.getRequestDispatcher("AddStaffShift.jsp").forward(request, response);
     }
 
     /**

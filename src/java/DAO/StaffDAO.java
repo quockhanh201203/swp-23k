@@ -49,7 +49,7 @@ public class StaffDAO extends DBContext {
         // Add pagination
         sql.append(" OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
 
-        try ( PreparedStatement statement = connection.prepareStatement(sql.toString())) {
+        try (PreparedStatement statement = connection.prepareStatement(sql.toString())) {
             int paramIndex = 1;
 
             // Set search parameters
@@ -85,6 +85,37 @@ public class StaffDAO extends DBContext {
         return staffList;
     }
 
+    public Staff findStaffByAccountID(int accountID) {
+        Staff staff = null; // To hold the result
+
+        String sql = """
+        SELECT StaffID, StaffName, PhoneNumber, Email, Salary, NewAccount, AccountID
+        FROM Staff
+        WHERE AccountID = ?
+    """;
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, accountID); // Set AccountID parameter
+
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    staff = new Staff();
+                    staff.setStaffID(rs.getInt("StaffID"));
+                    staff.setStaffName(rs.getString("StaffName"));
+                    staff.setPhoneNumber(rs.getString("PhoneNumber"));
+                    staff.setEmail(rs.getString("Email"));
+                    staff.setSalary(rs.getInt("Salary"));
+                    staff.setNewAccount(rs.getBoolean("NewAccount"));
+                    staff.setAccountID(rs.getInt("AccountID"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return staff; // Return the Staff object (null if not found)
+    }
+
     public static void main(String[] args) {
         StaffDAO sd = new StaffDAO();
         System.out.println(sd.findStaffByPage(1, 10, null, null, true));
@@ -105,7 +136,7 @@ public class StaffDAO extends DBContext {
                 """);
         }
 
-        try ( PreparedStatement statement = connection.prepareStatement(sql.toString())) {
+        try (PreparedStatement statement = connection.prepareStatement(sql.toString())) {
             int paramIndex = 1;
 
             if (search != null && !search.isEmpty()) {
@@ -136,7 +167,7 @@ public class StaffDAO extends DBContext {
 
         String query = "INSERT INTO Staff (StaffName, PhoneNumber, Email, Salary, NewAccount, AccountID) VALUES (?, ?, ?, ?, ?, ?)";
 
-        try ( PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             String[] EmailCut = Email.split("@");
             String username = EmailCut[0];
@@ -150,7 +181,7 @@ public class StaffDAO extends DBContext {
             int accountID;
             int affectedRowsA = accountStatement.executeUpdate();
 
-            try ( ResultSet generatedKeys = accountStatement.getGeneratedKeys()) {
+            try (ResultSet generatedKeys = accountStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     accountID = generatedKeys.getInt(1); // Assuming the first column is the primary key
                     // Set parameters for the SQL query
@@ -180,7 +211,7 @@ public class StaffDAO extends DBContext {
                     } else {
                         return true;
                     }
-                }else{
+                } else {
                     return false;
                 }
             }
@@ -200,13 +231,13 @@ public class StaffDAO extends DBContext {
             connection.setAutoCommit(false);
 
             // Step 1: Set AccountID to NULL in the Staff table
-            try ( PreparedStatement updateStaffStatement = connection.prepareStatement(updateStaffSQL)) {
+            try (PreparedStatement updateStaffStatement = connection.prepareStatement(updateStaffSQL)) {
                 updateStaffStatement.setInt(1, accountID);
                 updateStaffStatement.executeUpdate();
             }
 
             // Step 2: Delete the Account
-            try ( PreparedStatement deleteAccountStatement = connection.prepareStatement(deleteAccountSQL)) {
+            try (PreparedStatement deleteAccountStatement = connection.prepareStatement(deleteAccountSQL)) {
                 deleteAccountStatement.setInt(1, accountID);
                 int rowsAffected = deleteAccountStatement.executeUpdate();
 

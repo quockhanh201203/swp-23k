@@ -104,7 +104,7 @@
                                                     <td>
                                                         <c:choose>
                                                             <c:when test="${staff.accountID == 0}">
-                                                                Staff Fired
+                                                                <p style="color:'red'">Staff Fired</p>
                                                             </c:when>
                                                             <c:otherwise>
                                                                 <a href="FireStaff?staffID=${staff.staffID}&page=${currentPage}&accountID=${staff.accountID}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}" class="btn btn-danger btn-sm">Fire</a>

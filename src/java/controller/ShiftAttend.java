@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
+
 package controller;
 
-import DAO.*;
-import Model.*;
+import DAO.ShiftDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,45 +13,41 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
 
 /**
  *
  * @author ADMIN
  */
-@WebServlet(name = "StaffManage", urlPatterns = {"/StaffManage"})
-public class StaffManage extends HttpServlet {
-
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
+@WebServlet(name="ShiftAttend", urlPatterns={"/ShiftAttend"})
+public class ShiftAttend extends HttpServlet {
+   
+    /** 
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet StaffManage</title>");
+            out.println("<title>Servlet ShiftAttend</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet StaffManage at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ShiftAttend at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    }
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+    /** 
      * Handles the HTTP <code>GET</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -59,44 +55,33 @@ public class StaffManage extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        StaffDAO sd = new StaffDAO();
-        String search = request.getParameter("search");
-        String sortColumn = request.getParameter("sortColumn");
-        String sortOrder_raw = request.getParameter("sortOrder");
-        String page_raw = request.getParameter("page");
-        int page = 1;
-        if (page_raw != null) {
-            page = Integer.parseInt(page_raw);
-        }
-        int recordsPerPage = 10;
-        boolean sortOrder = true;
-        if (sortOrder_raw != null) {
-            if (sortOrder_raw.equals("desc")) {
-                sortOrder = false;
+    throws ServletException, IOException {
+        ShiftDAO sd = new ShiftDAO();
+        
+        
+        // Get the week and searchStaff parameters to pass them back to ShiftManage
+        String Staffid_raw = request.getParameter("StaffID");
+        String Shiftid_raw = request.getParameter("ShiftID");
+        String action = request.getParameter("action");
+        String weekParam = request.getParameter("week");
+        String searchStaff = request.getParameter("searchStaff");
+
+        // Call the DAO to remove the staff from the shift
+        try {
+            if(action.equals("attend")){
+                sd.updateShiftStaffStatusById(Integer.parseInt(Shiftid_raw),Integer.parseInt(Staffid_raw), "attend");
+            }else{
+                sd.updateShiftStaffStatusById(Integer.parseInt(Shiftid_raw),Integer.parseInt(Staffid_raw), "absent");
             }
+        } catch (Exception e) {
         }
 
-        // Fetch filtered, sorted, paginated staff list
-        List<Staff> staffList = sd.findStaffByPage(page, recordsPerPage, search, sortColumn, sortOrder);
-        //List<Staff> staffList = sd.findStaffByPage(page, 1, search, sortColumn, sortOrder);
-        int totalRecords = sd.getTotalPages(recordsPerPage, search);
-        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+        // Redirect back to ShiftManage with the same parameters (week, searchStaff)
+        response.sendRedirect("ShiftManage?week=" + weekParam + "&searchStaff=" + searchStaff);
+    } 
 
-        // Set attributes to pass to the JSP
-        request.setAttribute("staffList", staffList);
-        request.setAttribute("currentPage", page);
-        request.setAttribute("totalPages", totalPages);
-        request.setAttribute("sortColumn", sortColumn);
-        request.setAttribute("sortOrder", sortOrder);
-        request.setAttribute("search", search);
-        // Forward to JSP
-        request.getRequestDispatcher("staffManage.jsp").forward(request, response);
-    }
-
-    /**
+    /** 
      * Handles the HTTP <code>POST</code> method.
-     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -104,13 +89,12 @@ public class StaffManage extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-
+    throws ServletException, IOException {
+        processRequest(request, response);
     }
 
-    /**
+    /** 
      * Returns a short description of the servlet.
-     *
      * @return a String containing servlet description
      */
     @Override

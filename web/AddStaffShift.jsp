@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,17 +19,20 @@
     <body>
 
         <%@ include file="header.jsp" %>
-
         <!-- Staff List Container -->
         <div class="container-fluid py-5 bg-secondary">
             <div class="row justify-content-center">
                 <div class="col-12 bg-dark d-flex align-items-center">
                     <div class="p-5 w-100">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Staff List</h5>
-                        <h1 class="text-white mb-4">Browse Our Staff</h1>
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">
+                            <a href="ShiftManage?week=${weekParam}&searchStaff=${searchStaff}" class="text-primary">
+                                Back to Shift Manage
+                            </a>
+                        </h5>
+                        <h1 class="text-white mb-4">Staff List</h1>
 
                         <!-- Search, Filter, Sort Form -->
-                        <form action="StaffManage" method="get" class="mb-4">
+                        <form action="AddStaffShift" method="get" class="mb-4">
                             <div class="row g-3">
                                 <!-- Search Field -->
                                 <div class="col-md-3">
@@ -62,18 +66,43 @@
                                     </div>
                                     <!-- Search Button -->
                                 </div>
-
                                 <div class="col-md-3">
                                     <button class="btn btn-primary w-100 py-3" type="submit">Search & Filter</button>
                                 </div>
+                                <div></div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <p class="text-white">Shift ID: ${shift.shiftID}</p>
+                                        <p class="text-white">Date: ${shift.weekDate}, ${shift.date}</p>
+                                        <p class="text-white">
+                                            <c:choose>
+                                                <c:when test="${shift.dayTime == true}">
+                                                    Time : Day
+                                                </c:when>
+                                                <c:otherwise>
+                                                    Time : Night
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <c:forEach var="shift_staff" items="${shift.shift_staffs}">
+                                            <div class="shift">
+                                                <span>${shift_staff.staff.staffName}</span>
+                                                <span style="color: ${shift_staff.status == 'absent' ? 'red' : 'green'};">
+                                                    ${shift_staff.status}
+                                                </span>
+                                                <span><a href="ShiftRemove?shiftID=${shift.shiftID}&staffID=${shift_staff.staff.staffID}&page=${i}&week=${param.week}&searchStaff=${param.searchStaff}" 
+                                                         class="btn btn-danger" style="padding: 0.1rem 0.3rem; line-height: 1;"
+                                                         onclick="return confirm('Are you sure you want to remove this staff member from the shift?');">
+                                                        <i class="fas fa-times fa-2x"></i>
+                                                    </a></span>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
                             </div>
                         </form>
-
-                        <div class="mb-4 text-end">
-                            <a href="AddStaff" class="btn btn-success">Add New Staff</a>
-                        </div>
-
-                        <!-- Staff List Table -->
                         <c:choose>
                             <c:when test="${empty staffList}">
                                 <div class="alert alert-warning text-center">No Staff Found</div>
@@ -102,18 +131,38 @@
                                                     <td>${staff.salary}</td>
                                                     <td>${staff.newAccount ? 'Yes' : 'No'}</td>
                                                     <td>
+                                                        <c:set var="isInShift" value="false" />
+                                                        <c:forEach var="shiftStaff" items="${shift.shift_staffs}">
+                                                            <c:if test="${shiftStaff.staff.staffID == staff.staffID}">
+                                                                <c:set var="isInShift" value="true" />
+                                                            </c:if>
+                                                        </c:forEach>
                                                         <c:choose>
                                                             <c:when test="${staff.accountID == 0}">
                                                                 <p style="color:'red'">Staff Fired</p>
                                                             </c:when>
+                                                            <c:when test="${isInShift == true}">
+                                                                <p style="color:'yellow'">Already in</p>
+                                                            </c:when>
                                                             <c:otherwise>
-                                                                <a href="FireStaff?staffID=${staff.staffID}&page=${currentPage}&accountID=${staff.accountID}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}" class="btn btn-danger btn-sm">Fire</a>
+                                                                <form action="AddStaffShift" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="staffID" value="${staff.staffID}">
+                                                                    <input type="hidden" name="page" value="${currentPage}">
+                                                                    <input type="hidden" name="shiftID" value="${shiftID}">
+                                                                    <input type="hidden" name="weekParam" value="${weekParam}">
+                                                                    <input type="hidden" name="searchStaff" value="${searchStaff}">
+                                                                    <input type="hidden" name="search" value="${param.search}">
+                                                                    <input type="hidden" name="sortColumn" value="${param.sortColumn}">
+                                                                    <input type="hidden" name="sortOrder" value="${param.sortOrder}">
+                                                                    <button type="submit" class="btn btn-success btn-sm">Add</button>
+                                                                </form>
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </td>
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
+
                                     </table>
                                 </div>
                             </c:otherwise>
@@ -124,19 +173,19 @@
                             <ul class="pagination justify-content-center">
                                 <c:if test="${currentPage > 1}">
                                     <li class="page-item">
-                                        <a class="page-link" href="StaffManage?page=${currentPage - 1}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}" aria-label="Previous">
+                                        <a class="page-link" href="AddStaffShift?page=${currentPage - 1}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
                                 </c:if>
                                 <c:forEach var="i" begin="1" end="${totalPages}">
                                     <li class="page-item ${currentPage == i ? 'active' : ''}">
-                                        <a class="page-link" href="StaffManage?page=${i}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}">${i}</a>
+                                        <a class="page-link" href="AddStaffShift?page=${i}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}">${i}</a>
                                     </li>
                                 </c:forEach>
                                 <c:if test="${currentPage < totalPages}">
                                     <li class="page-item">
-                                        <a class="page-link" href="StaffManage?page=${currentPage + 1}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}" aria-label="Next">
+                                        <a class="page-link" href="AddStaffShift?page=${currentPage + 1}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>

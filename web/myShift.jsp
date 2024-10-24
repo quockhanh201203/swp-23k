@@ -27,7 +27,7 @@
                         <h1 class="text-white mb-4">View Staff Shift Schedule</h1>
 
                         <!-- Search and Filter Form -->
-                        <form action="ShiftManage" method="get" class="mb-4">
+                        <form action="myShift" method="get" class="mb-4">
                             <div class="row g-3">
                                 <!-- Week Filter -->
                                 <div class="col-md-3">
@@ -35,19 +35,6 @@
                                         <input type="week" class="form-control" id="week" name="week" value="${param.week != null ? param.week : currentWeek}" onchange="this.form.submit()">
                                         <label for="week">Select Week</label>
                                     </div>
-                                </div>
-
-                                <!-- Staff Search -->
-                                <div class="col-md-3">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="searchStaff" name="searchStaff" placeholder="Search by staff name" value="${param.searchStaff}">
-                                        <label for="searchStaff">Search by Staff Name</label>
-                                    </div>
-                                </div>
-
-                                <!-- Search Button -->
-                                <div class="col-md-3">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Search & Filter</button>
                                 </div>
                             </div>
                         </form>
@@ -79,21 +66,12 @@
                                                             <c:forEach var="shift_staff" items="${shift.shift_staffs}">
                                                                 <div class="shift">
                                                                     <span>${shift_staff.staff.staffName}</span>
-                                                                    <span>
-                                                                        <a href="ShiftAttend?StaffID=${shift_staff.staff.staffID}&ShiftID=${shift.shiftID}&action=${shift_staff.status == 'attend' ? 'absent' : 'attend'}&week=${param.week}&searchStaff=${param.searchStaff}" 
-                                                                           style="color: ${shift_staff.status == 'future' ? 'yellow' : shift_staff.status == 'absent' ? 'red' : 'green'};">
-                                                                            ${shift_staff.status}
-                                                                        </a>
+                                                                    <span style="color: ${shift_staff.status == 'future' ? 'yellow' : shift_staff.status == 'absent' ? 'red' : 'green'};">
+                                                                        ${shift_staff.status}
                                                                     </span>
-                                                                    <span><a href="ShiftRemove?shiftID=${shift.shiftID}&staffID=${shift_staff.staff.staffID}&page=${i}&week=${param.week}&searchStaff=${param.searchStaff}" 
-                                                                             class="btn btn-danger" style="padding: 0.1rem 0.3rem; line-height: 1;"
-                                                                             onclick="return confirm('Are you sure you want to remove this staff member from the shift?');">
-                                                                            <i class="fas fa-times fa-2x"></i>
-                                                                        </a></span>
                                                                 </div>
                                                             </c:forEach>
                                                         </div>
-                                                        <a class="btn btn-success" href="AddStaffShift?shiftID=${shift.shiftID}&staffID=${shift_staff.staff.staffID}&page=${i}&week=${param.week}&searchStaff=${param.searchStaff}" >Add Staff</a>
                                                     </c:if>
                                                 </c:forEach>
                                             </td>
@@ -113,21 +91,12 @@
                                                             <c:forEach var="shift_staff" items="${shift.shift_staffs}">
                                                                 <div class="shift">
                                                                     <span>${shift_staff.staff.staffName}</span>
-                                                                    <span>
-                                                                        <a href="ShiftAttend?StaffID=${shift_staff.staff.staffID}&ShiftID=${shift.shiftID}&action=${shift_staff.status == 'attend' ? 'absent' : 'attend'}&week=${param.week}&searchStaff=${param.searchStaff}" 
-                                                                           style="color: ${shift_staff.status == 'future' ? 'yellow' : shift_staff.status == 'absent' ? 'red' : 'green'};">
-                                                                            ${shift_staff.status}
-                                                                        </a>
+                                                                    <span style="color: ${shift_staff.status == 'future' ? 'yellow' : shift_staff.status == 'absent' ? 'red' : 'green'};">
+                                                                        ${shift_staff.status}
                                                                     </span>
-                                                                    <span><a href="ShiftRemove?shiftID=${shift.shiftID}&staffID=${shift_staff.staff.staffID}&page=${i}&week=${param.week}&searchStaff=${param.searchStaff}" 
-                                                                             class="btn btn-danger" style="padding: 0.1rem 0.3rem; line-height: 1;"
-                                                                             onclick="return confirm('Are you sure you want to remove this staff member from the shift?');">
-                                                                            <i class="fas fa-times fa-2x"></i>
-                                                                        </a></span>
                                                                 </div>
                                                             </c:forEach>
                                                         </div>
-                                                        <a class="btn btn-success" href="AddStaffShift?shiftID=${shift.shiftID}&staffID=${shift_staff.staff.staffID}&page=${i}&week=${param.week}&searchStaff=${param.searchStaff}" >Add Staff</a>
                                                     </c:if>
                                                 </c:forEach>
                                             </td>

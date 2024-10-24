@@ -4,7 +4,11 @@
  */
 package controller;
 
-import DAO.*;
+import DAO.CustomerDAO;
+import DAO.FeedbackDAO;
+import DAO.UserDAO;
+import Model.Feedback;
+import Model.Responde;
 import Model.*;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,14 +17,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
 
 /**
  *
  * @author ADMIN
  */
-@WebServlet(name = "StaffManage", urlPatterns = {"/StaffManage"})
-public class StaffManage extends HttpServlet {
+@WebServlet(name = "myFeedBack", urlPatterns = {"/myFeedBack"})
+public class myFeedBack extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,15 +39,15 @@ public class StaffManage extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet StaffManage</title>");
+            out.println("<title>Servlet myFeedBack</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet StaffManage at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet myFeedBack at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,38 +65,20 @@ public class StaffManage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        StaffDAO sd = new StaffDAO();
-        String search = request.getParameter("search");
-        String sortColumn = request.getParameter("sortColumn");
-        String sortOrder_raw = request.getParameter("sortOrder");
-        String page_raw = request.getParameter("page");
-        int page = 1;
-        if (page_raw != null) {
-            page = Integer.parseInt(page_raw);
-        }
-        int recordsPerPage = 10;
-        boolean sortOrder = true;
-        if (sortOrder_raw != null) {
-            if (sortOrder_raw.equals("desc")) {
-                sortOrder = false;
-            }
+        FeedbackDAO fbd = new FeedbackDAO();
+        CustomerDAO cd = new CustomerDAO();
+        HttpSession session = request.getSession();
+        UserDAO ud = new UserDAO();
+        try {
+            Integer accid = (Integer) session.getAttribute("id");
+            List<Feedback> feedbackList = fbd.getAllFeedbackByCustomerID(cd.getCustomerByAccountID(accid).getCustomerID());
+            // Set the result in request attribute
+            request.setAttribute("feedbackList", feedbackList);
+            request.getRequestDispatcher("myFeedback.jsp").forward(request, response);
+        } catch (Exception e) {
+            response.sendRedirect("Login.jsp");
         }
 
-        // Fetch filtered, sorted, paginated staff list
-        List<Staff> staffList = sd.findStaffByPage(page, recordsPerPage, search, sortColumn, sortOrder);
-        //List<Staff> staffList = sd.findStaffByPage(page, 1, search, sortColumn, sortOrder);
-        int totalRecords = sd.getTotalPages(recordsPerPage, search);
-        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
-
-        // Set attributes to pass to the JSP
-        request.setAttribute("staffList", staffList);
-        request.setAttribute("currentPage", page);
-        request.setAttribute("totalPages", totalPages);
-        request.setAttribute("sortColumn", sortColumn);
-        request.setAttribute("sortOrder", sortOrder);
-        request.setAttribute("search", search);
-        // Forward to JSP
-        request.getRequestDispatcher("staffManage.jsp").forward(request, response);
     }
 
     /**
@@ -105,7 +92,33 @@ public class StaffManage extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        FeedbackDAO fbd = new FeedbackDAO();
+        CustomerDAO cd = new CustomerDAO();
+        String feedbackNote = request.getParameter("feedbackNote");
 
+        HttpSession session = request.getSession();
+        try {
+            Integer accid = (Integer) session.getAttribute("id");
+
+            // Check if the user is logged in
+            if (accid == null) {
+                throw new Exception("Account not Login");
+            }
+
+            Customer c = cd.getCustomerByAccountID(accid);
+
+            if (c == null) {
+                throw new Exception("Account not Login");
+            } else {
+                Feedback f = new Feedback();
+                f.setFeedbackNote(feedbackNote);
+                f.setCustomerID(c.getCustomerID());
+                fbd.addFeedback(f);
+                response.sendRedirect("myFeedBack");
+            }
+        } catch (Exception e) {
+            response.sendRedirect("Login.jsp");
+        }
     }
 
     /**
