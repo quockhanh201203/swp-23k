@@ -2,13 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Model;
-
-import DAO.UserDAO;
+package model;
 
 /**
  *
- * @author Legion
+ * @author Admin
  */
 public class Customer {
     private int customerID;
@@ -17,19 +15,19 @@ public class Customer {
     private String email;
     private int point;
     private int accountID;
-    private Account account;
-
-    public Account getAccount() {
-        return new UserDAO().getAccountByID(accountID);
+    public Customer(){
+        
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public Customer(int customerID, String customerName, String phoneNumber, String email, int point, int accountID) {
+        this.customerID = customerID;
+        this.customerName = customerName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.point = point;
+        this.accountID = accountID;
     }
-    
-    
 
-    // Getters and Setters
     public int getCustomerID() {
         return customerID;
     }
@@ -77,4 +75,11 @@ public class Customer {
     public void setAccountID(int accountID) {
         this.accountID = accountID;
     }
-}
+
+    @Override
+    public String toString() {
+        return "Customer{" + "customerID=" + customerID + ", customerName=" + customerName + ", phoneNumber=" + phoneNumber + ", email=" + email + ", point=" + point + ", accountID=" + accountID + '}';
+    }
+    
+    }
+

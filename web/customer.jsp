@@ -1,16 +1,20 @@
-ff<%-- 
-    Document   : Login
-    Created on : Sep 19, 2024, 3:17:31 PM
-    Author     : tran tung
+<%-- 
+    Document   : Customer
+    Created on : Oct 3, 2024, 3:27:07 PM
+    Author     : Admin
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
         <meta charset="utf-8">
-        <title>Restoran - Bootstrap Restaurant Template</title>
+        <title>Restoran - Customer Management</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -27,14 +31,9 @@ ff<%--
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-        <!-- Libraries Stylesheet -->
-        <link href="lib/animate/animate.min.css" rel="stylesheet">
-        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-        <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-
         <!-- Customized Bootstrap Stylesheet -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
-
+        
         <!-- Template Stylesheet -->
         <link href="css/style.css" rel="stylesheet">
     </head>
@@ -49,13 +48,11 @@ ff<%--
             </div>
             <!-- Spinner End -->
 
-
             <!-- Navbar & Hero Start -->
             <div class="container-xxl position-relative p-0">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
                     <a href="" class="navbar-brand p-0">
-                        <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Restorant</h1>
-                        <!-- <img src="img/logo.png" alt="Logo"> -->
+                        <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Restoran</h1>
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars"></span>
@@ -69,7 +66,7 @@ ff<%--
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
                                 <div class="dropdown-menu m-0">
-                                    <a href="booking.html" class="dropdown-item active">Login</a>
+                                    <a href="booking.html" class="dropdown-item active">Booking</a>
                                     <a href="team.html" class="dropdown-item">Our Team</a>
                                     <a href="testimonial.html" class="dropdown-item">Testimonial</a>
                                 </div>
@@ -82,12 +79,12 @@ ff<%--
 
                 <div class="container-xxl py-5 bg-dark hero-header mb-5">
                     <div class="container text-center my-5 pt-5 pb-4">
-                        <h1 class="display-3 text-white mb-3 animated slideInDown">Login</h1>
+                        <h1 class="display-3 text-white mb-3 animated slideInDown">Customer </h1>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb justify-content-center text-uppercase">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                                 <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                                <li class="breadcrumb-item text-white active" aria-current="page">Login</li>
+                                <li class="breadcrumb-item text-white active" aria-current="page">Customer</li>
                             </ol>
                         </nav>
                     </div>
@@ -95,71 +92,79 @@ ff<%--
             </div>
             <!-- Navbar & Hero End -->
 
+            <!-- Customer Management Start -->
+            <!-- Customer Management Start -->
+<div class="container-xxl py-5 bg-dark">
+    <h2 class="mb-4 text-white">Customer</h2>
 
-            <!-- Reservation Start -->
-            <div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="row g-0">
-                    <div class="col-md-6">
-                        <div class="video">
-                            <button type="button" class="btn-play" data-bs-toggle="modal" data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-bs-target="#videoModal">
-                                <span></span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-md-6 bg-dark d-flex align-items-center">
-                        <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
-                            <h5 class="section-title ff -secondary text-start text-primary fw-normal">Reservation</h5>
-                            <h1 class="text-white mb-4">Book A Table Online</h1>
-                            <form action="login" method="post">
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" id="name" placeholder="Username" name="username">
-                                            <label for="name">Username</label>
-                                        </div>
-                                    </div>
-                                    <br/>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="password" class="form-control" id="email" placeholder="Password" name="password">
-                                            <label for="email">Password</label>
-                                        </div>
-                                    </div>
+    <!-- Nút "Add Customer" mở modal -->
 
-                                </div>
+    <!-- Bảng hiển thị danh sách khách hàng -->
+    <table class="table table-bordered table-striped text-white">
+        <thead>
+            <tr>
+                <th>Customer ID</th>
+                <th>Customer Name</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>Points</th>
+                <th>Account ID</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach var="c" items="${list}">
+                <tr class="text-white">
+                    <td>${c.customerID}</td>
+                    <td>${c.customerName}</td>
+                    <td>${c.phoneNumber}</td>
+                    <td>${c.email}</td>
+                    <td>${c.point}</td>
+                    <td>${c.accountID}</td>
+                    <td>
+                        <a href="CustomerServlet?action=edit&accountID=${c.accountID}  data-bs-toggle="modal" data-bs-target="#updatePointModal"}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="CustomerServlet?" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
+    
+</div>
 
-
-                                <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Login</button>
-                                </div>
-                                <div class="col-12 text-center mt-3">
-                                    <p class="text-white">Don't have an account? <a href="Signup.jsp" style="color: #FFA737;">Sign up</a></p>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+<!-- Modal cập nhật điểm khách hàng -->
+<div class="modal fade" id="updatePointModal" tabindex="-1" aria-labelledby="updatePointModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updatePointModalLabel">Update Customer Point</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <div class="modal-body">
+                <form action="CustomerServlet" method="post">
+    <input type="hidden" name="action" value="edit">
+    
+    <div class="mb-3">
+        Account ID: 
+        <input type="text" name="accountID" value="${c.accountID}" readonly class="form-control" style="border: 0;">
+    </div>
 
-            <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content rounded-0">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Youtube Video</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- 16:9 aspect ratio -->
-                            <div class="ratio ratio-16x9">
-                                <iframe class="embed-responsive-item" src="" id="video" allowfullscreen allowscriptaccess="always"
-                                        allow="autoplay"></iframe>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="mb-3">
+        <label for="point" class="form-label">Points</label>
+        <input type="number" class="form-control" id="point" name="point">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Point</button>
+</form>
             </div>
-            <!-- Reservation Start -->
+        </div>
+    </div>
+</div>
 
+
+            <!-- Modal thêm khách hàng -->
+       
+            <!-- Modal thêm khách hàng End -->
 
             <!-- Footer Start -->
             <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
@@ -202,33 +207,8 @@ ff<%--
                         </div>
                     </div>
                 </div>
-                <div class="container">
-                    <div class="copyright">
-                        <div class="row">
-                            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                                &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved. 
-
-                                <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                                Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-                                Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
-                            </div>
-                            <div class="col-md-6 text-center text-md-end">
-                                <div class="footer-menu">
-                                    <a href="">Home</a>
-                                    <a href="">Cookies</a>
-                                    <a href="">Help</a>
-                                    <a href="">FQAs</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <!-- Footer End -->
-
-
-            <!-- Back to Top -->
-            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
         </div>
 
         <!-- JavaScript Libraries -->

@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 
 /**
  *
- * @author ADMIN
+ * @author ADMIN0
  */
 public class Validation {
     public String ValidatePassword(String password){
@@ -43,6 +43,4 @@ public class Validation {
 
         return "true";
     }
-    
-    
 }

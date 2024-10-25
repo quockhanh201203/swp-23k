@@ -2,13 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Model;
-
-import DAO.UserDAO;
+package model;
 
 /**
  *
- * @author Legion
+ * @author Admin
  */
 public class Admin {
     private int adminID;
@@ -16,18 +14,10 @@ public class Admin {
     private String phoneNumber;
     private String email;
     private int accountID;
-    
-    private Account account;
 
-    public Account getAccount() {
-        return new UserDAO().getAccountByID(accountID);
+    public Admin() {
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    // Constructor
     public Admin(int adminID, String name, String phoneNumber, String email, int accountID) {
         this.adminID = adminID;
         this.name = name;
@@ -36,7 +26,6 @@ public class Admin {
         this.accountID = accountID;
     }
 
-    // Getters and Setters
     public int getAdminID() {
         return adminID;
     }
@@ -77,11 +66,10 @@ public class Admin {
         this.accountID = accountID;
     }
 
-    // Optional toString method for easy display
     @Override
     public String toString() {
-        return "Admin [adminID=" + adminID + ", name=" + name + ", phoneNumber=" + phoneNumber + 
-               ", email=" + email + ", accountID=" + accountID + "]";
+        return "Admin{" + "adminID=" + adminID + ", name=" + name + ", phoneNumber=" + phoneNumber + ", email=" + email + ", accountID=" + accountID + '}';
     }
+    
+    
 }
-

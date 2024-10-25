@@ -1,16 +1,17 @@
-ff<%-- 
-    Document   : Login
-    Created on : Sep 19, 2024, 3:17:31 PM
-    Author     : tran tung
+<%-- 
+    Document   : salary.jsp
+    Created on : Oct 17, 2024, 7:54:01 AM
+    Author     : Admin
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="model.Salary"%>
+<%@page import="java.util.List"%>
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
         <meta charset="utf-8">
-        <title>Restoran - Bootstrap Restaurant Template</title>
+        <title>Company - Salary Management</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -21,16 +22,11 @@ ff<%--
         <!-- Google Web Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 
         <!-- Icon Font Stylesheet -->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-        <!-- Libraries Stylesheet -->
-        <link href="lib/animate/animate.min.css" rel="stylesheet">
-        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-        <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
         <!-- Customized Bootstrap Stylesheet -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -49,45 +45,34 @@ ff<%--
             </div>
             <!-- Spinner End -->
 
-
             <!-- Navbar & Hero Start -->
             <div class="container-xxl position-relative p-0">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
                     <a href="" class="navbar-brand p-0">
-                        <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Restorant</h1>
-                        <!-- <img src="img/logo.png" alt="Logo"> -->
+                        <h1 class="text-primary m-0"><i class="fa fa-dollar-sign me-3"></i>Company</h1>
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav ms-auto py-0 pe-4">
-                            <a href="index.html" class="nav-item nav-link">Home</a>
-                            <a href="about.html" class="nav-item nav-link">About</a>
-                            <a href="service.html" class="nav-item nav-link">Service</a>
-                            <a href="menu.html" class="nav-item nav-link">Menu</a>
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu m-0">
-                                    <a href="booking.html" class="dropdown-item active">Login</a>
-                                    <a href="team.html" class="dropdown-item">Our Team</a>
-                                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                </div>
-                            </div>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="index.jsp" class="nav-item nav-link">Home</a>
+                            <a href="about.jsp" class="nav-item nav-link">About</a>
+                            <a href="service.jsp" class="nav-item nav-link">Service</a>
+                            <a href="contact.jsp" class="nav-item nav-link">Contact</a>
                         </div>
-                        <a href="" class="btn btn-primary py-2 px-4">Book A Table</a>
+                        <a href="" class="btn btn-primary py-2 px-4">Add New Record</a>
                     </div>
                 </nav>
 
                 <div class="container-xxl py-5 bg-dark hero-header mb-5">
                     <div class="container text-center my-5 pt-5 pb-4">
-                        <h1 class="display-3 text-white mb-3 animated slideInDown">Login</h1>
+                        <h1 class="display-3 text-white mb-3 animated slideInDown">Salary Management</h1>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb justify-content-center text-uppercase">
                                 <li class="breadcrumb-item"><a href="#">Home</a></li>
                                 <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                                <li class="breadcrumb-item text-white active" aria-current="page">Login</li>
+                                <li class="breadcrumb-item text-white active" aria-current="page">Salary</li>
                             </ol>
                         </nav>
                     </div>
@@ -95,74 +80,112 @@ ff<%--
             </div>
             <!-- Navbar & Hero End -->
 
+            <!-- Salary Management -->
+            <div class="container-xxl py-5 bg-dark">
+                <h2 class="mb-4 text-white">Salary Management</h2>
 
-            <!-- Reservation Start -->
-            <div class="container-xxl py-5 px-0 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="row g-0">
-                    <div class="col-md-6">
-                        <div class="video">
-                            <button type="button" class="btn-play" data-bs-toggle="modal" data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-bs-target="#videoModal">
-                                <span></span>
-                            </button>
+                <!-- Button to Open the Add Salary Modal -->
+                <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addSalaryModal">Add Salary</button>
+
+                <!-- Filter by Staff ID -->
+
+
+                <!-- Salary List -->
+                <table class="table table-bordered table-striped text-white">
+                    <thead>
+                        <tr>
+                            <th>Salary ID</th>
+                            <th>Salary Plus</th>
+                            <th>Salary Minus</th>
+                            <th>Date</th>
+                            <th>Note</th>
+                            <th>Staff ID</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%-- List salaries --%>
+                        <%
+                            List<Salary> salaryList = (List<Salary>) request.getAttribute("salaryList");
+                            String filterStaffID = request.getParameter("staffID");
+
+                            if (salaryList != null) {
+                                for (Salary salary : salaryList) {
+                                    if (filterStaffID == null || filterStaffID.isEmpty() || filterStaffID.equals(salary.getStaffID())) {
+                        %>
+                        <tr class="text-white">
+                            <td><%= salary.getSalaryID() %></td>
+                            <td><%= salary.getSalaryPlus() %></td>
+                            <td><%= salary.getSalaryMinus() %></td>
+                            <td><%= salary.getDate() %></td>
+                            <td><%= salary.getNote() %></td>
+                            <td><%= salary.getStaffID() %></td>
+                            <td>
+                                <a href="editSalary.jsp?salaryID=<%= salary.getSalaryID() %>" class="btn btn-warning btn-sm">Edit</a> |
+                                <form action="deleteSalary" method="post" style="display:inline;">
+                                    <input type="hidden" name="salaryID" value="<%= salary.getSalaryID() %>">
+                                    <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                                </form>
+                            </td>
+                        </tr>
+                        <%
+                                    }
+                                }
+                            } else {
+                        %>
+                        <tr>
+                            <td colspan="7" class="text-center">No salary records found.</td>
+                        </tr>
+                        <%
+                            }
+                        %>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Add Salary Modal -->
+            <div class="modal fade" id="addSalaryModal" tabindex="-1" aria-labelledby="addSalaryModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addSalaryModalLabel">Add Salary</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                    </div>
-                    <div class="col-md-6 bg-dark d-flex align-items-center">
-                        <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
-                            <h5 class="section-title ff -secondary text-start text-primary fw-normal">Reservation</h5>
-                            <h1 class="text-white mb-4">Book A Table Online</h1>
-                            <form action="login" method="post">
-                                <div class="row g-3">
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" id="name" placeholder="Username" name="username">
-                                            <label for="name">Username</label>
-                                        </div>
-                                    </div>
-                                    <br/>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <input type="password" class="form-control" id="email" placeholder="Password" name="password">
-                                            <label for="email">Password</label>
-                                        </div>
-                                    </div>
-
+                        <div class="modal-body">
+                            <form action="SalaryServlet" method="POST">
+                                <input type="hidden" name="action" value="add">
+                                <div class="mb-3">
+                                    <label for="salaryPlus" class="form-label">Salary Plus</label>
+                                    <input type="number" class="form-control" id="salaryPlus" name="salaryPlus" required>
                                 </div>
-
-
-                                <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Login</button>
+                                <div class="mb-3">
+                                    <label for="salaryMinus" class="form-label">Salary Minus</label>
+                                    <input type="number" class="form-control" id="salaryMinus" name="salaryMinus" required>
                                 </div>
-                                <div class="col-12 text-center mt-3">
-                                    <p class="text-white">Don't have an account? <a href="Signup.jsp" style="color: #FFA737;">Sign up</a></p>
+                                <div class="mb-3">
+                                    <label for="date" class="form-label">Date</label>
+                                    <input type="date" class="form-control" id="date" name="date" required>
                                 </div>
+                                <div class="mb-3">
+                                    <label for="note" class="form-label">Note</label>
+                                    <textarea class="form-control" id="note" name="note" rows="3"></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="staffID" class="form-label">Staff ID</label>
+                                    <input type="text" class="form-control" id="staffID" name="staffID" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Salary</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content rounded-0">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Youtube Video</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- 16:9 aspect ratio -->
-                            <div class="ratio ratio-16x9">
-                                <iframe class="embed-responsive-item" src="" id="video" allowfullscreen allowscriptaccess="always"
-                                        allow="autoplay"></iframe>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Reservation Start -->
-
+            <!-- Back to Top -->
+            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
 
             <!-- Footer Start -->
-            <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
+            <div class="container-fluid bg-dark text-light footer pt-5 mt-5">
                 <div class="container py-5">
                     <div class="row g-5">
                         <div class="col-lg-3 col-md-6">
@@ -202,33 +225,8 @@ ff<%--
                         </div>
                     </div>
                 </div>
-                <div class="container">
-                    <div class="copyright">
-                        <div class="row">
-                            <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                                &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved. 
-
-                                <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                                Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>
-                                Distributed By <a class="border-bottom" href="https://themewagon.com" target="_blank">ThemeWagon</a>
-                            </div>
-                            <div class="col-md-6 text-center text-md-end">
-                                <div class="footer-menu">
-                                    <a href="">Home</a>
-                                    <a href="">Cookies</a>
-                                    <a href="">Help</a>
-                                    <a href="">FQAs</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <!-- Footer End -->
-
-
-            <!-- Back to Top -->
-            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
         </div>
 
         <!-- JavaScript Libraries -->
