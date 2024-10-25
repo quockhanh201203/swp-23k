@@ -12,7 +12,7 @@ public class drink {
     private int ProductID;
     private int FoodID;
     private int BuffetID;
-    private int DrinkID;
+    private int DrinkID; 
     private int Price;
     private int DrinkIDd;
     private String DrinkName;
@@ -20,14 +20,14 @@ public class drink {
     private int CategoryID;
     private int BrandID;
     private String Status;
-    private String Image;
-    private int CategoryIDf;
+    private String Image; 
     private String CategoryName;
+    
     public drink(){
         
     }
 
-    public drink(int ProductID, int FoodID, int BuffetID, int DrinkID, int Price, int DrinkIDd, String DrinkName, int Quantity, int CategoryID, int BrandID, String Status, String Image, int CategoryIDf, String CategoryName) {
+    public drink(int ProductID, int FoodID, int BuffetID, int DrinkID, int Price, int DrinkIDd, String DrinkName, int Quantity, int CategoryID, int BrandID, String Status, String Image, String CategoryName) {
         this.ProductID = ProductID;
         this.FoodID = FoodID;
         this.BuffetID = BuffetID;
@@ -40,7 +40,6 @@ public class drink {
         this.BrandID = BrandID;
         this.Status = Status;
         this.Image = Image;
-        this.CategoryIDf = CategoryIDf;
         this.CategoryName = CategoryName;
     }
 
@@ -140,14 +139,6 @@ public class drink {
         this.Image = Image;
     }
 
-    public int getCategoryIDf() {
-        return CategoryIDf;
-    }
-
-    public void setCategoryIDf(int CategoryIDf) {
-        this.CategoryIDf = CategoryIDf;
-    }
-
     public String getCategoryName() {
         return CategoryName;
     }
@@ -158,8 +149,10 @@ public class drink {
 
     @Override
     public String toString() {
-        return "drink{" + "ProductID=" + ProductID + ", FoodID=" + FoodID + ", BuffetID=" + BuffetID + ", DrinkID=" + DrinkID + ", Price=" + Price + ", DrinkIDd=" + DrinkIDd + ", DrinkName=" + DrinkName + ", Quantity=" + Quantity + ", CategoryID=" + CategoryID + ", BrandID=" + BrandID + ", Status=" + Status + ", Image=" + Image + ", CategoryIDf=" + CategoryIDf + ", CategoryName=" + CategoryName + '}';
+        return "drink{" + "ProductID=" + ProductID + ", FoodID=" + FoodID + ", BuffetID=" + BuffetID + ", DrinkID=" + DrinkID + ", Price=" + Price + ", DrinkIDd=" + DrinkIDd + ", DrinkName=" + DrinkName + ", Quantity=" + Quantity + ", CategoryID=" + CategoryID + ", BrandID=" + BrandID + ", Status=" + Status + ", Image=" + Image + ", CategoryName=" + CategoryName + '}';
     }
+    
+   
     
     
     

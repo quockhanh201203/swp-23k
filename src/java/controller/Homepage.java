@@ -6,6 +6,7 @@ package controller;
 
 import dal.MenuDAO;
 import dal.homepageDAO;
+import dal.tableDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,7 +14,9 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import model.table;
 
 /**
  *
@@ -61,6 +64,9 @@ public class Homepage extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         homepageDAO md = new homepageDAO();
+        tableDAO tb = new tableDAO();
+        List<table> tableList = tb.getTableList();
+        request.setAttribute("tableList", tableList);
         List<model.dao.food> list = md.getNewList();
         request.setAttribute("list", list);
         List<model.dao.food> list2 = md.getTopList();
@@ -83,7 +89,17 @@ public class Homepage extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String table = request.getParameter("table");
+        String tableParam = request.getParameter("table");
+
+if (tableParam != null) { 
+    int tableID = Integer.parseInt(tableParam);  
+    
+   
+    HttpSession session = request.getSession();
+    session.setAttribute("tableID", tableID);
+    session.setMaxInactiveInterval(1800); 
+    response.sendRedirect("homepageB");
+}
 
     }
 

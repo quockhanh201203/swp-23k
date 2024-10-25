@@ -113,18 +113,18 @@
         </div>
 
         <!-- Popup 2: Select Table -->
+        
         <div id="popupTable">
             <div class="popup-content">
                 <button class="close-btn" onclick="closePopup2()">×</button>
                 <p>Please select a table:</p>
                 <div class="table-options">
-                    <form action="homepape" method="post">
-                        <label><input type="radio" name="table" value="Table 1"> Table 1</label>
-                        <label><input type="radio" name="table" value="Table 2"> Table 2</label>
-                        <label><input type="radio" name="table" value="Table 3"> Table 3</label>
-
-                    </form>
-                </div>
+                     <form action="homepage" method="post">
+                <c:forEach items="${tableList}" var="tb">
+                    <label><input type="radio" name="table" value="${tb.getTableID()}">${tb.getTableName()}</label>
+                </c:forEach>
+                <button class="btn btn-primary py-2 px-4" type="submit">Choose this table</button>
+            </form>                </div>
             </div>
         </div>  
 

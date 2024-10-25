@@ -143,8 +143,10 @@
                         </ul>
                         <div class="tab-content">
                            <div id="tab-1" class="tab-pane fade show p-0 active">
-    <form action="drinklist" method="post" class="d-flex justify-content-center position-relative">
-        <input class="form-control border-primary py-3 ps-4 pe-5" type="text" placeholder="Find what you want to eat" style="width: 50%;">
+    <form action="search" method="post" class="d-flex justify-content-center position-relative">
+        <input class="form-control border-primary py-3 ps-4 pe-5" type="text" name="Foodkeyword" placeholder="Find what you want to eat" style="width: 50%;">
+                       <input type="hidden" name="searchAction" value="buffet">
+
         <button type="submit" class="btn btn-primary py-2 position-absolute top-0" style="right: 25%; margin-top: 10px;">Search</button>
     </form>
 

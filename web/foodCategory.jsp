@@ -137,32 +137,7 @@
                     </ul>
                     <div class="tab-content">
                         <div id="tab-1" class="tab-pane fade show p-0 active">
-                             <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-4">
-                                <div class="ps-3">
-                                    <small class="text-body"></small>
-                                    <h6 class="mt-n1 mb-0">Chicken</h6>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-5">
-                                <div class="ps-3">
-                                    <small class="text-body"></small>
-                                    <h6 class="mt-n1 mb-0">Burger</h6>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-6">
-                                <div class="ps-3">
-                                    <small class="text-body"></small>
-                                    <h6 class="mt-n1 mb-0">Salad and Snacks</h6>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
+                    
                             <div class="row g-4">
     <c:forEach items="${foodList}" var="food">
         <div class="col-lg-6">

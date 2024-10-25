@@ -2,22 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Nhat%20Anh/Downloads/SP24/src/java/DAO/MenuDAO.java</file>
-            <file>file:/C:/Users/Nhat%20Anh/Downloads/SP24/src/java/DAO/UserDAO.java</file>
-            <file>file:/C:/Users/Nhat%20Anh/Downloads/SP24/src/java/Model/Food.java</file>
-            <file>file:/C:/Users/Nhat%20Anh/Downloads/SP24/src/java/controller/Login.java</file>
-            <file>file:/C:/Users/Nhat%20Anh/Downloads/SP24/src/java/Model/Ingredient.java</file>
-            <file>file:/C:/Users/Nhat%20Anh/Downloads/SP24/src/java/controller/AdminProfileController.java</file>
-            <file>file:/C:/Users/Nhat%20Anh/Downloads/SP24/src/java/controller/ForgotPassword.java</file>
-            <file>file:/C:/Users/Nhat%20Anh/Downloads/SP24/src/java/DAO/LoginDAO.java</file>
-            <file>file:/C:/Users/Nhat%20Anh/Downloads/SP24/src/java/DAO/IngredientDAO.java</file>
-            <file>file:/C:/Users/Nhat%20Anh/Downloads/SP24/src/java/DAO/DBContext.java</file>
-            <file>file:/C:/Users/Nhat%20Anh/Downloads/SP24/src/java/DAO/FoodDAO.java</file>
-            <file>file:/C:/Users/Nhat%20Anh/Downloads/SP24/src/java/Model/Drink.java</file>
-            <file>file:/C:/Users/Nhat%20Anh/Downloads/SP24/src/java/Model/DrinkCategory.java</file>
-            <file>file:/C:/Users/Nhat%20Anh/Downloads/SP24/src/java/controller/StaffProfileController.java</file>
-            <file>file:/C:/Users/Nhat%20Anh/Downloads/SP24/src/java/controller/ProfileController.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

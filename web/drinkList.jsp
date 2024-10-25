@@ -143,8 +143,11 @@
                         </ul>
                         <div class="tab-content">
                            <div id="tab-1" class="tab-pane fade show p-0 active">
-    <form action="drinklist" method="post" class="d-flex justify-content-center position-relative">
-        <input class="form-control border-primary py-3 ps-4 pe-5" type="text" placeholder="Find what you want to eat" style="width: 50%;">
+    <form action="search" method="post" class="d-flex justify-content-center position-relative">
+     
+        <input class="form-control border-primary py-3 ps-4 pe-5" type="text"  name="Foodkeyword" placeholder="Find what you want to eat" style="width: 50%;">
+                <input type="hidden" name="searchAction" value="drink">
+
         <button type="submit" class="btn btn-primary py-2 position-absolute top-0" style="right: 25%; margin-top: 10px;">Search</button>
     </form>
 
@@ -168,6 +171,11 @@
                 <a href="drinklist?page=${page + 1}" class="page-link">Next</a>
             </li>
         </ul>
+            <div>
+                   <c:forEach items="${drinkCategory}" var="f">
+    <a href="drinkfilter?categoryname=${f.getCategoryName()}" class="btn btn-primary">${f.getCategoryName()}</a>
+</c:forEach>
+        </div>
     </div>
 
     <!-- Drink list display with 2 columns -->

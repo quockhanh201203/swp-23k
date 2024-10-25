@@ -73,6 +73,9 @@ public class drinkList extends HttpServlet {
         start = (page - 1) * numperpage;
         end = Math.min(page * numperpage, size);
         List<model.dao.drink> data = getListByPage(drinkList, start, end);
+         List<model.dao.DrinkCategory> drinkCategory = md.getDrinkCategory();
+        
+        request.setAttribute("drinkCategory", drinkCategory);
         request.setAttribute("drinkList", data);
         request.setAttribute("page", page);
         request.setAttribute("num", num);

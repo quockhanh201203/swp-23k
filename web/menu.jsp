@@ -7,10 +7,49 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<%@ page import="jakarta.servlet.http.HttpSession" %>
+
+<%
+    // Biến session đã có sẵn trong JSP, không cần khai báo lại
+    Integer tableID = (Integer) session.getAttribute("tableID");
+        String message = (String) request.getAttribute("message");
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
+        <style>
+            /* CSS cho popup */
+            .overlay {
+                display: none; /* Ẩn overlay mặc định */
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 10;
+            }
+
+            .popup {
+                display: none; /* Ẩn popup mặc định */
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background: white;
+                padding: 20px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                z-index: 20;
+            }
+
+            .close-btn {
+                cursor: pointer;
+                color: red;
+                float: right;
+            }
+        </style>
         <meta charset="utf-8">
         <title>Restoran - Bootstrap Restaurant Template</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -42,6 +81,18 @@
     </head>
 
     <body>
+        <%
+        // Lấy tham số "success" từ query string
+        String successParam = request.getParameter("success");
+        if ("true".equals(successParam)) {
+        %>
+        <div class="alert alert-success">
+            <strong>Success!</strong> Order Table ready!
+        </div>
+        <%
+            }
+        %>
+
         <div class="container-xxl bg-white p-0">
             <!-- Spinner Start -->
             <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -78,7 +129,11 @@
                             </div>
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
-                        <a href="" class="btn btn-primary py-2 px-4">Book A Table</a>
+                        <form action="newtableorder" method="post">
+                            <input type="hidden" name="tableID" value="<%= tableID %>">
+
+                            <button type="submit" class="btn btn-primary py-2 px-4"   >Start Order</button>
+                        </form>
                     </div>
                 </nav>
 
@@ -122,14 +177,14 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-    <a class="d-flex align-items-center text-start mx-3 pb-3"  href="drinklist">
-        <i class="fa fa-hamburger fa-2x text-primary"></i>
-        <div class="ps-3">
-            <small class="text-body">Lovely</small>
-            <h6 class="mt-n1 mb-0">Drink</h6>
-        </div>
-    </a>
-</li>
+                                <a class="d-flex align-items-center text-start mx-3 pb-3"  href="drinklist">
+                                    <i class="fa fa-hamburger fa-2x text-primary"></i>
+                                    <div class="ps-3">
+                                        <small class="text-body">Lovely</small>
+                                        <h6 class="mt-n1 mb-0">Drink</h6>
+                                    </div>
+                                </a>
+                            </li>
 
                             <li class="nav-item">
                                 <a class="d-flex align-items-center text-start mx-3 me-0 pb-3"  href="buffetlist">
@@ -142,122 +197,144 @@
                             </li>
                         </ul>
                         <div class="tab-content">
-                           <div id="tab-1" class="tab-pane fade show p-0 active">
-    <form action="menu" method="post" class="d-flex justify-content-center position-relative">
-        <input class="form-control border-primary py-3 ps-4 pe-5" type="text" name="Foodkeyword" placeholder="Find what you want to eat" style="width: 50%;">
-        <button type="submit" class="btn btn-primary py-2 position-absolute top-0" style="right: 25%; margin-top: 10px;">Search</button>
-    </form>
+                            <div id="tab-1" class="tab-pane fade show p-0 active">
+                                <form action="search" method="post" class="d-flex justify-content-center position-relative">
 
-    <div class="row g-4 mt-4">
-         <div class="clearfix">
-    <ul class="pagination">
-        <!-- Previous button, disabled if on the first page -->
-        <li class="page-item ${page == 1 ? 'disabled' : ''}">
-            <a href="menu?page=${page - 1}" class="page-link">Previous</a>
-        </li>
+                                    <input class="form-control border-primary py-3 ps-4 pe-5" type="text" name="Foodkeyword" placeholder="Find what you want to eat" style="width: 50%;">
+                                    <input type="hidden" name="searchAction" value="food">
 
-        <!-- Loop through the pages dynamically -->
-        <c:forEach begin="1" end="${requestScope.num}" var="i">
-            <li class="page-item ${i == page ? 'active' : ''}">
-                <a href="menu?page=${i}" class="page-link">${i}</a>
-            </li>
-        </c:forEach>
+                                    <button type="submit" class="btn btn-primary py-2 position-absolute top-0" style="right: 25%; margin-top: 10px;">Search</button>
+                                </form>
 
-        <!-- Next button, disabled if on the last page -->
-        <li class="page-item ${page == requestScope.num ? 'disabled' : ''}">
-            <a href="menu?page=${page + 1}" class="page-link">Next</a>
-        </li>
-    </ul>
-</div>
+                                <div class="row g-4 mt-4">
+                                    <div class="clearfix">
+                                        <ul class="pagination">
+                                            <!-- Previous button, disabled if on the first page -->
+                                            <li class="page-item ${page == 1 ? 'disabled' : ''}">
+                                                <a href="menu?page=${page - 1}" class="page-link">Previous</a>
+                                            </li>
 
-        <c:forEach items="${foodList}" var="food">
-            <div class="col-lg-6">
-                <div class="d-flex align-items-center">
-                    <img class="flex-shrink-0 img-fluid rounded" src="${food.getImage()}" alt="Food Image" style="width: 80px;">
-                    <div class="w-100 d-flex flex-column text-start ps-4">
-                        <h5 class="d-flex justify-content-between border-bottom pb-2">
-                            <span>${food.getFoodName()}</span>
-                            <span class="text-primary">$${food.getPrice()}</span>
-                        </h5>
-                        <small class="fst-italic">${food.getCategoryName()}</small>
-                        <h6>${food.getStatus()}</h6>
-                    </div>
-                </div>
-            </div>
-        </c:forEach>
-    </div>
-</div>
+                                            <!-- Loop through the pages dynamically -->
+                                            <c:forEach begin="1" end="${requestScope.num}" var="i">
+                                                <li class="page-item ${i == page ? 'active' : ''}">
+                                                    <a href="menu?page=${i}" class="page-link">${i}</a>
+                                                </li>
+                                            </c:forEach>
 
-                            <div id="tab-2" class="tab-pane fade show p-0">
-                                <form action="drinklist" method="post" class="d-flex justify-content-center position-relative">
-        <input class="form-control border-primary py-3 ps-4 pe-5" type="text" placeholder="Find what you want to eat" style="width: 50%;">
-        <button type="submit" class="btn btn-primary py-2 position-absolute top-0" style="right: 25%; margin-top: 10px;">Search</button>
-    </form>
-
-                                <div class="row g-4">
-                                     <div class="clearfix">
-    <ul class="pagination">
-        <!-- Previous button, disabled if on the first page -->
-        <li class="page-item ${pageD == 1 ? 'disabled' : ''}">
-            <a href="drinklist?Dpage=${pageD - 1}" class="page-link">Previous</a>
-        </li>
-
-        <!-- Loop through the pages dynamically -->
-        <c:forEach begin="1" end="${numD}" var="i">
-            <li class="page-item ${i == pageD ? 'active' : ''}">
-                <a href="drinklist?Dpage=${i}" class="page-link">${i}</a>
-            </li>
-        </c:forEach>
-
-        <!-- Next button, disabled if on the last page -->
-        <li class="page-item ${pageD == numD ? 'disabled' : ''}">
-            <a href="drinklist?Dpage=${pageD + 1}" class="page-link">Next</a>
-        </li>
-    </ul>
-</div>
-
-                                    <div class="col-lg-6">
-                                        <c:forEach items="${drinkList}" var="drink">
-                                            <div class="d-flex align-items-center">
-                                                <img class="flex-shrink-0 img-fluid rounded" src="${drink.getImage()}" alt="Food Image" style="width: 80px;">
-                                                <div class="w-100 d-flex flex-column text-start ps-4">
-                                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                        <span>${drink.getDrinkName()}</span>
-                                                        <span class="text-primary">$${drink.getPrice()}</span>
-                                                    </h5>
-
-                                                    <small class="fst-italic">${drink.getCategoryName()}</small>
-                                                    <h6>${drink.getStatus()} </h6>
-                                                </div>
-                                            </div>
-                                        </c:forEach>
+                                            <!-- Next button, disabled if on the last page -->
+                                            <li class="page-item ${page == requestScope.num ? 'disabled' : ''}">
+                                                <a href="menu?page=${page + 1}" class="page-link">Next</a>
+                                            </li>
+                                        </ul>
+                                        <div>
+                                            <c:forEach items="${foodCategory}" var="f">
+                                                <a href="foodfilter?categoryname=${f.getCategoryName()}" class="btn btn-primary">${f.getCategoryName()}</a>
+                                            </c:forEach>
+                                        </div>
 
                                     </div>
+
+                                    <c:forEach items="${foodList}" var="food">
+                                        <div class="col-lg-6">
+                                            <div class="d-flex align-items-center">
+                                                <img class="flex-shrink-0 img-fluid rounded" src="${food.getImage()}" alt="Food Image" style="width: 80px;">
+                                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                        <span>${food.getFoodName()}</span>
+                                                        <span class="text-primary">$${food.getPrice()}</span>
+                                                    </h5>
+                                                    <small class="fst-italic">${food.getCategoryName()}</small>
+                                                    <h6>${food.getStatus()}</h6>
+                            <!--<a href="#" class="btn btn-primary py-2 px-4" data-toggle="modal" data-target="#addToOrder" data-id="${list.getFoodID()}">Add to Order</a>-->
+                                                    <a href="javascript:void(0);" class="btn btn-primary py-2 px-4" 
+                                                       onclick="openPopUp('${food.getFoodID()}')">Add to order</a>
+
+                                                    <!-- Popup Form -->
+                                                    <div id="popupDiv" style="display:none;" title="Add Quantity">
+                                                        <form id="userForm" action="addtoorder" method="post">
+                                                            <input type="hidden" name="addType" value="food">
+                                                            <input type="hidden" id="foodIdInput" name="foodID" readonly/><br/><br/>
+                                                            Quantity: <input type="number" name="quantity" min="0" max="10" required><br/><br/>
+                                                            Note:   <input type="text" name="note"><br/><br/>
+
+                                                            <!-- Đặt nút "Add" ở dưới trường Quantity -->
+                                                            <button type="submit" class="btn btn-primary py-2" style="margin-top: 10px;">Add</button>
+                                                        </form>
+                                                    </div>
+
+                                                    <script>
+                                                        // Hàm mở popup và đặt dữ liệu vào form
+                                                        function openPopUp(foodID) {
+                                                            // Đặt giá trị của foodID vào input form
+                                                            $('#foodIdInput').val(foodID);
+
+                                                            // Hiển thị popup với jQuery UI
+                                                            $('#popupDiv').dialog({
+                                                                modal: true,
+                                                                width: 400,
+                                                                buttons: {
+                                                                    "Close": function () {
+                                                                        $(this).dialog("close");
+                                                                    }
+                                                                }
+                                                            });
+                                                        }
+                                                    </script>
+                                                    <script>
+                                                        // Kiểm tra xem có thông báo nào không
+                                                        <%
+                                            if (message != null) {
+                                                        %>
+                                                        window.alert("<%= message %>");
+                                                        <%
+                                            }
+                                                        %>
+                                                    </script>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </c:forEach>
                                 </div>
                             </div>
 
-                            <div id="tab-3" class="tab-pane fade show p-0">
-                                 <form action="menu" method="post" class="d-flex justify-content-center position-relative">
-        <input class="form-control border-primary py-3 ps-4 pe-5" type="text" placeholder="Find what you want to eat" style="width: 50%;">
-        <button type="submit" class="btn btn-primary py-2 position-absolute top-0" style="right: 25%; margin-top: 10px;">Search</button>
-    </form>
+                            <div id="tab-2" class="tab-pane fade show p-0">
+                                <form action="drinklist" method="post" class="d-flex justify-content-center position-relative">
+                                    <input class="form-control border-primary py-3 ps-4 pe-5" type="text" placeholder="Find what you want to eat" style="width: 50%;">
+                                    <button type="submit" class="btn btn-primary py-2 position-absolute top-0" style="right: 25%; margin-top: 10px;">Search</button>
+                                </form>
 
                                 <div class="row g-4">
-                                    <div class="col-lg-6">
+                                    <div class="clearfix">
+                                        <ul class="pagination">
+                                            <!-- Previous button, disabled if on the first page -->
+                                            <li class="page-item ${pageD == 1 ? 'disabled' : ''}">
+                                                <a href="drinklist?Dpage=${pageD - 1}" class="page-link">Previous</a>
+                                            </li>
 
-                                        <c:forEach items="${buffetList}" var="buffet">
-                                            <div class="d-flex align-items-center">
-                                                <img class="flex-shrink-0 img-fluid rounded" src="${buffet.getImage()}" alt="Food Image" style="width: 80px;">
-                                                <div class="w-100 d-flex flex-column text-start ps-4">
-                                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                        <span>${buffet.getBuffetName()}</span>
-                                                        <span class="text-primary">$${buffet.getPrice()}</span>
-                                                    </h5>
-                                                    <small class="fst-italic">${buffet.getFoodName()}</small>
-                                                    <small class="fst-italic">${buffet.getDrinkName() }</small>
+                                            <!-- Loop through the pages dynamically -->
 
-                                                </div>
-                                            </c:forEach>
+
+                                            <!-- Next button, disabled if on the last page -->
+                                            <li class="page-item ${pageD == numD ? 'disabled' : ''}">
+                                                <a href="drinklist?Dpage=${pageD + 1}" class="page-link">Next</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+
+                                </div>
+
+                                <div id="tab-3" class="tab-pane fade show p-0">
+                                    <form action="menu" method="post" class="d-flex justify-content-center position-relative">
+                                        <input class="form-control border-primary py-3 ps-4 pe-5" type="text" placeholder="Find what you want to eat" style="width: 50%;">
+                                        <button type="submit" class="btn btn-primary py-2 position-absolute top-0" style="right: 25%; margin-top: 10px;">Search</button>
+                                    </form>
+
+                                    <div class="row g-4">
+                                        <div class="col-lg-6">
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -267,6 +344,10 @@
 
 
                         </div>
+
+
+
+
                     </div>
                     <!-- Menu End -->
 
@@ -352,7 +433,8 @@
                 <script src="lib/tempusdominus/js/moment.min.js"></script>
                 <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
                 <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
+                <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+                <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
                 <!-- Template Javascript -->
                 <script src="js/main.js"></script>
                 </body>
