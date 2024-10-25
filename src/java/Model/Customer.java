@@ -19,6 +19,30 @@ public class Customer {
     private int accountID;
     private Account account;
 
+    public Customer(int customerID, String customerName, String phoneNumber, String email, int point, int accountID, Account account) {
+        this.customerID = customerID;
+        this.customerName = customerName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.point = point;
+        this.accountID = accountID;
+        this.account = account;
+    }
+
+    public Customer() {
+    }
+
+    public Customer(int customerID, String customerName, String phoneNumber, String email, int point, int accountID) {
+        this.customerID = customerID;
+        this.customerName = customerName;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.point = point;
+        this.accountID = accountID;
+    }
+    
+    
+
     public Account getAccount() {
         return new UserDAO().getAccountByID(accountID);
     }

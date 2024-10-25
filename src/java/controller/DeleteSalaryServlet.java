@@ -5,8 +5,7 @@
 
 package controller;
 
-import dal.homepageDAO;
-import dal.TableDAO;
+import dal.SalaryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,15 +13,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.List;
-import Model.Table;
 
 /**
  *
- * @author tran tung
+ * @author Admin
  */
-@WebServlet(name="homepageB", urlPatterns={"/homepageB"})
-public class homepageB extends HttpServlet {
+@WebServlet(name="DeleteSalaryServlet", urlPatterns={"/deleteSalary"})
+public class DeleteSalaryServlet extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -39,10 +36,10 @@ public class homepageB extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet homepageB</title>");  
+            out.println("<title>Servlet DeleteSalaryServlet</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet homepageB at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet DeleteSalaryServlet at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,18 +56,8 @@ public class homepageB extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
- homepageDAO md = new homepageDAO();
-        TableDAO tb = new TableDAO();
-        List<Table> tableList = tb.getTableList();
-        request.setAttribute("tableList", tableList);
-        List<model.dao.food> list = md.getNewList();
-        request.setAttribute("list", list);
-        List<model.dao.food> list2 = md.getTopList();
-        request.setAttribute("list2", list2);
-        List<model.dao.buffet> list3 = md.getTopBuffetList();
-        request.setAttribute("list3", list3);
-
-        request.getRequestDispatcher("homepageB.jsp").forward(request, response);    } 
+        processRequest(request, response);
+    } 
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -82,7 +69,15 @@ public class homepageB extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+         int salaryID = Integer.parseInt(request.getParameter("salaryID"));
+         
+        SalaryDAO dao = new SalaryDAO();
+        
+        if (dao.deleteSalary(salaryID)) {
+            response.sendRedirect("salaryList");
+        } else {
+            response.getWriter().write("Error deleting salary record");
+        }
     }
 
     /** 

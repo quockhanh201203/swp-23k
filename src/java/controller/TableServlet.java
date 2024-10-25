@@ -4,8 +4,6 @@
  */
 package controller;
 
-import dal.MenuDAO;
-import dal.homepageDAO;
 import dal.TableDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,17 +12,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.List;
+import java.util.ArrayList;
 import Model.Table;
-
 
 /**
  *
- * @author tran tung
+ * @author Admin
  */
-@WebServlet(name = "Homepage", urlPatterns = {"/homepage"})
-public class Homepage extends HttpServlet {
+@WebServlet(name = "TableServlet", urlPatterns = {"/TableServlet"})
+public class TableServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +39,10 @@ public class Homepage extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Homepage</title>");
+            out.println("<title>Servlet TableServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Homepage at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet TableServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -64,19 +60,26 @@ public class Homepage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        homepageDAO md = new homepageDAO();
-        TableDAO tb = new TableDAO();
-        List<Table> tableList = tb.getTableList();
-        request.setAttribute("tableList", tableList);
-        List<model.dao.food> list = md.getNewList();
-        request.setAttribute("list", list);
-        List<model.dao.food> list2 = md.getTopList();
-        request.setAttribute("list2", list2);
-        List<model.dao.buffet> list3 = md.getTopBuffetList();
-        request.setAttribute("list3", list3);
+        String action = request.getParameter("action");
+        TableDAO dao = new TableDAO();
 
-        request.getRequestDispatcher("Homepage.jsp").forward(request, response);
-
+        if (action == null || action.equals("list")) {
+            // Hiển thị danh sách bảng
+            ArrayList<Table> tableList = dao.getAllTables();
+            request.setAttribute("tables", tableList);
+            request.getRequestDispatcher("table.jsp").forward(request, response);
+        } else if (action.equals("edit")) {
+            // Chỉnh sửa bảng
+            int id = Integer.parseInt(request.getParameter("tableID"));
+            Table table = dao.getTableById(id);
+            request.setAttribute("editTable", table);
+            request.getRequestDispatcher("table.jsp").forward(request, response);
+        } else if (action.equals("delete")) {
+            // Xóa bảng
+            int id = Integer.parseInt(request.getParameter("tableID"));
+            dao.deleteTable(id);
+            response.sendRedirect("TableServlet?action=list");
+        }
     }
 
     /**
@@ -90,17 +93,24 @@ public class Homepage extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String tableParam = request.getParameter("table");
+        String action = request.getParameter("action");
+        TableDAO dao = new TableDAO();
 
-if (tableParam != null) { 
-    int tableID = Integer.parseInt(tableParam);  
-    
-   
-    HttpSession session = request.getSession();
-    session.setAttribute("tableID", tableID);
-    session.setMaxInactiveInterval(1800); 
-    response.sendRedirect("homepageB");
-}
+        // Lưu hoặc cập nhật bảng
+        String tableName = request.getParameter("tableName");
+        String status = request.getParameter("status");
+
+        if (action.equals("add")) {
+            // Thêm mới
+            Table newTable = new Table(0, tableName, status);
+            dao.insertTable(newTable);
+        } else if (action.equals("update")) {
+            // Cập nhật bảng
+            int tableID = Integer.parseInt(request.getParameter("tableID"));
+            Table updatedTable = new Table(tableID, tableName, status);
+            dao.updateTable(updatedTable);
+        }
+        response.sendRedirect("TableServlet?action=list");
 
     }
 
