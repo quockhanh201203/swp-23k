@@ -5,7 +5,7 @@
 
 package controller;
 
-import dal.LoginDAO;
+import dal.MenuDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,15 +13,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import Model.Account;
+import java.util.List;
 
 /**
  *
  * @author tran tung
  */
-@WebServlet(name="Login", urlPatterns={"/login"})
-public class Login extends HttpServlet {
+@WebServlet(name="search", urlPatterns={"/search"})
+public class search extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -38,10 +37,10 @@ public class Login extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Login</title>");  
+            out.println("<title>Servlet search</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Login at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet search at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -59,17 +58,7 @@ public class Login extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         
-            
-
-
-
-
-
-
-
-
-    } 
-
+    }
     /** 
      * Handles the HTTP <code>POST</code> method.
      * @param request servlet request
@@ -80,34 +69,29 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-LoginDAO ld = new LoginDAO();
-    
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+MenuDAO m = new MenuDAO();
+        String searchAction = request.getParameter("searchAction");
+        String keyword = request.getParameter("Foodkeyword");
+       switch (searchAction) {
+    case "food":
+             List<model.dao.food> fList = m.getFoodSearch(keyword);
+             request.setAttribute("fList", fList);
+             request.getRequestDispatcher("searchResult.jsp").forward(request, response);
+        break;
         
-        Account ac = ld.login(username, password);
-        Account account = ld.getId(username);
-             
-            if (ac == null || ac.equals(ac.getUsername())) {
-                String error = "Incorrect username or password";
-                request.setAttribute("error", error);
-                request.getRequestDispatcher("Login.jsp").forward(request, response);
-              
-                 
-                
-            }else{
-                
-                 HttpSession session = request.getSession();
-                session.setAttribute("id", account.getAccountID());
-                session.setAttribute("username", username);
-                session.setAttribute("password", password);
-            System.out.println("Session ID attribute: " + session.getAttribute("id"));
-            System.out.println("Session Username attribute: " + session.getAttribute("username"));
-            System.out.println("Session Password attribute: " + session.getAttribute("password"));
-               
-                    response.sendRedirect("home");
-                }
-    }
+    case "drink":
+        List<model.dao.drink> Dlist = m.getDrinkSearch(keyword);
+             request.setAttribute("Dlist", Dlist);
+             request.getRequestDispatcher("searchResult.jsp").forward(request, response);
+        break;
+        
+    case "buffet":
+        List<model.dao.buffet> Blist = m.getBuffetSearch(keyword);
+             request.setAttribute("Blist", Blist);
+             request.getRequestDispatcher("searchResult.jsp").forward(request, response);
+        break;
+       }    }
+
     /** 
      * Returns a short description of the servlet.
      * @return a String containing servlet description

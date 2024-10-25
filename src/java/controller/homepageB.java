@@ -5,7 +5,8 @@
 
 package controller;
 
-import dal.LoginDAO;
+import dal.homepageDAO;
+import dal.tableDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,15 +14,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import Model.Account;
+import java.util.List;
+import model.table;
 
 /**
  *
  * @author tran tung
  */
-@WebServlet(name="Login", urlPatterns={"/login"})
-public class Login extends HttpServlet {
+@WebServlet(name="homepageB", urlPatterns={"/homepageB"})
+public class homepageB extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -38,10 +39,10 @@ public class Login extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Login</title>");  
+            out.println("<title>Servlet homepageB</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Login at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet homepageB at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -58,17 +59,18 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        
-            
+ homepageDAO md = new homepageDAO();
+        tableDAO tb = new tableDAO();
+        List<table> tableList = tb.getTableList();
+        request.setAttribute("tableList", tableList);
+        List<model.dao.food> list = md.getNewList();
+        request.setAttribute("list", list);
+        List<model.dao.food> list2 = md.getTopList();
+        request.setAttribute("list2", list2);
+        List<model.dao.buffet> list3 = md.getTopBuffetList();
+        request.setAttribute("list3", list3);
 
-
-
-
-
-
-
-
-    } 
+        request.getRequestDispatcher("homepageB.jsp").forward(request, response);    } 
 
     /** 
      * Handles the HTTP <code>POST</code> method.
@@ -80,34 +82,9 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-LoginDAO ld = new LoginDAO();
-    
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        
-        Account ac = ld.login(username, password);
-        Account account = ld.getId(username);
-             
-            if (ac == null || ac.equals(ac.getUsername())) {
-                String error = "Incorrect username or password";
-                request.setAttribute("error", error);
-                request.getRequestDispatcher("Login.jsp").forward(request, response);
-              
-                 
-                
-            }else{
-                
-                 HttpSession session = request.getSession();
-                session.setAttribute("id", account.getAccountID());
-                session.setAttribute("username", username);
-                session.setAttribute("password", password);
-            System.out.println("Session ID attribute: " + session.getAttribute("id"));
-            System.out.println("Session Username attribute: " + session.getAttribute("username"));
-            System.out.println("Session Password attribute: " + session.getAttribute("password"));
-               
-                    response.sendRedirect("home");
-                }
+        processRequest(request, response);
     }
+
     /** 
      * Returns a short description of the servlet.
      * @return a String containing servlet description
