@@ -18,6 +18,7 @@ public class TableReservation {
     private int tableID; // Directly using the TableID
     private int customerID; // Keeping the customerID for convenience
     private Customer customer; // Include Customer object
+    private Table table; // Include Table object
 
     // Getters and Setters
     public int getReservationID() {
@@ -90,5 +91,13 @@ public class TableReservation {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Table getTable() {
+        return table;
+    }
+
+    public void setTable(Table table) {
+        this.table = table;
     }
 }

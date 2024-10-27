@@ -93,9 +93,6 @@
                                                 <th>Guests</th>
                                                 <th>Status</th>
                                                 <th>Table Name</th>
-                                                <th>Customer Name</th>
-                                                <th>Phone Number</th>
-                                                <th>Email</th>
                                                 <th>Notes</th>
                                                 <th>Action</th>
                                             </tr>
@@ -109,9 +106,6 @@
                                                     <td>${reservation.numberOfGuests}</td>
                                                     <td>${reservation.status}</td>
                                                     <td>${reservation.table.tableName}</td>
-                                                    <td>${reservation.customer.customerName}</td>
-                                                    <td>${reservation.customer.phoneNumber}</td>
-                                                    <td>${reservation.customer.email}</td>
                                                     <td>${reservation.notes}</td>
                                                     <td>
                                                         <a href="editReservation.jsp?reservationID=${reservation.reservationID}" class="btn btn-warning btn-sm">Edit</a>
@@ -130,19 +124,21 @@
                             <ul class="pagination justify-content-center">
                                 <c:if test="${currentPage > 1}">
                                     <li class="page-item">
-                                        <a class="page-link" href="reservations?page=${currentPage - 1}" aria-label="Previous">
+                                        <a class="page-link" href="myReservation?page=${currentPage - 1}&reservationDate=${reservationDate}&reservationTime=${reservationTime}&numberOfGuests=${numberOfGuests}&status=${status}&tableName=${tableName}" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
                                 </c:if>
+
                                 <c:forEach var="i" begin="1" end="${totalPages}">
                                     <li class="page-item ${currentPage == i ? 'active' : ''}">
-                                        <a class="page-link" href="reservations?page=${i}">${i}</a>
+                                        <a class="page-link" href="myReservation?page=${i}&reservationDate=${reservationDate}&reservationTime=${reservationTime}&numberOfGuests=${numberOfGuests}&status=${status}&tableName=${tableName}">${i}</a>
                                     </li>
                                 </c:forEach>
+
                                 <c:if test="${currentPage < totalPages}">
                                     <li class="page-item">
-                                        <a class="page-link" href="reservations?page=${currentPage + 1}" aria-label="Next">
+                                        <a class="page-link" href="myReservation?page=${currentPage + 1}&reservationDate=${reservationDate}&reservationTime=${reservationTime}&numberOfGuests=${numberOfGuests}&status=${status}&tableName=${tableName}" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>

@@ -5,6 +5,13 @@
 
 package controller;
 
+import DAO.ReservationDAO;
+import Model.*;
+import DAO.CustomerDAO;
+import java.io.IOException;
+import java.sql.Date;
+import java.sql.Time;
+import java.util.List;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,6 +19,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 /**
  *
@@ -55,7 +63,61 @@ public class myReservation extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        ReservationDAO reservationDAO = new ReservationDAO();
+        CustomerDAO cd = new CustomerDAO();
+        
+        HttpSession session = request.getSession();
+        Integer id = (Integer) session.getAttribute("id");
+
+            // Check if the user is logged in
+        if (id == null) {
+            response.sendRedirect("Login.jsp");
+            return;
+        }else if (cd.getCustomerByAccountID(id) == null){
+            response.sendRedirect("Error.jsp");
+            return;
+        }
+
+        // Handle pagination
+        int recordsPerPage = 5;
+        int currentPage = 1;
+        if (request.getParameter("page") != null) {
+            currentPage = Integer.parseInt(request.getParameter("page"));
+        }
+        int totalRecords = reservationDAO.getTotalRecords();
+        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+
+        // Retrieve filter parameters
+        Date reservationDate = request.getParameter("reservationDate") != null && !request.getParameter("reservationDate").isEmpty()
+                ? Date.valueOf(request.getParameter("reservationDate")) : null;
+        Time reservationTime = request.getParameter("reservationTime") != null && !request.getParameter("reservationTime").isEmpty()
+                ? Time.valueOf(request.getParameter("reservationTime")) : null;
+        Integer numberOfGuests = request.getParameter("numberOfGuests") != null && !request.getParameter("numberOfGuests").isEmpty()
+                ? Integer.valueOf(request.getParameter("numberOfGuests")) : null;
+        String status = request.getParameter("status") != null && !request.getParameter("status").isEmpty()
+                ? request.getParameter("status") : null;
+        String tableName = request.getParameter("tableName") != null && !request.getParameter("tableName").isEmpty()
+                ? request.getParameter("tableName") : null;
+
+        // Retrieve filtered and paginated reservations
+        List<TableReservation> reservations = reservationDAO.searchReservationsByCustomerID(
+                reservationDate, reservationTime, numberOfGuests, status, tableName,
+                cd.getCustomerByAccountID(id).getCustomerID(),
+                currentPage, recordsPerPage);
+
+        // Set attributes for JSP
+        request.setAttribute("currentPage", currentPage);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("reservations", reservations);
+        request.setAttribute("reservationDate", reservationDate);
+        request.setAttribute("reservationTime", reservationTime);
+        request.setAttribute("numberOfGuests", numberOfGuests);
+        request.setAttribute("status", status);
+        request.setAttribute("tableName", tableName);
+
+        // Forward to JSP
+        request.getRequestDispatcher("myReservation.jsp").forward(request, response);
+
     } 
 
     /** 

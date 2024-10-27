@@ -19,14 +19,17 @@ import Model.*;
  */
 public class ReservationDAO extends DBContext {
 
-    public List<TableReservation> searchReservations(Date reservationDate, Time reservationTime, Integer numberOfGuests, String status, String tableName, String customerName, String phoneNumber, String email) {
+    public List<TableReservation> searchReservations(Date reservationDate, Time reservationTime, Integer numberOfGuests, String status, String tableName, String customerName, String phoneNumber, String email, int pageNumber, int pageSize) {
         List<TableReservation> reservations = new ArrayList<>();
 
         // Base query
-        StringBuilder query = new StringBuilder("SELECT r.ReservationID, r.ReservationDate, r.ReservationTime, r.NumberOfGuests, r.CustomerID, r.TableID, r.Status, r.Notes, c.CustomerName, c.PhoneNumber, c.Email "
+        StringBuilder query = new StringBuilder("SELECT r.ReservationID, r.ReservationDate, r.ReservationTime, r.NumberOfGuests, r.CustomerID, r.TableID, r.Status, r.Notes, "
+                + "c.CustomerName, c.PhoneNumber, c.Email, "
+                + "t.TableID, t.TableName, t.Status AS TableStatus "
                 + "FROM Table_Reservation r "
                 + "JOIN Customer c ON r.CustomerID = c.CustomerID "
-                + "WHERE 1=1"); // "1=1" allows easier appending of conditions
+                + "JOIN [Table] t ON r.TableID = t.TableID "
+                + "WHERE 1=1");
 
         // List to store parameter values
         List<Object> parameters = new ArrayList<>();
@@ -49,9 +52,14 @@ public class ReservationDAO extends DBContext {
             parameters.add(status);
         }
         if (tableName != null && !tableName.isEmpty()) {
-            query.append(" AND EXISTS (SELECT 1 FROM [Table] t WHERE t.TableID = r.TableID AND t.TableName = ?)");
+            query.append(" AND t.TableName = ?");
             parameters.add(tableName);
         }
+
+        // Add pagination
+        int offset = (pageNumber - 1) * pageSize;
+        query.append(" ORDER BY r.ReservationDate, r.ReservationTime ");
+        query.append("OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
 
         try {
             PreparedStatement statement = connection.prepareStatement(query.toString());
@@ -60,6 +68,10 @@ public class ReservationDAO extends DBContext {
             for (int i = 0; i < parameters.size(); i++) {
                 statement.setObject(i + 1, parameters.get(i)); // PreparedStatement is 1-indexed
             }
+
+            // Set offset and pageSize for pagination
+            statement.setInt(parameters.size() + 1, offset);     // Offset
+            statement.setInt(parameters.size() + 2, pageSize);   // Fetch Next
 
             ResultSet rs = statement.executeQuery();
 
@@ -79,9 +91,14 @@ public class ReservationDAO extends DBContext {
                 customer.setCustomerName(rs.getString("CustomerName"));
                 customer.setPhoneNumber(rs.getString("PhoneNumber"));
                 customer.setEmail(rs.getString("Email"));
-
-                // Set the Customer object in the reservation
                 reservation.setCustomer(customer);
+
+                // Create Table object and set details
+                Table table = new Table();
+                table.setTableID(rs.getInt("TableID"));
+                table.setTableName(rs.getString("TableName"));
+                table.setStatus(rs.getString("TableStatus"));
+                reservation.setTable(table);
 
                 // Add the reservation to the list
                 reservations.add(reservation);
@@ -95,13 +112,16 @@ public class ReservationDAO extends DBContext {
         return reservations;
     }
 
-    public List<TableReservation> searchReservationsByCustomerID(Date reservationDate, Time reservationTime, Integer numberOfGuests, String status, String tableName, Integer customerID) {
+    public List<TableReservation> searchReservationsByCustomerID(Date reservationDate, Time reservationTime, Integer numberOfGuests, String status, String tableName, Integer customerID, int pageNumber, int pageSize) {
         List<TableReservation> reservations = new ArrayList<>();
 
-        // Base query
-        StringBuilder query = new StringBuilder("SELECT r.ReservationID, r.ReservationDate, r.ReservationTime, r.NumberOfGuests, r.CustomerID, r.TableID, r.Status, r.Notes, c.CustomerName, c.PhoneNumber, c.Email "
+        // Base query with pagination placeholders
+        StringBuilder query = new StringBuilder("SELECT r.ReservationID, r.ReservationDate, r.ReservationTime, r.NumberOfGuests, r.CustomerID, r.TableID, r.Status, r.Notes, "
+                + "c.CustomerName, c.PhoneNumber, c.Email, "
+                + "t.TableID, t.TableName, t.Status AS TableStatus "
                 + "FROM Table_Reservation r "
                 + "JOIN Customer c ON r.CustomerID = c.CustomerID "
+                + "JOIN [Table] t ON r.TableID = t.TableID "
                 + "WHERE 1=1"); // "1=1" allows easier appending of conditions
 
         // List to store parameter values
@@ -125,13 +145,17 @@ public class ReservationDAO extends DBContext {
             parameters.add(status);
         }
         if (tableName != null && !tableName.isEmpty()) {
-            query.append(" AND EXISTS (SELECT 1 FROM [Table] t WHERE t.TableID = r.TableID AND t.TableName = ?)");
+            query.append(" AND t.TableName = ?");
             parameters.add(tableName);
         }
         if (customerID != null) {
             query.append(" AND r.CustomerID = ?");
             parameters.add(customerID);
         }
+
+        // Append pagination using OFFSET and FETCH NEXT
+        query.append(" ORDER BY r.ReservationDate, r.ReservationTime ");
+        query.append("OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
 
         try {
             PreparedStatement statement = connection.prepareStatement(query.toString());
@@ -140,6 +164,11 @@ public class ReservationDAO extends DBContext {
             for (int i = 0; i < parameters.size(); i++) {
                 statement.setObject(i + 1, parameters.get(i)); // PreparedStatement is 1-indexed
             }
+
+            // Calculate the offset for pagination
+            int offset = (pageNumber - 1) * pageSize;
+            statement.setInt(parameters.size() + 1, offset);
+            statement.setInt(parameters.size() + 2, pageSize);
 
             ResultSet rs = statement.executeQuery();
 
@@ -159,20 +188,39 @@ public class ReservationDAO extends DBContext {
                 customer.setCustomerName(rs.getString("CustomerName"));
                 customer.setPhoneNumber(rs.getString("PhoneNumber"));
                 customer.setEmail(rs.getString("Email"));
-
-                // Set the Customer object in the reservation
                 reservation.setCustomer(customer);
+
+                // Create Table object and set details
+                Table table = new Table();
+                table.setTableID(rs.getInt("TableID"));
+                table.setTableName(rs.getString("TableName"));
+                table.setStatus(rs.getString("TableStatus"));
+                reservation.setTable(table);
 
                 // Add the reservation to the list
                 reservations.add(reservation);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            closeConnection();
         }
 
         return reservations;
+    }
+
+    public int getTotalRecords() {
+        int totalRecords = 0;
+        String query = "SELECT COUNT(*) AS total FROM Table_Reservation"; // Replace 'Reservations' with your actual table name.
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                totalRecords = rs.getInt("total");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return totalRecords;
     }
 
     public String addReservation(TableReservation reservation) {
@@ -231,6 +279,49 @@ public class ReservationDAO extends DBContext {
         } finally {
             closeConnection();
         }
+    }
+
+    public List<Customer> getAllCustomers() {
+        List<Customer> customers = new ArrayList<>();
+        String query = "SELECT CustomerID, CustomerName FROM Customer";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerID(rs.getInt("CustomerID"));
+                customer.setCustomerName(rs.getString("CustomerName"));
+                customers.add(customer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customers;
+    }
+
+    // Method to fetch all tables
+    public List<Table> getAllTables() {
+        List<Table> tables = new ArrayList<>();
+        String query = "SELECT TableID, TableName, Status FROM [Table]";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                Table table = new Table();
+                table.setTableID(rs.getInt("TableID"));
+                table.setTableName(rs.getString("TableName"));
+                table.setStatus(rs.getString("Status"));
+                tables.add(table);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tables;
+    }
+
+    public static void main(String[] args) {
+        ReservationDAO rd = new ReservationDAO();
+        System.out.println(rd.getAllTables().get(0).getTableName());
     }
 
 }
