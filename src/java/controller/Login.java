@@ -103,7 +103,7 @@ PasswordUtil pw = new PasswordUtil();
                  HttpSession session = request.getSession();
                 session.setAttribute("id", account.getAccountID());
                 session.setAttribute("username", username);
-                session.setAttribute("password", password);
+                session.setAttribute("roleID", account.getRoleID());
             System.out.println("Session ID attribute: " + session.getAttribute("id"));
             System.out.println("Session Username attribute: " + session.getAttribute("username"));
             System.out.println("Session Password attribute: " + session.getAttribute("password"));
