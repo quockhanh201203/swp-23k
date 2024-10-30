@@ -28,11 +28,19 @@
         </div>
         <div>
             <h1>Admin</h1>
+            //Toan
             <div><a href="StaffManage">StaffManage</a></div>
             <div><a href="ShiftManage">ShiftManage</a></div>
             <div><a href="FeedbackList">FeedbackList</a></div>
             <div><a href="ReservationList">ReservationList</a></div>
             <div><a href="DashboardServlet">DashBoard ( chưa xong )</a></div>
+            //Cong
+            <div><a href="CustomerServlet">Customer</a></div>
+            <div><a href="DiscountServlet">Discount</a></div>
+            <div><a href="TableServlet">Table</a></div>
+            <div><a href="voucher">Voucher</a></div>
+            <div><a href="salaryList">Salary</a></div>
+            
         </div>
     </body>
 </html>
