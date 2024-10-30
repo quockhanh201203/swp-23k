@@ -100,7 +100,7 @@ public class FoodManageController extends HttpServlet {
         int status = Integer.parseInt(request.getParameter("status"));
         Food food = new Food();
         food.setFoodID(foodId);
-        food.setStatus(status);
+        food.setStatus(status == 1? "Active" : "Inactive");
         menuDAO.deleteFood(food);
     }
 

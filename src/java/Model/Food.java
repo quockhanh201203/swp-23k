@@ -2,13 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package model.dao;
+package Model;
 
 /**
  *
  * @author tran tung
  */
-public class food {
+public class Food {
 
     private int ProductID;
     private int FoodID;
@@ -22,12 +22,23 @@ public class food {
     private String Image;
     private int CategoryIDf;
     private String CategoryName;
+    private int status;
 
-    public food() {
+    public Food() {
 
     }
+    
+    
+    
+    public Food(int foodID, String foodName, int categoryID, int status, String image) {
+        this.FoodID = foodID;
+        this.FoodName = foodName;
+        this.CategoryID = categoryID;
+        this.status = status;
+        this.Image = image;
+    }
 
-    public food(int ProductID, int FoodID, int BuffetID, int DrinkID, int Price, int FoodIDf, String FoodName, int CategoryID, String Status, String Image, int CategoryIDf, String CategoryName) {
+    public Food(int ProductID, int FoodID, int BuffetID, int DrinkID, int Price, int FoodIDf, String FoodName, int CategoryID, String Status, String Image, int CategoryIDf, String CategoryName) {
         this.ProductID = ProductID;
         this.FoodID = FoodID;
         this.BuffetID = BuffetID;
