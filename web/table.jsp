@@ -4,7 +4,7 @@
     Author     : Admin
 --%>
 
-<%@page import="model.Table"%>
+<%@page import="Model.Table"%>
 <%@page import="java.util.ArrayList"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -119,7 +119,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <%-- Danh sách các b?ng s? ???c hi?n th? ? ?ây --%>
                     <%
                         ArrayList<Table> tables = (ArrayList<Table>) request.getAttribute("tables");
                         String filterStatus = request.getParameter("status");
@@ -145,8 +144,6 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- Modal thêm b?ng -->
         <div class="modal fade" id="addTableModal" tabindex="-1" aria-labelledby="addTableModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -174,8 +171,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Modal ch?nh s?a b?ng -->
         <%
             Table editTable = (Table) request.getAttribute("editTable");
             if (editTable != null) {

@@ -61,6 +61,7 @@ public class TableDAO extends DBContext {
             statement.setString(1, table.getTableName());
             statement.setString(2, table.getStatus());
             statement.executeUpdate();
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }

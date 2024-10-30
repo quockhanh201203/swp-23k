@@ -2,131 +2,145 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Model;
-
-import DAO.FoodDAO;
-import DAO.MenuDAO;
-import java.util.List;
+package model.dao;
 
 /**
  *
- * @author Legion
+ * @author tran tung
  */
-public class Food {
-    private int foodID;
-    private String foodName;
-    private int categoryID;
-    private int status;
-    private String image;
-    private FoodCategory foodCategory;
-    private String statusString;
-    private List<Ingredient> ingredients;
-    private double price;
+public class food {
 
-    public double getPrice() {
-        return new FoodDAO().getFoodPrice(foodID);
+    private int ProductID;
+    private int FoodID;
+    private int BuffetID;
+    private int DrinkID;
+    private int Price;
+    private int FoodIDf;
+    private String FoodName;
+    private int CategoryID;
+    private String Status;
+    private String Image;
+    private int CategoryIDf;
+    private String CategoryName;
+
+    public food() {
+
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-    
-    
-
-    public FoodCategory getFoodCategory() {
-        return new MenuDAO().getFoodCategoryByID(categoryID);
-    }
-
-    public void setFoodCategory(FoodCategory foodCategory) {
-        this.foodCategory = foodCategory;
-    }
-
-    public List<Ingredient> getIngredients() {
-        return ingredients;
+    public food(int ProductID, int FoodID, int BuffetID, int DrinkID, int Price, int FoodIDf, String FoodName, int CategoryID, String Status, String Image, int CategoryIDf, String CategoryName) {
+        this.ProductID = ProductID;
+        this.FoodID = FoodID;
+        this.BuffetID = BuffetID;
+        this.DrinkID = DrinkID;
+        this.Price = Price;
+        this.FoodIDf = FoodIDf;
+        this.FoodName = FoodName;
+        this.CategoryID = CategoryID;
+        this.Status = Status;
+        this.Image = Image;
+        this.CategoryIDf = CategoryIDf;
+        this.CategoryName = CategoryName;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+    public int getProductID() {
+        return ProductID;
     }
 
-    public Food(int foodID, String foodName, int categoryID, int status, String image, List<Ingredient> ingredients) {
-        this.foodID = foodID;
-        this.foodName = foodName;
-        this.categoryID = categoryID;
-        this.status = status;
-        this.image = image;
-        this.ingredients = ingredients;
+    public void setProductID(int ProductID) {
+        this.ProductID = ProductID;
     }
 
-    
-    
-    
-    
-    
-    
-    
-
-    // Constructor
-    public Food() {}
-
-    public Food(int foodID, String foodName, int categoryID, int status, String image) {
-        this.foodID = foodID;
-        this.foodName = foodName;
-        this.categoryID = categoryID;
-        this.status = status;
-        this.image = image;
-    }
-
-    public Food(int foodID, String foodName, int categoryID, int status, String image, FoodCategory foodCategory) {
-        this.foodID = foodID;
-        this.foodName = foodName;
-        this.categoryID = categoryID;
-        this.status = status;
-        this.image = image;
-        this.foodCategory = foodCategory;
-    }
-
-    // Getters and Setters
     public int getFoodID() {
-        return foodID;
+        return FoodID;
     }
 
-    public void setFoodID(int foodID) {
-        this.foodID = foodID;
+    public void setFoodID(int FoodID) {
+        this.FoodID = FoodID;
+    }
+
+    public int getBuffetID() {
+        return BuffetID;
+    }
+
+    public void setBuffetID(int BuffetID) {
+        this.BuffetID = BuffetID;
+    }
+
+    public int getDrinkID() {
+        return DrinkID;
+    }
+
+    public void setDrinkID(int DrinkID) {
+        this.DrinkID = DrinkID;
+    }
+
+    public int getPrice() {
+        return Price;
+    }
+
+    public void setPrice(int Price) {
+        this.Price = Price;
+    }
+
+    public int getFoodIDf() {
+        return FoodIDf;
+    }
+
+    public void setFoodIDf(int FoodIDf) {
+        this.FoodIDf = FoodIDf;
     }
 
     public String getFoodName() {
-        return foodName;
+        return FoodName;
     }
 
-    public void setFoodName(String foodName) {
-        this.foodName = foodName;
+    public void setFoodName(String FoodName) {
+        this.FoodName = FoodName;
     }
 
     public int getCategoryID() {
-        return categoryID;
+        return CategoryID;
     }
 
-    public void setCategoryID(int categoryID) {
-        this.categoryID = categoryID;
+    public void setCategoryID(int CategoryID) {
+        this.CategoryID = CategoryID;
     }
 
-    public int getStatus() {
-        return status;
+    public String getStatus() {
+        return Status;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setStatus(String Status) {
+        this.Status = Status;
     }
 
     public String getImage() {
-        return image;
+        return Image;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImage(String Image) {
+        this.Image = Image;
     }
 
+    public int getCategoryIDf() {
+        return CategoryIDf;
+    }
+
+    public void setCategoryIDf(int CategoryIDf) {
+        this.CategoryIDf = CategoryIDf;
+    }
+
+    public String getCategoryName() {
+        return CategoryName;
+    }
+
+    public void setCategoryName(String CategoryName) {
+        this.CategoryName = CategoryName;
+    }
+
+    @Override
+    public String toString() {
+        return "food{" + "ProductID=" + ProductID + ", FoodID=" + FoodID + ", BuffetID=" + BuffetID + ", DrinkID=" + DrinkID + ", Price=" + Price + ", FoodIDf=" + FoodIDf + ", FoodName=" + FoodName + ", CategoryID=" + CategoryID + ", Status=" + Status + ", Image=" + Image + ", CategoryIDf=" + CategoryIDf + ", CategoryName=" + CategoryName + '}';
+    }
 
 }
-

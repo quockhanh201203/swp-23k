@@ -106,8 +106,6 @@ public class AccountDAO extends DBContext {
 
         return null; // Return null if no account is found
     }
-    
-
 
     public String findEmailByAccountID(int accountID) {
         String email = null;
@@ -118,7 +116,7 @@ public class AccountDAO extends DBContext {
                      UNION 
                      SELECT Email FROM Customer WHERE AccountID = ?""";
 
-        try ( PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, accountID);
             statement.setInt(2, accountID);
             statement.setInt(3, accountID);
@@ -135,4 +133,34 @@ public class AccountDAO extends DBContext {
         return email; // Returns null if not found
     }
 
+    public Account findAccountByID(int accountID) {
+        // SQL query to find the account by AccountID directly in the Account table
+        String findAccountByIDSql = """
+    SELECT AccountID, Username, Password, RoleID
+    FROM Account
+    WHERE AccountID = ?
+    """;
+        try {
+            // Prepare the statement with the provided AccountID
+            PreparedStatement findAccountStatement = connection.prepareStatement(findAccountByIDSql);
+            findAccountStatement.setInt(1, accountID);
+            // Execute the query and process the result set
+            ResultSet rs = findAccountStatement.executeQuery();
+            // If an account is found
+            if (rs.next()) {
+                // Create and populate an Account object
+                Account account = new Account();
+                account.setAccountID(rs.getInt("AccountID"));
+                account.setUsername(rs.getString("Username"));
+                account.setPassword(rs.getString("Password"));
+                account.setRoleID(rs.getInt("RoleID"));
+                return account; // Return the found account
+            } else {
+                System.out.println("No account found for the provided AccountID.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null; // Return null if no account is found
+    }
 }

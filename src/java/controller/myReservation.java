@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
 
 import DAO.ReservationDAO;
@@ -25,36 +24,39 @@ import jakarta.servlet.http.HttpSession;
  *
  * @author ADMIN
  */
-@WebServlet(name="myReservation", urlPatterns={"/myReservation"})
+@WebServlet(name = "myReservation", urlPatterns = {"/myReservation"})
 public class myReservation extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet myReservation</title>");  
+            out.println("<title>Servlet myReservation</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet myReservation at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet myReservation at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -62,42 +64,52 @@ public class myReservation extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         ReservationDAO reservationDAO = new ReservationDAO();
         CustomerDAO cd = new CustomerDAO();
-        
+
         HttpSession session = request.getSession();
         Integer id = (Integer) session.getAttribute("id");
 
-            // Check if the user is logged in
+        // Check if the user is logged in
         if (id == null) {
             response.sendRedirect("Login.jsp");
             return;
-        }else if (cd.getCustomerByAccountID(id) == null){
+        } else if (cd.getCustomerByAccountID(id) == null) {
             response.sendRedirect("Error.jsp");
             return;
         }
 
-        // Handle pagination
-        int recordsPerPage = 5;
-        int currentPage = 1;
-        if (request.getParameter("page") != null) {
-            currentPage = Integer.parseInt(request.getParameter("page"));
-        }
-        int totalRecords = reservationDAO.getTotalRecords();
-        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
-
         // Retrieve filter parameters
         Date reservationDate = request.getParameter("reservationDate") != null && !request.getParameter("reservationDate").isEmpty()
                 ? Date.valueOf(request.getParameter("reservationDate")) : null;
-        Time reservationTime = request.getParameter("reservationTime") != null && !request.getParameter("reservationTime").isEmpty()
-                ? Time.valueOf(request.getParameter("reservationTime")) : null;
+        Time reservationTime = null;
+        String reservationTimeStr = request.getParameter("reservationTime");
+        if (reservationTimeStr != null && !reservationTimeStr.isEmpty()) {
+            try {
+                // Append ":00" to match the expected HH:mm:ss format if needed
+                reservationTime = Time.valueOf(reservationTimeStr.length() == 5 ? reservationTimeStr + ":00" : reservationTimeStr);
+            } catch (IllegalArgumentException e) {
+                System.err.println("Invalid time format: " + reservationTimeStr);
+            }
+        }
         Integer numberOfGuests = request.getParameter("numberOfGuests") != null && !request.getParameter("numberOfGuests").isEmpty()
                 ? Integer.valueOf(request.getParameter("numberOfGuests")) : null;
         String status = request.getParameter("status") != null && !request.getParameter("status").isEmpty()
                 ? request.getParameter("status") : null;
         String tableName = request.getParameter("tableName") != null && !request.getParameter("tableName").isEmpty()
                 ? request.getParameter("tableName") : null;
+        
+        // Handle pagination
+        int recordsPerPage = 5;
+        int currentPage = 1;
+        if (request.getParameter("page") != null) {
+            currentPage = Integer.parseInt(request.getParameter("page"));
+        }
+        int totalRecords = reservationDAO.getTotalRecordsByCustomerID(
+                reservationDate, reservationTime, numberOfGuests, status, tableName,
+                cd.getCustomerByAccountID(id).getCustomerID());
+        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
 
         // Retrieve filtered and paginated reservations
         List<TableReservation> reservations = reservationDAO.searchReservationsByCustomerID(
@@ -116,12 +128,13 @@ public class myReservation extends HttpServlet {
         request.setAttribute("tableName", tableName);
 
         // Forward to JSP
-        request.getRequestDispatcher("myReservation.jsp").forward(request, response);
+        request.getRequestDispatcher("myreservation.jsp").forward(request, response);
 
-    } 
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -129,12 +142,13 @@ public class myReservation extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

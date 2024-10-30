@@ -73,7 +73,13 @@
                             </div>
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
-                        <a href="" class="btn btn-primary py-2 px-4">Book A Table</a>
+                        <c:if test="${not empty sessionScope.id}">
+                            <a href="Logout.jsp" class="btn btn-primary py-2 px-4">${sessionScope.username}!</a>
+                        </c:if>
+
+                        <c:if test="${empty sessionScope.id}">
+                            <a href="Login.jsp" class="btn btn-primary py-2 px-4">Login</a>
+                        </c:if>
                     </div>
                 </nav>
 

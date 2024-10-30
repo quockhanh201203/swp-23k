@@ -64,14 +64,6 @@ public class ReservationList extends HttpServlet {
             throws ServletException, IOException {
         ReservationDAO reservationDAO = new ReservationDAO();
 
-        int recordsPerPage = 10;
-        int currentPage = 1;
-        if (request.getParameter("page") != null) {
-            currentPage = Integer.parseInt(request.getParameter("page"));
-        }
-        int totalRecords = reservationDAO.getTotalRecords();
-        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage) + 1;
-
         // Retrieve search parameters
         Date reservationDate = null;
         try {
@@ -112,10 +104,20 @@ public class ReservationList extends HttpServlet {
         String phoneNumber = request.getParameter("phoneNumber");
         String email = request.getParameter("email");
 
+        int recordsPerPage = 5;
+        int currentPage = 1;
+        if (request.getParameter("page") != null) {
+            currentPage = Integer.parseInt(request.getParameter("page"));
+        }
+        int totalRecords = reservationDAO.getTotalRecords(
+                reservationDate, reservationTime, numberOfGuests, status, tableName,
+                customerName, phoneNumber, email);
+        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+        
         // Perform search
         List<TableReservation> reservations = reservationDAO.searchReservations(
                 reservationDate, reservationTime, numberOfGuests, status, tableName,
-                customerName, phoneNumber, email, currentPage, 5);
+                customerName, phoneNumber, email, currentPage, recordsPerPage);
         // Set attributes for the JSP
 
         request.setAttribute("currentPage", currentPage);

@@ -40,13 +40,6 @@
 
                                 <div class="col-md-3">
                                     <div class="form-floating">
-                                        <input type="time" class="form-control" id="reservationTime" name="reservationTime" value="${param.reservationTime}">
-                                        <label for="reservationTime">Reservation Time</label>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-floating">
                                         <input type="number" class="form-control" id="numberOfGuests" name="numberOfGuests" placeholder="Guests" value="${param.numberOfGuests}">
                                         <label for="numberOfGuests">Number of Guests</label>
                                     </div>
@@ -150,7 +143,7 @@
                             <ul class="pagination justify-content-center">
                                 <c:if test="${currentPage > 1}">
                                     <li class="page-item">
-                                        <a class="page-link" href="ReservationList?page=${currentPage - 1}&reservationDate=${reservationDate}&reservationTime=${reservationTime}&numberOfGuests=${numberOfGuests}&status=${status}&tableName=${tableName}&customerName=${customerName}&phoneNumber=${phoneNumber}&email=${email}" aria-label="Previous">
+                                        <a class="page-link" href="ReservationList?page=${currentPage - 1}&reservationDate=${reservationDate}&reservationTime=${param.reservationTime}&numberOfGuests=${numberOfGuests}&status=${status}&tableName=${tableName}&customerName=${customerName}&phoneNumber=${phoneNumber}&email=${email}" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
@@ -158,13 +151,13 @@
 
                                 <c:forEach var="i" begin="1" end="${totalPages}">
                                     <li class="page-item ${currentPage == i ? 'active' : ''}">
-                                        <a class="page-link" href="ReservationList?page=${i}&reservationDate=${reservationDate}&reservationTime=${reservationTime}&numberOfGuests=${numberOfGuests}&status=${status}&tableName=${tableName}&customerName=${customerName}&phoneNumber=${phoneNumber}&email=${email}">${i}</a>
+                                        <a class="page-link" href="ReservationList?page=${i}&reservationDate=${reservationDate}&reservationTime=${param.reservationTime}&numberOfGuests=${numberOfGuests}&status=${status}&tableName=${tableName}&customerName=${customerName}&phoneNumber=${phoneNumber}&email=${email}">${i}</a>
                                     </li>
                                 </c:forEach>
 
                                 <c:if test="${currentPage < totalPages}">
                                     <li class="page-item">
-                                        <a class="page-link" href="ReservationList?page=${currentPage + 1}&reservationDate=${reservationDate}&reservationTime=${reservationTime}&numberOfGuests=${numberOfGuests}&status=${status}&tableName=${tableName}&customerName=${customerName}&phoneNumber=${phoneNumber}&email=${email}" aria-label="Next">
+                                        <a class="page-link" href="ReservationList?page=${currentPage + 1}&reservationDate=${reservationDate}&reservationTime=${param.reservationTime}&numberOfGuests=${numberOfGuests}&status=${status}&tableName=${tableName}&customerName=${customerName}&phoneNumber=${phoneNumber}&email=${email}" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>

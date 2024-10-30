@@ -37,14 +37,7 @@
                                         <label for="reservationDate">Reservation Date</label>
                                     </div>
                                 </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-floating">
-                                        <input type="time" class="form-control" id="reservationTime" name="reservationTime" value="${param.reservationTime}">
-                                        <label for="reservationTime">Reservation Time</label>
-                                    </div>
-                                </div>
-
+                                        
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <input type="number" class="form-control" id="numberOfGuests" name="numberOfGuests" placeholder="Guests" value="${param.numberOfGuests}">
@@ -74,7 +67,7 @@
                         </form>
 
                         <div class="mb-4 text-end">
-                            <a href="addReservation.jsp" class="btn btn-success">Add New Reservation</a>
+                            <a href="AddReservation" class="btn btn-success">Add New Reservation</a>
                         </div>
 
                         <!-- Reservation List Table -->
@@ -108,9 +101,7 @@
                                                     <td>${reservation.table.tableName}</td>
                                                     <td>${reservation.notes}</td>
                                                     <td>
-                                                        <a href="editReservation.jsp?reservationID=${reservation.reservationID}" class="btn btn-warning btn-sm">Edit</a>
-                                                        <a href="deleteReservation?reservationID=${reservation.reservationID}" class="btn btn-danger btn-sm">Delete</a>
-                                                    </td>
+                                                        <a href="editReservation.jsp?reservationID=${reservation.reservationID}" class="btn btn-warning btn-sm">Cancel</a></td>
                                                 </tr>
                                             </c:forEach>
                                         </tbody>
