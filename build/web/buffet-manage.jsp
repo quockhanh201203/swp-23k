@@ -43,15 +43,15 @@
                             <input type="hidden" name="action" value="add">
                             <div class="form-group">
                                 <label for="buffetName">Buffet Name</label>
-                                <input type="text" class="form-control" id="buffetName" name="buffetName" required>
+                                <input type="text" class="form-control" id="buffetName" pattern=".*\S.*" title="Input cannot be only spaces" name="buffetName" required>
                             </div>
                             <div class="form-group">
                                 <label for="buffetPrice">Buffet Price</label>
-                                <input type="number" class="form-control" id="buffetPrice" name="buffetPrice" required>
+                                <input type="number" class="form-control" id="buffetPrice" min="1" name="buffetPrice" required>
                             </div>
                             <div class="form-group">
                                 <label for="buffetImage">Image URL</label>
-                                <input type="text" class="form-control" id="buffetImage" name="buffetImage" required>
+                                <input type="text" class="form-control" id="buffetImage" pattern=".*\S.*" title="Input cannot be only spaces" name="buffetImage" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Add Buffet</button>
                         </form>
@@ -125,19 +125,19 @@
                                                                     <!-- Buffet Name -->
                                                                     <div class="mb-3">
                                                                         <label for="buffetName" class="form-label">Buffet Name</label>
-                                                                        <input type="text" class="form-control" name="buffetName" value="${buffet.buffetName}" required>
+                                                                        <input type="text" class="form-control" name="buffetName" pattern=".*\S.*" title="Input cannot be only spaces" value="${buffet.buffetName}" required>
                                                                     </div>
 
                                                                     <!-- Buffet Name -->
                                                                     <div class="mb-3">
                                                                         <label for="buffetName" class="form-label">Buffet Price</label>
-                                                                        <input type="text" class="form-control" name="price" value="${buffet.price}" required>
+                                                                        <input type="text" class="form-control" name="price" min="1" value="${buffet.price}" required>
                                                                     </div>
 
                                                                     <!-- Buffet Image -->
                                                                     <div class="mb-3">
                                                                         <label for="image" class="form-label">Image URL</label>
-                                                                        <input type="text" class="form-control" name="image" value="${buffet.image}" required>
+                                                                        <input type="text" class="form-control" name="image" pattern=".*\S.*" title="Input cannot be only spaces" value="${buffet.image}" required>
                                                                     </div>
                                                                 </div>
                                                                 <div class="modal-footer">

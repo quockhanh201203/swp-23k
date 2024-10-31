@@ -3,11 +3,24 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/staff-profile.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/Model/PriceHistory.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/controller/DrinkManageController.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/menu.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/DAO/DBContext.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/Homepage.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/controller/AdminProfileController.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/DAO/MenuDAO.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/food-category-manage.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/controller/PriceHistoryController.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/controller/FoodCategoryManageController.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/controller/BuffetManageController.java</file>
             <file>file:/D:/Desktop/SWP391_1/swp-23k/web/LinkPage.jsp</file>
             <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/controller/FoodManageController.java</file>
             <file>file:/D:/Desktop/SWP391_1/swp-23k/web/food-manage.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/DAO/FoodDAO.java</file>
             <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/Model/Food.java</file>
-            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/controller/FoodManage.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/controller/BuffetDetailController.java</file>
         </group>
     </open-files>
 </project-private>

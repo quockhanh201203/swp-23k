@@ -4,6 +4,8 @@
  */
 package Model;
 
+import DAO.MenuDAO;
+
 /**
  *
  * @author tran tung
@@ -21,10 +23,19 @@ public class Food {
     private String Status;
     private String Image;
     private int CategoryIDf;
+    private FoodCategory foodCategory;
     private String CategoryName;
 
     public Food() {
 
+    }
+    
+    public FoodCategory getFoodCategory() {
+        return new MenuDAO().getFoodCategoryByID(CategoryID);
+    }
+
+    public void setFoodCategory(FoodCategory foodCategory) {
+        this.foodCategory = foodCategory;
     }
     
     

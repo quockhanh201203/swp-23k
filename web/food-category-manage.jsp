@@ -40,7 +40,7 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <label>Category Name</label>
-                                <input type="text" name="categoryName" class="form-control" required>
+                                <input type="text" name="categoryName" pattern=".*\S.*" title="Input cannot be only spaces" class="form-control" required>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -111,7 +111,7 @@
                                                                 <div class="modal-body">
                                                                     <div class="form-group">
                                                                         <label>Category Name</label>
-                                                                        <input type="text" id="categoryName" name="categoryName" value="${category.categoryName}" class="form-control" required>
+                                                                        <input type="text" id="categoryName" name="categoryName" value="${category.categoryName}" pattern=".*\S.*" title="Input cannot be only spaces" class="form-control" required>
                                                                     </div>
                                                                 </div>
                                                                 <div class="modal-footer">

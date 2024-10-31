@@ -42,21 +42,21 @@
                             <input type="hidden" name="action" value="add">
                             <div class="form-group">
                                 <label for="drinkName">Drink Name</label>
-                                <input type="text" class="form-control" id="drinkName" name="drinkName" required>
+                                <input type="text" class="form-control" id="drinkName" pattern=".*\S.*" title="Input cannot be only spaces" name="drinkName" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="drinkPrice">Drink Price</label>
-                                <input type="number" class="form-control" id="drinkPrice" name="price" required>
+                                <input type="number" class="form-control" id="drinkPrice" min="1" name="price" required>
                             </div>
                             <div class="form-group">
                                 <label for="drinkImage">Image URL</label>
-                                <input type="text" class="form-control" id="drinkImage" name="drinkImage" required>
+                                <input type="text" class="form-control" id="drinkImage" pattern=".*\S.*" title="Input cannot be only spaces" name="drinkImage" required>
                             </div>
 
                             <div class="form-group">
                                 <label for="quantity">Quantity:</label>
-                                <input type="text" class="form-control" id="quantity" name="quantity" required>
+                                <input type="text" class="form-control" id="quantity" min="1" name="quantity" required>
                             </div>
 
                             <div class="form-group">
@@ -100,6 +100,41 @@
                         <h1 class="text-white mb-4">Drink List</h1>
 
 
+                        <form action="price-history" method="get" class="form-inline mb-4">
+                            <div class="form-group mr-3">
+                                <label for="categoryFilter">Category:</label>
+                                <select id="categoryFilter" class="form-control">
+                                    <option value="">All</option>
+                                    <c:forEach items="${drinkCategorys}" var="fc">
+                                        <option value="${fc.categoryName}">${fc.categoryName}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group mr-3">
+                                <label for="brandFilter">Brand: </label>
+                                <select id="brandFilter" class="form-control">
+                                    <option value="">All</option>
+                                    <c:forEach items="${brands}" var="fc">
+                                        <option value="${fc.brandName}">${fc.brandName}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group mr-3">
+                                <label for="statusFilter">Status: </label>
+                                <select id="statusFilter" class="form-control">
+                                    <option value="">All</option>
+                                    <option value="Active">Active</option>
+                                    <option value="De-Active">De-Active</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDrinkModal">
+                                Add Drink
+                            </button>
+                        </form>
+
+
                         <div class="table-responsive">
                             <c:if test="${param.success ne null}">
                                 <div class="alert alert-success" role="alert">
@@ -111,9 +146,7 @@
                                     Failed!
                                 </div>
                             </c:if>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDrinkModal">
-                                Add Drink
-                            </button>
+
                             <table id="drinkTable" class="table table-light table-striped table-bordered">
                                 <thead>
                                     <tr>
@@ -121,8 +154,8 @@
                                         <th>Drink Name</th>
                                         <th>Price</th>
                                         <th>Quantity</th>
-                                        <th>Category ID</th>
-                                        <th>Brand ID</th>
+                                        <th>Category Name</th>
+                                        <th>Brand Name</th>
                                         <th>Status</th>
                                         <th>Image</th>
                                         <th>Actions</th>
@@ -143,12 +176,12 @@
                                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editDrinkModal_${drink.drinkID}">Edit</button>
                                                 <form action="drinks" " method="post" style="display:inline-block;">
                                                     <input type="hidden" name="action" value="delete">
-                                                    <input type="hidden" name="status" value="${drink.status == 'Active' ? 'Deactive' : 'Active'}">
+                                                    <input type="hidden" name="status" value="${drink.status == 'Active' ? 'De-Active' : 'Active'}">
                                                     <input type="hidden" name="id" value="${drink.drinkID}">
                                                     <c:if test="${drink.status == 'Active'}">
                                                         <button type="submit" class="btn btn-danger">Delete</button>
                                                     </c:if>
-                                                    <c:if test="${drink.status == 'Deactive'}">
+                                                    <c:if test="${drink.status == 'De-Active'}">
                                                         <button type="submit" class="btn btn-success">Active</button>
                                                     </c:if>
 
@@ -173,18 +206,18 @@
                                                                     <!-- Drink Name -->
                                                                     <div class="mb-3">
                                                                         <label for="drinkName" class="form-label">Drink Name</label>
-                                                                        <input type="text" class="form-control" name="drinkName" value="${drink.drinkName}" required>
+                                                                        <input type="text" class="form-control" name="drinkName" pattern=".*\S.*" title="Input cannot be only spaces" value="${drink.drinkName}" required>
                                                                     </div>
 
                                                                     <div class="mb-3">
                                                                         <label for="image" class="form-label">Price</label>
-                                                                        <input type="text" class="form-control" name="price" value="${drink.price}" required>
+                                                                        <input type="text" class="form-control" name="price" min="1" value="${drink.price}" required>
                                                                     </div>
 
                                                                     <!-- Quantity -->
                                                                     <div class="mb-3">
                                                                         <label for="quantity" class="form-label">Quantity</label>
-                                                                        <input type="number" class="form-control" name="quantity" value="${drink.quantity}" required>
+                                                                        <input type="number" class="form-control" name="quantity" min="1" value="${drink.quantity}" required>
                                                                     </div>
 
                                                                     <div class="mb-3">
@@ -219,7 +252,7 @@
                                                                     <!-- Image URL -->
                                                                     <div class="mb-3">
                                                                         <label for="image" class="form-label">Image URL</label>
-                                                                        <input type="text" class="form-control" name="image" value="${drink.image}" required>
+                                                                        <input type="text" class="form-control" name="image" pattern=".*\S.*" title="Input cannot be only spaces" value="${drink.image}" required>
                                                                     </div>
                                                                 </div>
                                                                 <div class="modal-footer">
@@ -274,10 +307,40 @@
                 $('.dataTables_scrollBody').css('height', ($(window).height() - 200));
             });
             $(document).ready(function () {
-                $('#drinkTable').DataTable({
+                var table = $('#drinkTable').DataTable({
                     pageLength: 5,
                     lengthChange: false,
                     "sScrollY": ($(window).height() - 300)
+                });
+                $('#categoryFilter').on('change', function () {
+                    var categoryValue = $(this).val();
+                    table.column(4).search(categoryValue).draw(); // Adjust column index accordingly
+                });
+
+                // Event listener for status filter
+                $('#statusFilter').on('change', function () {
+                    var statusValue = $(this).val();
+
+                    // If "All" is selected, reset the search to show all statuses
+                    if (statusValue === "") {
+                        table.column(6).search('').draw(); // Clear search
+                    } else {
+                        // Custom search for exact match
+                        table.column(6).search('^' + statusValue + '$', true, false).draw();
+                    }
+                });
+                
+                // Event listener for status filter
+                $('#brandFilter').on('change', function () {
+                    var statusValue = $(this).val();
+
+                    // If "All" is selected, reset the search to show all statuses
+                    if (statusValue === "") {
+                        table.column(5).search('').draw(); // Clear search
+                    } else {
+                        // Custom search for exact match
+                        table.column(5).search('^' + statusValue + '$', true, false).draw();
+                    }
                 });
             });
         </script>

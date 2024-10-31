@@ -26,35 +26,65 @@
         </style>
     </head>
     <body>
-        <!-- Add Category Modal -->
-        <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+
+        <div class="modal fade" id="addDrinkModal" tabindex="-1" role="dialog" aria-labelledby="addDrinkModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <form action="drink-category" method="post">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Add Category</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>Category Name</label>
-                                <input type="text" name="categoryName" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addDrinkModalLabel">Add Drink</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="drinks" method="post">
+                            <input type="hidden" name="type" value="drink">
                             <input type="hidden" name="action" value="add">
-                            <button type="submit" class="btn btn-primary">Add</button>
-                        </div>
-                    </form>
+                            <div class="form-group">
+                                <label for="drinkName">Drink Name</label>
+                                <input type="text" class="form-control" id="drinkName" pattern=".*\S.*" title="Input cannot be only spaces" name="drinkName" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="drinkPrice">Drink Price</label>
+                                <input type="number" class="form-control" id="drinkPrice" min="1" name="price" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="drinkImage">Image URL</label>
+                                <input type="text" class="form-control" id="drinkImage" pattern=".*\S.*" title="Input cannot be only spaces" name="drinkImage" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="quantity">Quantity:</label>
+                                <input type="text" class="form-control" id="quantity" min="1" name="quantity" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="categoryId">Category:</label>
+                                <select name="categoryId" class="form-control">
+                                    <c:forEach items="${drinkCategorys}" var="dc">
+                                        <option value="${dc.categoryID}">${dc.categoryName}</option>
+                                    </c:forEach>
+                                </select>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="brandId">Brand:</label>
+                                <select name="brandId" class="form-control">
+                                    <c:forEach items="${brands}" var="db">
+                                        <option value="${db.brandID}">${db.brandName}</option>
+                                    </c:forEach>
+                                </select>
+
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Add Drink</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-
-
-
-
 
 
 
@@ -66,8 +96,45 @@
             <div class="row justify-content-center">
                 <div class="col-12 bg-dark d-flex align-items-center">
                     <div class="p-5 w-100">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Drink Category</h5>
-                        <h1 class="text-white mb-4">Drink Category</h1>
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Drink List</h5>
+                        <h1 class="text-white mb-4">Drink List</h1>
+
+
+                        <form action="price-history" method="get" class="form-inline mb-4">
+                            <div class="form-group mr-3">
+                                <label for="categoryFilter">Category:</label>
+                                <select id="categoryFilter" class="form-control">
+                                    <option value="">All</option>
+                                    <c:forEach items="${drinkCategorys}" var="fc">
+                                        <option value="${fc.categoryName}">${fc.categoryName}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group mr-3">
+                                <label for="brandFilter">Brand: </label>
+                                <select id="brandFilter" class="form-control">
+                                    <option value="">All</option>
+                                    <c:forEach items="${brands}" var="fc">
+                                        <option value="${fc.brandName}">${fc.brandName}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group mr-3">
+                                <label for="statusFilter">Status: </label>
+                                <select id="statusFilter" class="form-control">
+                                    <option value="">All</option>
+                                    <option value="Active">Active</option>
+                                    <option value="De-Active">De-Active</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addDrinkModal">
+                                Add Drink
+                            </button>
+                        </form>
+
+
                         <div class="table-responsive">
                             <c:if test="${param.success ne null}">
                                 <div class="alert alert-success" role="alert">
@@ -79,54 +146,127 @@
                                     Failed!
                                 </div>
                             </c:if>
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#addCategoryModal">Add Category</button>    
-                            <table id="category" class="table table-light table-striped table-bordered">
+
+                            <table id="drinkTable" class="table table-light table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>Drink ID</th>
+                                        <th>Drink Name</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
                                         <th>Category Name</th>
+                                        <th>Brand Name</th>
+                                        <th>Status</th>
+                                        <th>Image</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach var="category" items="${categories}">
+                                    <c:forEach var="drink" items="${drinkList}">
                                         <tr>
-                                            <td>${category.categoryID}</td>
-                                            <td>${category.categoryName}</td>
+                                            <td>${drink.drinkID}</td>
+                                            <td>${drink.drinkName}</td>
+                                            <td>${drink.price}</td>
+                                            <td>${drink.quantity}</td>
+                                            <td>${drink.drinkCategory.categoryName}</td>
+                                            <td>${drink.brand.brandName}</td>
+                                            <td>${drink.status}</td>
+                                            <td><img src="${drink.image}" alt="Drink Image" width="100" height="100"/></td>
                                             <td>
-                                                <button class="btn btn-info" data-toggle="modal" data-target="#updateCategoryModal" 
-                                                        data-id="${category.categoryID}" data-name="${category.categoryName}">Edit</button>
-                                                <form action="drink-category" method="post" style="display:inline-block;">
+                                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#editDrinkModal_${drink.drinkID}">Edit</button>
+                                                <form action="drinks" " method="post" style="display:inline-block;">
                                                     <input type="hidden" name="action" value="delete">
-                                                    <input type="hidden" name="id" value="${category.categoryID}">
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                    <input type="hidden" name="status" value="${drink.status == 'Active' ? 'De-Active' : 'Active'}">
+                                                    <input type="hidden" name="id" value="${drink.drinkID}">
+                                                    <c:if test="${drink.status == 'Active'}">
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </c:if>
+                                                    <c:if test="${drink.status == 'De-Active'}">
+                                                        <button type="submit" class="btn btn-success">Active</button>
+                                                    </c:if>
+
                                                 </form>
-                                                <!-- Update Category Modal -->
-                                                <div class="modal fade" id="updateCategoryModal" tabindex="-1" aria-labelledby="updateCategoryModalLabel" aria-hidden="true">
+                                                <!-- Drink Update Modal -->
+                                                <div class="modal fade" id="editDrinkModal_${drink.drinkID}" tabindex="-1" aria-labelledby="updateDrinkModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
-                                                            <form action="drink-category" method="post">
+                                                            <form action="drinks" method="POST">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title">Update Category</h5>
+                                                                    <h5 class="modal-title" id="addBuffetModalLabel">Add Buffet</h5>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <div class="form-group">
-                                                                        <label>Category Name</label>
-                                                                        <input type="text" id="categoryName" name="categoryName" value="${category.categoryName}" class="form-control" required>
+                                                                    <!-- Drink ID (hidden) -->
+                                                                    <input type="hidden" name="drinkID" value="${drink.drinkID}">
+                                                                    <input type="hidden" name="type" value="drink">
+                                                                    <input type="hidden" name="action" value="update">
+
+                                                                    <!-- Drink Name -->
+                                                                    <div class="mb-3">
+                                                                        <label for="drinkName" class="form-label">Drink Name</label>
+                                                                        <input type="text" class="form-control" name="drinkName" pattern=".*\S.*" title="Input cannot be only spaces" value="${drink.drinkName}" required>
+                                                                    </div>
+
+                                                                    <div class="mb-3">
+                                                                        <label for="image" class="form-label">Price</label>
+                                                                        <input type="text" class="form-control" name="price" min="1" value="${drink.price}" required>
+                                                                    </div>
+
+                                                                    <!-- Quantity -->
+                                                                    <div class="mb-3">
+                                                                        <label for="quantity" class="form-label">Quantity</label>
+                                                                        <input type="number" class="form-control" name="quantity" min="1" value="${drink.quantity}" required>
+                                                                    </div>
+
+                                                                    <div class="mb-3">
+                                                                        <label for="categoryId">Category:</label>
+                                                                        <select name="categoryId" class="form-control">
+                                                                            <c:forEach items="${drinkCategorys}" var="dc">
+                                                                                <option value="${dc.categoryID}" ${dc.categoryID == drink.categoryID? 'selected' : ''}>${dc.categoryName}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+
+                                                                    </div>
+
+                                                                    <div class="mb-3">
+                                                                        <label for="brandId">Brand:</label>
+                                                                        <select name="brandId" class="form-control">
+                                                                            <c:forEach items="${brands}" var="db">
+                                                                                <option value="${db.brandID}" ${db.brandID == drink.brandID? 'selected' : ''}>${db.brandName}</option>
+                                                                            </c:forEach>
+                                                                        </select>
+
+                                                                    </div>
+
+                                                                    <!-- Status -->
+                                                                    <div class="mb-3">
+                                                                        <label for="status" class="form-label">Status</label>
+                                                                        <select class="form-control" name="status" required>
+                                                                            <option value="Active" ${drink.status == 'Active' ? 'selected' : ''}>Active</option>
+                                                                            <option value="Deactive" ${drink.status == 'Deactive' ? 'selected' : ''}>De-Active</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <!-- Image URL -->
+                                                                    <div class="mb-3">
+                                                                        <label for="image" class="form-label">Image URL</label>
+                                                                        <input type="text" class="form-control" name="image" pattern=".*\S.*" title="Input cannot be only spaces" value="${drink.image}" required>
                                                                     </div>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <input type="hidden" name="action" value="update">
-                                                                    <input type="hidden" id="categoryId" name="id" value="${category.categoryID}">
-                                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                    <button type="submit" class="btn btn-primary">Update Drink</button>
                                                                 </div>
+                                                                <!-- Set action type -->
+                                                                <input type="hidden" name="action" value="update">
+                                                                <input type="hidden" name="type" value="drink">
                                                             </form>
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -167,14 +307,42 @@
                 $('.dataTables_scrollBody').css('height', ($(window).height() - 200));
             });
             $(document).ready(function () {
-                $('#category').DataTable({
-                    pageLength: 10,
+                var table = $('#drinkTable').DataTable({
+                    pageLength: 5,
                     lengthChange: false,
                     "sScrollY": ($(window).height() - 300)
                 });
+                $('#categoryFilter').on('change', function () {
+                    var categoryValue = $(this).val();
+                    table.column(4).search(categoryValue).draw(); // Adjust column index accordingly
+                });
+
+                // Event listener for status filter
+                $('#statusFilter').on('change', function () {
+                    var statusValue = $(this).val();
+
+                    // If "All" is selected, reset the search to show all statuses
+                    if (statusValue === "") {
+                        table.column(6).search('').draw(); // Clear search
+                    } else {
+                        // Custom search for exact match
+                        table.column(6).search('^' + statusValue + '$', true, false).draw();
+                    }
+                });
+                
+                // Event listener for status filter
+                $('#brandFilter').on('change', function () {
+                    var statusValue = $(this).val();
+
+                    // If "All" is selected, reset the search to show all statuses
+                    if (statusValue === "") {
+                        table.column(5).search('').draw(); // Clear search
+                    } else {
+                        // Custom search for exact match
+                        table.column(5).search('^' + statusValue + '$', true, false).draw();
+                    }
+                });
             });
-
-
         </script>
 
     </body>

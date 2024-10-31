@@ -47,15 +47,15 @@
                             <input type="hidden" name="action" value="add">
                             <div class="form-group">
                                 <label for="foodName">Food Name</label>
-                                <input type="text" class="form-control" id="foodName" name="foodName" required>
+                                <input type="text" class="form-control" id="foodName" pattern=".*\S.*" title="Input cannot be only spaces" name="foodName" required>
                             </div>
                             <div class="form-group">
                                 <label for="foodPrice">Food Price</label>
-                                <input type="number" class="form-control" id="foodPrice" name="foodPrice" required>
+                                <input type="number" class="form-control" min="1" id="foodPrice" name="foodPrice" required>
                             </div>
                             <div class="form-group">
                                 <label for="foodImage">Image URL</label>
-                                <input type="text" class="form-control" id="foodImage" name="foodImage" required>
+                                <input type="text" class="form-control" id="foodImage" pattern=".*\S.*" title="Input cannot be only spaces" name="foodImage" required>
                             </div>
                             <div class="form-group">
                                 <label for="category">Category:</label>
@@ -77,13 +77,35 @@
 
 
         <div class="container-fluid py-5 bg-secondary" >
-            
+
             <div class="row justify-content-center">
                 <div class="col-12 bg-dark d-flex align-items-center">
                     <div class="p-5 w-100">
                         <h5 class="section-title ff-secondary text-start text-primary fw-normal">Food List</h5>
                         <h1 class="text-white mb-4">Food List</h1>
 
+                        <form action="price-history" method="get" class="form-inline mb-4">
+                            <div class="form-group mr-3">
+                                <label for="categoryFilter">Category:</label>
+                                <select id="categoryFilter" class="form-control">
+                                    <option value="">All</option>
+                                    <c:forEach items="${foodCategorys}" var="fc">
+                                        <option value="${fc.categoryName}">${fc.categoryName}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="form-group mr-3">
+                                <label for="statusFilter">Status: </label>
+                                <select id="statusFilter" class="form-control">
+                                    <option value="">All</option>
+                                    <option value="Active">Active</option>
+                                    <option value="De-Active">De-Active</option>
+                                </select>
+                            </div>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFoodModal">
+                                Add Food
+                            </button>
+                        </form>
 
                         <div class="table-responsive">
                             <c:if test="${param.success ne null}">
@@ -96,9 +118,9 @@
                                     Failed!
                                 </div>
                             </c:if>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFoodModal">
-                                Add Food
-                            </button>
+
+
+
                             <table id="foodTable" class="table table-light table-striped table-bordered">
                                 <thead>
                                     <tr>
@@ -124,12 +146,12 @@
                                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#updateFoodModal_${food.foodID}">Edit</button>
                                                 <form action="foods" " method="post" style="display:inline-block;">
                                                     <input type="hidden" name="action" value="delete">
-                                                    <input type="hidden" name="status" value="${food.status == 'Active' ?  'Deactive' : 'Active'}">
+                                                    <input type="hidden" name="status" value="${food.status == 'Active' ?  'De-Active' : 'Active'}">
                                                     <input type="hidden" name="id" value="${food.foodID}">
                                                     <c:if test="${food.status == 'Active'}">
                                                         <button type="submit" class="btn btn-danger">De Active</button>
                                                     </c:if>
-                                                    <c:if test="${food.status == 'Deactive'}">
+                                                    <c:if test="${food.status == 'De-Active'}">
                                                         <button type="submit" class="btn btn-success">Active</button>
                                                     </c:if>
 
@@ -152,7 +174,7 @@
                                                                     <!-- Food Name -->
                                                                     <div class="mb-3">
                                                                         <label for="foodName" class="form-label">Food Name</label>
-                                                                        <input type="text" class="form-control" name="foodName" value="${food.foodName}"  required>
+                                                                        <input type="text" class="form-control" name="foodName" pattern=".*\S.*" title="Input cannot be only spaces" value="${food.foodName}"  required>
                                                                     </div>
 
                                                                     <!-- Category ID -->
@@ -177,13 +199,13 @@
                                                                     <!-- Price -->
                                                                     <div class="mb-3">
                                                                         <label for="price" class="form-label">Price</label>
-                                                                        <input type="text" class="form-control" name="price" value="${food.price}" pattern="\\d{1,}" title="Price must > 0" required>
+                                                                        <input type="text" class="form-control" name="price" value="${food.price}" min="1" required>
                                                                     </div>
 
                                                                     <!-- Image URL -->                          
                                                                     <div class="mb-3">
                                                                         <label for="image" class="form-label">Image URL</label>
-                                                                        <input type="text" class="form-control" name="image" value="${food.image}" required>
+                                                                        <input type="text" class="form-control" name="image" value="${food.image}" pattern=".*\S.*" title="Input cannot be only spaces" required>
                                                                     </div>
                                                                 </div>
                                                                 <div class="modal-footer">
@@ -237,11 +259,32 @@
                 $('.dataTables_scrollBody').css('height', ($(window).height() - 200));
             });
             $(document).ready(function () {
-                $('#foodTable').DataTable({
+                var table = $('#foodTable').DataTable({
                     pageLength: 5,
                     "lengthChange": false,
                     "sScrollY": ($(window).height() - 300)
                 });
+
+                $('#categoryFilter').on('change', function () {
+                    var categoryValue = $(this).val();
+                    table.column(2).search(categoryValue).draw(); // Adjust column index accordingly
+                });
+
+                // Event listener for status filter
+                $('#statusFilter').on('change', function () {
+                    
+                    var statusValue = $(this).val();
+
+                    // If "All" is selected, reset the search to show all statuses
+                    if (statusValue === "") {
+                        table.column(4).search('').draw(); // Clear search
+                    } else {
+                        // Custom search for exact match
+                        table.column(4).search('^' + statusValue + '$', true, false).draw();
+                    }
+                    
+                });
+
             });
         </script>
     </body>
