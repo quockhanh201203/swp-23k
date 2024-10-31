@@ -18,7 +18,7 @@ public class Drink {
     private int quantity;
     private int categoryID;
     private int brandID;
-    private int status;
+    private String status;
     private String image;
     private double price;
     
@@ -57,7 +57,7 @@ public class Drink {
     // Constructor
     public Drink() {}
 
-    public Drink(int drinkID, String drinkName, double drinkPrice, int quantity, int categoryID, int brandID, int status, String image) {
+    public Drink(int drinkID, String drinkName, double drinkPrice, int quantity, int categoryID, int brandID, String status, String image) {
         this.drinkID = drinkID;
         this.drinkName = drinkName;
         this.drinkPrice = drinkPrice;
@@ -117,11 +117,11 @@ public class Drink {
         this.brandID = brandID;
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

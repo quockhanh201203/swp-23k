@@ -10,73 +10,48 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-        <style>
-            body {
-                background: rgb(99, 39, 120)
-            }
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="" name="keywords">
+        <meta content="" name="description">
+        <title>AdminProfile</title>
 
-            .form-control:focus {
-                box-shadow: none;
-                border-color: #BA68C8
-            }
+        <!-- Favicon -->
+        <link href="img/favicon.ico" rel="icon">
 
-            .profile-button {
-                background: rgb(99, 39, 120);
-                box-shadow: none;
-                border: none
-            }
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600&family=Nunito:wght@600;700;800&family=Pacifico&display=swap" rel="stylesheet">
 
-            .profile-button:hover {
-                background: #682773
-            }
+        <!-- Icon Font Stylesheet -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
 
-            .profile-button:focus {
-                background: #682773;
-                box-shadow: none
-            }
+        <!-- Libraries Stylesheet -->
+        <link href="lib/animate/animate.min.css" rel="stylesheet">
+        <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <link href="lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
-            .profile-button:active {
-                background: #682773;
-                box-shadow: none
-            }
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
 
-            .back:hover {
-                color: #682773;
-                cursor: pointer
-            }
-
-            .labels {
-                font-size: 11px
-            }
-
-            .add-experience:hover {
-                background: #BA68C8;
-                color: #fff;
-                cursor: pointer;
-                border: solid 1px #BA68C8
-            }
-        </style>
-
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css"/>
+        <!-- Template Stylesheet -->
+        <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
-        <div class="container rounded bg-white mt-5 mb-5">
-            <div class="row">
-                <div class="col-md-3 border-right">
-                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg"><span class="font-weight-bold">Edogaru</span><span class="text-black-50">edogaru@mail.com.my</span><span> </span></div>
-                </div>
-                <div class="col-md-5 border-right">
-                    <div class="p-3 py-5">
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h4 class="text-right">Profile Settings</h4>
-                        </div>
-                        <form action="admin-profile" method="post">
+        <%@ include file="admin-header.jsp" %>
+        <%@ include file="loader.jsp" %>
+        <div class="container-xxl py-5 px-0 wow fadeInUp bg-darker bg-secondary" data-wow-delay="0.1s">
+            <div class="row g-0 justify-content-center">
+                <div class="col-md-6 bg-dark d-flex align-items-center">
+                    <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Customer</h5>
+                        <h1 class="text-white mb-4">Update Information</h1>
+                        <form action="profile" method="post">
                             <input type="hidden" name="action" value="updateProfile">
                             <input type="hidden" name="adminID" value="${admin.adminID}">
                             <div class="row mt-2">
-                                <div class="col-md-12"><label class="labels">Admin Name</label><input type="text" name="adminName" class="form-control" value="${admin.name}"></div>
+                                <div class="col-md-12"><label class="labels">Admin Name</label><input type="text" name="customerName" class="form-control" value="${admin.name}"></div>
                             </div>
                             <div class="row mt-3">
                                 <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text" class="form-control" name="phoneNumber" value="${admin.phoneNumber}"></div>
@@ -95,37 +70,25 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         </c:if>
-
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="p-3 py-5">
-                        <form action="admin-profile" method="post">
-                            <input type="hidden" name="action" value="changePassword">
-                            <input type="hidden" name="action" value="${customer.account.username}">
-                            <div class="d-flex justify-content-between align-items-center experience"><span>Account Information</span></div><br>
-                            <div class="col-md-12"><label class="labels">Username</label><input type="text" class="form-control" name="username"  value="${admin.account.username}" readonly></div> <br>
-                            <div class="col-md-12"><label class="labels">Password</label><input type="password" class="form-control" name="currentPassword" ></div>
-                            <div class="col-md-12"><label class="labels">New Password</label><input type="password" class="form-control" name="newPassword" value=""></div>
-                            <div class="col-md-12"><label class="labels">Confirm Password</label><input type="password" class="form-control" name="confirmNewPassword" value=""></div>
-                            <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Change Password</button></div>
-                        </form>
-                        <c:if test="${isSuccess ne null && isSuccess && type eq 'pass'}">
-                            <div class="alert alert-success alert-dismissible fade show mt-2" role="alert" id="mess">
-                                <strong>Update password success!</strong> You should check information above.
-                            </div>
-                        </c:if>
-                        <c:if test="${isSuccess ne null && !isSuccess && type eq 'pass'}">
-                            <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert" id="mess">
-                                <strong>Update password failed!</strong> You should check your network.
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        </c:if>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <%@ include file="footer.jsp" %>
+
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/wow/wow.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/waypoints/waypoints.min.js"></script>
+        <script src="lib/counterup/counterup.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="lib/tempusdominus/js/moment.min.js"></script>
+        <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+        <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
     </body>
 </html>

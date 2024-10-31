@@ -16,6 +16,9 @@ public class PriceHistory {
     private double price;
     private Date startDate;
     private Date endDate;
+    
+        public PriceHistory() {
+    }
 
     // Constructor
     public PriceHistory(int productId, double price, Date startDate, Date endDate) {

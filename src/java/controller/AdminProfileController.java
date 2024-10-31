@@ -31,7 +31,7 @@ public class AdminProfileController extends HttpServlet {
     throws ServletException, IOException {
         UserDAO userDAO = new UserDAO();
         Admin admin = userDAO.getFirstAdmin();
-        request.setAttribute("admin", admin);
+        request.setAttribute("admin", admin); //role 3 // staff: role2
         request.setAttribute("isSuccess", request.getParameter("status"));
         request.setAttribute("type", request.getParameter("type"));
         request.getRequestDispatcher("admin-profile.jsp").forward(request, response);

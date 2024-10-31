@@ -22,7 +22,6 @@ public class Food {
     private String Image;
     private int CategoryIDf;
     private String CategoryName;
-    private int status;
 
     public Food() {
 
@@ -30,11 +29,11 @@ public class Food {
     
     
     
-    public Food(int foodID, String foodName, int categoryID, int status, String image) {
+    public Food(int foodID, String foodName, int categoryID, String status, String image) {
         this.FoodID = foodID;
         this.FoodName = foodName;
         this.CategoryID = categoryID;
-        this.status = status;
+        this.Status = status;
         this.Image = image;
     }
 

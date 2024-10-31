@@ -69,7 +69,7 @@ public class DrinkManageController extends HttpServlet {
         double price = Double.parseDouble(request.getParameter("price"));
 
         // Create a Drink object and save it to the database
-        Drink drink = new Drink(0, drinkName, price, quantity, categoryId, brandID, 1, drinkImage);
+        Drink drink = new Drink(0, drinkName, price, quantity, categoryId, brandID, "Active", drinkImage);
         
         int drinkId = menuDAO.addDrink(drink); // Assume this method exists in your DAO
         Product product = new Product(0, 0, 0, drinkId, price);
@@ -89,18 +89,20 @@ public class DrinkManageController extends HttpServlet {
         double price = Double.parseDouble(request.getParameter("price"));
 
         // Update the existing drink in the database
-        Drink drink = new Drink(drinkId, drinkName, price, quantity, categoryId, brandID, 1, drinkImage);
+        Drink drink = new Drink(drinkId, drinkName, price, quantity, categoryId, brandID, "Active", drinkImage);
         menuDAO.updateDrink(drink); // Assume this method exists in your DAO
         
         Product product = new Product(0, 0, 0, drinkId, price);
-        int productID = menuDAO.insertProduct(product);
+        menuDAO.updateProduct(product);
+        menuDAO.getProductId(product);
+        int productID = product.getProductId();
         PriceHistory priceHistory = new PriceHistory(productID, price, null, null);
         menuDAO.insertPriceHistory(priceHistory);
     }
 
     private void deleteFood(HttpServletRequest request) {
          int drinkId = Integer.parseInt(request.getParameter("id"));// Assuming foodId is passed for updates
-        int status = Integer.parseInt(request.getParameter("status"));
+        String status = request.getParameter("status");
         Drink drink = new Drink();
         drink.setDrinkID(drinkId);
         drink.setStatus(status);

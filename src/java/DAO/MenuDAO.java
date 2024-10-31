@@ -162,7 +162,7 @@ public class MenuDAO extends DBContext {
                 drink.setQuantity(rs.getInt("Quantity"));
                 drink.setCategoryID(rs.getInt("CategoryID"));
                 drink.setBrandID(rs.getInt("BrandID"));
-                drink.setStatus(rs.getString("Status").equalsIgnoreCase("Active") ? 1 : 0);
+                drink.setStatus(rs.getString("Status"));
                 drink.setImage(rs.getString("Image"));
                 drinks.add(drink);
             }
@@ -174,7 +174,7 @@ public class MenuDAO extends DBContext {
 
     public List<Food> getAllFoods() {
         List<Food> foods = new ArrayList<>();
-        String query = "SELECT * FROM [Food]";
+        String query = "SELECT * FROM [Food] ORDER BY FoodID DESC";
 
         try (PreparedStatement ps = connection.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
             System.out.println(rs == null);
@@ -183,8 +183,8 @@ public class MenuDAO extends DBContext {
                 food.setFoodID(rs.getInt("FoodID"));
                 food.setFoodName(rs.getString("FoodName"));
                 food.setCategoryID(rs.getInt("CategoryID"));
-                food.setStatus(rs.getString("Status").equalsIgnoreCase("Active") ? 1 : 0);
-                food.setImage(rs.getString("Image")); 
+                food.setStatus(rs.getString("Status"));
+                food.setImage(rs.getString("Image"));
                 foods.add(food);
             }
         } catch (Exception e) {
@@ -346,7 +346,7 @@ public class MenuDAO extends DBContext {
             pstmt.setInt(2, drink.getQuantity());
             pstmt.setInt(3, drink.getCategoryID());
             pstmt.setInt(4, drink.getBrandID());
-            pstmt.setInt(5, drink.getStatus());
+            pstmt.setString(5, drink.getStatus());
             pstmt.setString(6, drink.getImage());
 
             // Execute the insert
@@ -375,7 +375,7 @@ public class MenuDAO extends DBContext {
             pstmt.setInt(2, drink.getQuantity());
             pstmt.setInt(3, drink.getCategoryID());
             pstmt.setInt(4, drink.getBrandID());
-            pstmt.setInt(5, drink.getStatus());
+            pstmt.setString(5, drink.getStatus());
             pstmt.setString(6, drink.getImage());
             pstmt.setInt(7, drink.getDrinkID()); // Set the DrinkID for the WHERE clause
 
@@ -394,7 +394,7 @@ public class MenuDAO extends DBContext {
             // Set parameters for the prepared statement
             pstmt.setString(1, food.getFoodName());
             pstmt.setInt(2, food.getCategoryID());
-            pstmt.setInt(3, food.getStatus());
+            pstmt.setString(3, food.getStatus());
             pstmt.setString(4, food.getImage());
 
             int affectedRows = pstmt.executeUpdate();
@@ -420,7 +420,7 @@ public class MenuDAO extends DBContext {
             // Set parameters for the prepared statement
             pstmt.setString(1, food.getFoodName());
             pstmt.setInt(2, food.getCategoryID());
-            pstmt.setInt(3, food.getStatus());
+            pstmt.setString(3, food.getStatus());
             pstmt.setString(4, food.getImage());
             pstmt.setInt(5, food.getFoodID()); // Set the FoodID for the WHERE clause
 
@@ -437,7 +437,7 @@ public class MenuDAO extends DBContext {
         try (
                 PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(2, food.getFoodID());
-            pstmt.setString(1, food.getStatus() == 1 ? "Active" : "Inactive"); // Set the FoodID for the WHERE clause
+            pstmt.setString(1, food.getStatus()); // Set the FoodID for the WHERE clause
 
             // Execute the update
             pstmt.executeUpdate();
@@ -452,7 +452,7 @@ public class MenuDAO extends DBContext {
         try (
                 PreparedStatement pstmt = connection.prepareStatement(sql)) {
             pstmt.setInt(2, drink.getDrinkID());
-            pstmt.setString(1, drink.getStatus() == 1 ? "Active" : "Inactive"); // Set the FoodID for the WHERE clause
+            pstmt.setString(1, drink.getStatus()); // Set the FoodID for the WHERE clause
 
             // Execute the update
             pstmt.executeUpdate();
@@ -503,6 +503,7 @@ public class MenuDAO extends DBContext {
     }
 
     public void insertPriceHistory(PriceHistory priceHistory) {
+        updatePriceHistory(priceHistory);
         String sql = "INSERT INTO Price_History (ProductID, Price, StartDate, EndDate) VALUES (?, ?, getDate(), null)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -515,6 +516,62 @@ public class MenuDAO extends DBContext {
             ps.executeUpdate();
         } catch (SQLException e) {
             System.out.println("insertPriceHistory: " + e.getMessage());
+        }
+    }
+
+    public List<PriceHistory> getPriceHistory(String startDate, String endDate) {
+        List<PriceHistory> priceHistoryList = new ArrayList<>();
+        String query = "SELECT TOP (1000) Price_HistoryID, ProductID, Price, StartDate, EndDate FROM dbo.Price_History WHERE 1=1 ";
+
+        // Add WHERE clause for date filtering
+        if (startDate != null && !startDate.isEmpty()) {
+            query += " AND StartDate >= ?";
+        }
+        if (endDate != null && !endDate.isEmpty()) {
+            query += " AND EndDate <= ?";
+        }
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+
+            if (startDate != null && !startDate.isEmpty()) {
+                statement.setDate(1, Date.valueOf(startDate));
+            }
+
+            if (endDate != null && !endDate.isEmpty()) {
+                statement.setDate(2, Date.valueOf(endDate));
+
+            }
+
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                PriceHistory ph = new PriceHistory(
+                        resultSet.getInt("ProductID"),
+                        resultSet.getDouble("Price"),
+                        resultSet.getDate("StartDate"),
+                        resultSet.getDate("EndDate")
+                );
+                ph.setPriceHistoryId(resultSet.getInt(1));
+                priceHistoryList.add(ph);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return priceHistoryList;
+    }
+
+    public void updatePriceHistory(PriceHistory priceHistory) {
+        String sql = "UPDATE Price_History set EndDate = GETDATE() WHERE productID = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+
+            // Set parameters from the PriceHistory object
+            ps.setInt(1, priceHistory.getProductId());
+
+            // Execute the insert
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("updatePriceHistory: " + e.getMessage());
         }
     }
 
@@ -558,6 +615,33 @@ public class MenuDAO extends DBContext {
 
         }
         return -1;
+    }
+
+    public void getProductId(Product product) {
+        String sql = "Select * FROM Product where 1=1 AND ";
+        if (product.getFoodId() != 0) {
+            sql += "FoodID = " + product.getFoodId();
+        }
+
+        if (product.getBuffetId() != 0) {
+            sql += "BuffetID = " + product.getBuffetId();
+        }
+
+        if (product.getDrinkID() != 0) {
+            sql += "DrinkID = " + product.getDrinkID();
+        }
+
+        System.out.println(sql);
+        try (PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            // Execute the insert
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                product.setProductId(rs.getInt(1));
+            }
+        } catch (SQLException e) {
+            System.out.println("getProductId: " + e.getMessage());
+
+        }
     }
 
     public int updateProduct(Product product) {
@@ -631,6 +715,86 @@ public class MenuDAO extends DBContext {
         }
 
         return price;
+    }
+
+    public List<Food> getFoodsByBuffetId(int buffetId) {
+        List<Food> foods = new ArrayList<>();
+        String query = "SELECT f.FoodID, f.FoodName, f.CategoryID, f.Status, f.Image "
+                + "FROM Buffet_Food bf JOIN Food f ON bf.FoodID = f.FoodID "
+                + "WHERE bf.BuffetID = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setInt(1, buffetId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Food food = new Food();
+                food.setFoodID(rs.getInt("FoodID"));
+                food.setFoodName(rs.getString("FoodName"));
+                food.setCategoryID(rs.getInt("CategoryID"));
+                food.setStatus(rs.getString("Status"));
+                food.setImage(rs.getString("Image"));
+                foods.add(food);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return foods;
+    }
+
+    public boolean addFoodToBuffet(int buffetId, int foodId) {
+        String query = "INSERT INTO Buffet_Food (BuffetID, FoodID) VALUES (?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setInt(1, buffetId);
+            ps.setInt(2, foodId);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;  // Return true if insertion was successful
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public List<Food> getFoodsNotInBuffet(int buffetId) {
+        List<Food> foods = new ArrayList<>();
+        String query = "SELECT f.FoodID, f.FoodName, f.CategoryID, f.Status, f.Image "
+                + "FROM Food f "
+                + "WHERE f.FoodID NOT IN (SELECT bf.FoodID FROM Buffet_Food bf WHERE bf.BuffetID = ?)";
+
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setInt(1, buffetId);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Food food = new Food();
+                food.setFoodID(rs.getInt("FoodID"));
+                food.setFoodName(rs.getString("FoodName"));
+                food.setCategoryID(rs.getInt("CategoryID"));
+                food.setStatus(rs.getString("Status"));
+                food.setImage(rs.getString("Image"));
+                foods.add(food);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return foods;
+    }
+
+    public boolean removeFoodFromBuffet(int buffetId, int foodId) {
+        String query = "DELETE FROM Buffet_Food WHERE BuffetID = ? AND FoodID = ?";
+        try (PreparedStatement ps = connection.prepareStatement(query)) {
+
+            ps.setInt(1, buffetId);
+            ps.setInt(2, foodId);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;  // Return true if the deletion was successful
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 }

@@ -93,7 +93,9 @@ public class BuffetManageController extends HttpServlet {
         menuDAO.updateBuffet(buffet); // Assume this method exists in your DAO
         
         Product product = new Product(0, 0, buffetId, 0, price);
-        int productID = menuDAO.insertProduct(product);
+        menuDAO.updateProduct(product);
+        menuDAO.getProductId(product);
+        int productID = product.getProductId();
         PriceHistory priceHistory = new PriceHistory(productID, price, null, null);
         menuDAO.insertPriceHistory(priceHistory);
     }

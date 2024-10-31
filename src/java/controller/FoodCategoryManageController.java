@@ -35,7 +35,7 @@ public class FoodCategoryManageController extends HttpServlet {
     throws ServletException, IOException {
         List<FoodCategory> categories = menuDAO.getAllFoodCategories();
         request.setAttribute("categories", categories);
-        request.getRequestDispatcher("food-category-food.jsp").forward(request, response);
+        request.getRequestDispatcher("food-category-manage.jsp").forward(request, response);
     } 
 
     @Override

@@ -52,7 +52,7 @@ public class FoodManageController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action = request.getParameter("action"); // "add" or "update"
+        String action = request.getParameter("action"); // "add" or "update" or "delete"
 
         if ("add".equals(action)) {
             addFood(request);
@@ -71,7 +71,7 @@ public class FoodManageController extends HttpServlet {
         int categoryId = Integer.parseInt(request.getParameter("categoryId"));
         double foodPrice = Double.parseDouble(request.getParameter("foodPrice"));
         // Create a Food object and save it to the database
-        Food food = new Food(0, foodName, categoryId, 1, foodImage);
+        Food food = new Food(0, foodName, categoryId, "Active", foodImage);
         int foodId = menuDAO.addFood(food); // Assume this method exists in your DAO
         Product product = new Product(0, foodId, 0, 0, foodPrice);
         int productID = menuDAO.insertProduct(product);
@@ -87,20 +87,24 @@ public class FoodManageController extends HttpServlet {
         double price = Double.parseDouble(request.getParameter("price"));
 
         // Update the existing food in the database
-        Food food = new Food(foodId, foodName, categoryId, 1, foodImage);
+        Food food = new Food(foodId, foodName, categoryId, "Active", foodImage);
         menuDAO.updateFood(food); // Assume this method exists in your DAO
         Product product = new Product(0, foodId, 0, 0, price);
-        int productID = menuDAO.insertProduct(product);
+        menuDAO.updateProduct(product);
+        menuDAO.getProductId(product);
+        int productID = product.getProductId();
+        System.out.println(productID);
         PriceHistory priceHistory = new PriceHistory(productID, price, null, null);
+        
         menuDAO.insertPriceHistory(priceHistory);
     }
 
     private void deleteFood(HttpServletRequest request) {
         int foodId = Integer.parseInt(request.getParameter("id")); // Assuming foodId is passed for updates
-        int status = Integer.parseInt(request.getParameter("status"));
+        String status = request.getParameter("status");
         Food food = new Food();
         food.setFoodID(foodId);
-        food.setStatus(status == 1? "Active" : "Inactive");
+        food.setStatus(status);
         menuDAO.deleteFood(food);
     }
 

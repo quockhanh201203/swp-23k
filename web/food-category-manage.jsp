@@ -26,11 +26,11 @@
         </style>
     </head>
     <body>
-        <!-- Add Category Modal -->
+
         <div class="modal fade" id="addCategoryModal" tabindex="-1" aria-labelledby="addCategoryModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="drink-category" method="post">
+                    <form action="food-category" method="post">
                         <div class="modal-header">
                             <h5 class="modal-title">Add Category</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -55,10 +55,6 @@
 
 
 
-
-
-
-
         <%@ include file="admin-header.jsp" %>
 
         <div class="container-fluid py-5 bg-secondary" >
@@ -66,8 +62,8 @@
             <div class="row justify-content-center">
                 <div class="col-12 bg-dark d-flex align-items-center">
                     <div class="p-5 w-100">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Drink Category</h5>
-                        <h1 class="text-white mb-4">Drink Category</h1>
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Food Category</h5>
+                        <h1 class="text-white mb-4">Food Category</h1>
                         <div class="table-responsive">
                             <c:if test="${param.success ne null}">
                                 <div class="alert alert-success" role="alert">
@@ -83,9 +79,9 @@
                             <table id="category" class="table table-light table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Category Name</th>
-                                        <th>Actions</th>
+                                        <th>Category ID</th>
+                                        <th>Food Name</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -96,7 +92,7 @@
                                             <td>
                                                 <button class="btn btn-info" data-toggle="modal" data-target="#updateCategoryModal" 
                                                         data-id="${category.categoryID}" data-name="${category.categoryName}">Edit</button>
-                                                <form action="drink-category" method="post" style="display:inline-block;">
+                                                <form action="food-category" method="post" style="display:inline-block;">
                                                     <input type="hidden" name="action" value="delete">
                                                     <input type="hidden" name="id" value="${category.categoryID}">
                                                     <button type="submit" class="btn btn-danger">Delete</button>
@@ -105,7 +101,7 @@
                                                 <div class="modal fade" id="updateCategoryModal" tabindex="-1" aria-labelledby="updateCategoryModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
-                                                            <form action="drink-category" method="post">
+                                                            <form action="food-category" method="post">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title">Update Category</h5>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -169,12 +165,10 @@
             $(document).ready(function () {
                 $('#category').DataTable({
                     pageLength: 10,
-                    lengthChange: false,
+                    "lengthChange": false,
                     "sScrollY": ($(window).height() - 300)
                 });
             });
-
-
         </script>
 
     </body>
