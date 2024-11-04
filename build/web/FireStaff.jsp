@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Staff Management</title>
+        <title>Quản lý nhân viên</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -30,13 +30,13 @@
                 <div class="col-md-6 bg-dark d-flex align-items-center">
                     <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
                         <h5 class="section-title ff-secondary text-start text-primary fw-normal">Account</h5>
-                        <h1 class="text-white mb-4">Fire Staff</h1>
+                        <h1 class="text-white mb-4">Sa thải</h1>
                         <form action="FireStaff" method="post">
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <div class="form-floating">
                                         <textarea class="form-control" id="reason" name="reason" placeholder="Reason for Firing" required></textarea>
-                                        <label for="reason">Reason for Firing</label>
+                                        <label for="reason">Lý do quyết định sa thải</label>
                                     </div>
                                 </div>
                                 <input type="hidden" name="staffID" value="${staffID}">
@@ -46,7 +46,7 @@
                                 <input type="hidden" name="sortColumn" value="${sortColumn}">
                                 <input type="hidden" name="sortOrder" value="${sortOrder}">
                                 <div class="col-12">
-                                    <button class="btn btn-danger w-100 py-3" type="submit">Fire Staff</button>
+                                    <button class="btn btn-danger w-100 py-3" type="submit">Sa thải</button>
                                 </div>
                             </div>
                         </form>
@@ -58,7 +58,6 @@
             </div>
         </div>
 
-        <%@ include file="footer.jsp" %>
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

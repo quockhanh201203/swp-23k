@@ -5,7 +5,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Staff Management</title>
+        <title>Quản lý ca làm</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -26,10 +26,10 @@
                     <div class="p-5 w-100">
                         <h5 class="section-title ff-secondary text-start text-primary fw-normal">
                             <a href="ShiftManage?week=${weekParam}&searchStaff=${searchStaff}" class="text-primary">
-                                Back to Shift Manage
+                                Quay lại lịch làm việc
                             </a>
                         </h5>
-                        <h1 class="text-white mb-4">Staff List</h1>
+                        <h1 class="text-white mb-4">Danh sách nhân viên</h1>
 
                         <!-- Search, Filter, Sort Form -->
                         <form action="AddStaffShift" method="get" class="mb-4">
@@ -38,7 +38,7 @@
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="search" name="search" placeholder="Search by staff name" value="${param.search}">
-                                        <label for="search">Search by Staff Name</label>
+                                        <label for="search">Tìm theo tên</label>
                                     </div>
                                 </div>
 
@@ -46,12 +46,12 @@
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <select class="form-control" id="sortColumn" name="sortColumn">
-                                            <option value="StaffName" ${param.sortColumn == 'StaffName' ? 'selected' : ''}>Staff Name</option>
-                                            <option value="PhoneNumber" ${param.sortColumn == 'PhoneNumber' ? 'selected' : ''}>Phone Number</option>
+                                            <option value="StaffName" ${param.sortColumn == 'StaffName' ? 'selected' : ''}>Tên</option>
+                                            <option value="PhoneNumber" ${param.sortColumn == 'PhoneNumber' ? 'selected' : ''}>Số điện thoại</option>
                                             <option value="Email" ${param.sortColumn == 'Email' ? 'selected' : ''}>Email</option>
-                                            <option value="Salary" ${param.sortColumn == 'Salary' ? 'selected' : ''}>Salary</option>
+                                            <option value="Salary" ${param.sortColumn == 'Salary' ? 'selected' : ''}>Lương cứng</option>
                                         </select>
-                                        <label for="sortColumn">Sort by</label>
+                                        <label for="sortColumn">Sắp xếp theo</label>
                                     </div>
                                 </div>
 
@@ -59,28 +59,27 @@
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <select class="form-control" id="sortOrder" name="sortOrder">
-                                            <option value="asc" ${param.sortOrder == 'asc' ? 'selected' : ''}>Ascending</option>
-                                            <option value="desc" ${param.sortOrder == 'desc' ? 'selected' : ''}>Descending</option>
+                                            <option value="asc" ${param.sortOrder == 'asc' ? 'selected' : ''}>Tăng dần</option>
+                                            <option value="desc" ${param.sortOrder == 'desc' ? 'selected' : ''}>Giảm dần</option>
                                         </select>
-                                        <label for="sortOrder">Sort Order</label>
+                                        <label for="sortOrder">Thứ tự</label>
                                     </div>
                                     <!-- Search Button -->
                                 </div>
                                 <div class="col-md-3">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Search & Filter</button>
+                                    <button class="btn btn-primary w-100 py-3" type="submit">Tìm và sắp xếp</button>
                                 </div>
                                 <div></div>
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <p class="text-white">Shift ID: ${shift.shiftID}</p>
-                                        <p class="text-white">Date: ${shift.weekDate}, ${shift.date}</p>
+                                        <p class="text-white">Ngày: ${shift.weekDate}, ${shift.date}</p>
                                         <p class="text-white">
                                             <c:choose>
                                                 <c:when test="${shift.dayTime == true}">
-                                                    Time : Day
+                                                    Ca : Ngày
                                                 </c:when>
                                                 <c:otherwise>
-                                                    Time : Night
+                                                    Ca : Đêm
                                                 </c:otherwise>
                                             </c:choose>
                                         </p>
@@ -88,11 +87,8 @@
                                     <div class="col-md-9">
                                         <c:forEach var="shift_staff" items="${shift.shift_staffs}">
                                             <div class="shift">
-                                                <span>${shift_staff.staff.staffName}</span>
-                                                <span style="color: ${shift_staff.status == 'absent' ? 'red' : 'green'};">
-                                                    ${shift_staff.status}
-                                                </span>
-                                                <span><a href="ShiftRemove?shiftID=${shift.shiftID}&staffID=${shift_staff.staff.staffID}&page=${i}&week=${param.week}&searchStaff=${param.searchStaff}" 
+                                                <span class="text-white">${shift_staff.staff.staffName}</span>
+                                                <span><a href="ShiftRemove?shiftID=${shift.shiftID}&staffID=${shift_staff.staff.staffID}&page=${i}&week=${param.week}&searchStaff=${param.searchStaff}&stafflistpage=yes" 
                                                          class="btn btn-danger" style="padding: 0.1rem 0.3rem; line-height: 1;"
                                                          onclick="return confirm('Are you sure you want to remove this staff member from the shift?');">
                                                         <i class="fas fa-times fa-2x"></i>
@@ -113,12 +109,12 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Staff Name</th>
-                                                <th>Phone Number</th>
+                                                <th>Tên </th>
+                                                <th>Số điện thoại</th>
                                                 <th>Email</th>
-                                                <th>Salary</th>
-                                                <th>New Account</th>
-                                                <th>Action</th>
+                                                <th>Lương cứng</th>
+                                                <th>Đã đổi mật khẩu</th>
+                                                <th>Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -139,10 +135,10 @@
                                                         </c:forEach>
                                                         <c:choose>
                                                             <c:when test="${staff.accountID == 0}">
-                                                                <p style="color:'red'">Staff Fired</p>
+                                                                <p class="text-danger">Nhân viên đã bị sa thải</p>
                                                             </c:when>
                                                             <c:when test="${isInShift == true}">
-                                                                <p style="color:'yellow'">Already in</p>
+                                                                <p class="text-success">Đã làm việc trong ca này</p>
                                                             </c:when>
                                                             <c:otherwise>
                                                                 <form action="AddStaffShift" method="post" style="display:inline;">
@@ -154,7 +150,7 @@
                                                                     <input type="hidden" name="search" value="${param.search}">
                                                                     <input type="hidden" name="sortColumn" value="${param.sortColumn}">
                                                                     <input type="hidden" name="sortOrder" value="${param.sortOrder}">
-                                                                    <button type="submit" class="btn btn-success btn-sm">Add</button>
+                                                                    <button type="submit" class="btn btn-success btn-sm">Thêm</button>
                                                                 </form>
                                                             </c:otherwise>
                                                         </c:choose>
@@ -173,19 +169,19 @@
                             <ul class="pagination justify-content-center">
                                 <c:if test="${currentPage > 1}">
                                     <li class="page-item">
-                                        <a class="page-link" href="AddStaffShift?page=${currentPage - 1}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}" aria-label="Previous">
+                                        <a class="page-link" href="AddStaffShift?shiftID=${shiftID}&page=${currentPage - 1}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
                                 </c:if>
                                 <c:forEach var="i" begin="1" end="${totalPages}">
                                     <li class="page-item ${currentPage == i ? 'active' : ''}">
-                                        <a class="page-link" href="AddStaffShift?page=${i}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}">${i}</a>
+                                        <a class="page-link" href="AddStaffShift?shiftID=${shiftID}&page=${i}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}">${i}</a>
                                     </li>
                                 </c:forEach>
                                 <c:if test="${currentPage < totalPages}">
                                     <li class="page-item">
-                                        <a class="page-link" href="AddStaffShift?page=${currentPage + 1}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}" aria-label="Next">
+                                        <a class="page-link" href="AddStaffShift?shiftID=${shiftID}&page=${currentPage + 1}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>
@@ -197,7 +193,6 @@
             </div>
         </div>
 
-        <%@ include file="footer.jsp" %>
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

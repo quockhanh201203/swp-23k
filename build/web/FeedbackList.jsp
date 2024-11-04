@@ -6,7 +6,7 @@
     <head>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <meta charset="utf-8">
-        <title>Feedback Management</title>
+        <title>Danh sách nhận xét</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -27,7 +27,7 @@
                 <div class="col-12 bg-dark d-flex align-items-center">
                     <div class="p-5 w-100">
                         <h5 class="section-title ff-secondary text-start text-primary fw-normal">Feedback List</h5>
-                        <h1 class="text-white mb-4">Customer Feedback</h1>
+                        <h1 class="text-white mb-4">Nhận xét</h1>
 
                         <!-- Search Form -->
                         <form action="FeedbackList" method="get" class="mb-4">
@@ -36,7 +36,7 @@
                                 <div class="col-md-4">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Search by Customer Name" value="${param.customerName}">
-                                        <label for="customerName">Search by Customer Name</label>
+                                        <label for="customerName">Tìm theo tên khách</label>
                                     </div>
                                 </div>
 
@@ -44,7 +44,7 @@
                                 <div class="col-md-4">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="feedbackNote" name="feedbackNote" placeholder="Search by Feedback Note" value="${param.feedbackNote}">
-                                        <label for="feedbackNote">Search by Feedback Note</label>
+                                        <label for="feedbackNote">Tìm theo nội dung</label>
                                     </div>
                                 </div>
 
@@ -52,13 +52,13 @@
                                 <div class="col-md-4 d-flex align-items-center">
                                     <div class="form-check form-switch">
                                         <input class="form-check-input" type="checkbox" id="hasResponse" name="hasResponse" ${param.hasResponse == 'on' ? 'checked' : ''}>
-                                        <label class="form-check-label text-white" for="hasResponse">Has Response</label>
+                                        <label class="form-check-label text-white" for="hasResponse">Đã phản hồi</label>
                                     </div>
                                 </div>
 
                                 <!-- Search Button -->
                                 <div class="col-md-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Search</button>
+                                    <button class="btn btn-primary w-100 py-3" type="submit">Tìm</button>
                                 </div>
                             </div>
                         </form>
@@ -73,8 +73,8 @@
                                     <table class="table table-dark table-striped table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Customer Name</th>
-                                                <th>Feedback Note</th>
+                                                <th>Tên khách</th>
+                                                <th>Nội dung nhận xét</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -88,7 +88,7 @@
                                                                 <c:when test="${fn:length(feedback.feedbackNote) > 100}">
                                                                     <!-- Display truncated text and the 'More' link -->
                                                                     ${fn:substring(feedback.feedbackNote, 0, 100)}...
-                                                                    <a href="#" class="more-link" data-fulltext="${feedback.feedbackNote}">More</a>
+                                                                    <a href="#" class="more-link" data-fulltext="${feedback.feedbackNote}">Xem thêm</a>
                                                                 </c:when>
                                                                 <c:otherwise>
                                                                     ${feedback.feedbackNote}
@@ -105,14 +105,14 @@
                                                             <c:choose>
                                                                 <c:when test="${feedback.responde != null && fn:length(feedback.responde.respondeNote) > 100}">
                                                                     <!-- Display truncated response and 'More' link -->
-                                                                    Responde : ${fn:substring(feedback.responde.respondeNote, 0, 100)}...
-                                                                    <a href="#" class="more-link" data-fulltext="${feedback.responde.respondeNote}">More</a>
+                                                                    Phản hồi : ${fn:substring(feedback.responde.respondeNote, 0, 100)}...
+                                                                    <a href="#" class="more-link" data-fulltext="${feedback.responde.respondeNote}">Xem thêm</a>
                                                                 </c:when>
                                                                 <c:when test="${feedback.responde != null}">
-                                                                    Responde : ${feedback.responde.respondeNote}
+                                                                    Nội dung phản hồi : ${feedback.responde.respondeNote}
                                                                 </c:when>
                                                                 <c:otherwise>
-                                                                    <a href="AddResponde.jsp?feedbackId=${feedback.feedbackID}" class="btn btn-primary">Add Response</a>
+                                                                    <a href="AddResponde.jsp?feedbackId=${feedback.feedbackID}" class="btn btn-primary">Phản hồi</a>
                                                                 </c:otherwise>
                                                             </c:choose>
                                                         </span>
@@ -125,6 +125,31 @@
                                 </div>
                             </c:otherwise>
                         </c:choose>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                <c:if test="${currentPage > 1}">
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=${currentPage - 1}&customerName=${param.customerName}&feedbackNote=${param.feedbackNote}&hasResponse=${param.hasResponse}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                </c:if>
+
+                                <c:forEach var="i" begin="1" end="${totalPages}">
+                                    <li class="page-item ${currentPage == i ? 'active' : ''}">
+                                        <a class="page-link" href="?page=${i}&customerName=${param.customerName}&feedbackNote=${param.feedbackNote}&hasResponse=${param.hasResponse}">${i}</a>
+                                    </li>
+                                </c:forEach>
+
+                                <c:if test="${currentPage < totalPages}">
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=${currentPage + 1}&customerName=${param.customerName}&feedbackNote=${param.feedbackNote}&hasResponse=${param.hasResponse}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span> 
+                                        </a>
+                                    </li>
+                                </c:if>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>

@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Restoran - Bootstrap Restaurant Template</title>
+        <title>Quên mật khẩu</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -39,7 +39,6 @@
     </head>
     <body>
         <%@ include file="header.jsp" %>
-        <%@ include file="loader.jsp" %>
 
 
 
@@ -47,9 +46,9 @@
             <div class="row g-0 justify-content-center">
                 <div class="col-md-6 bg-dark d-flex align-items-center">
                     <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal"><a href="Login.jsp">back</a></h5>
-                        <h1 class="text-white mb-4">Reset Password</h1>
-                        <p class="text-white mb-4">Please enter your email</p>
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal"><a href="Login.jsp">Quay lại</a></h5>
+                        <h1 class="text-white mb-4">Đặt lại mật khẩu</h1>
+                        <p class="text-white mb-4">Xin vui lòng điền email</p>
                         <form action="ForgotPassword" method="post">
                             <div class="row g-3">
                                 <div class="col-md-12">
@@ -58,7 +57,7 @@
                                         <label for="email">Email</label>
                                     </div>
                                     <div class="col-12">
-                                        <button class="btn btn-primary w-100 py-3" type="submit">Reset Password</button>
+                                        <button class="btn btn-primary w-100 py-3" type="submit">Đặt lại mật khẩu</button>
                                     </div>
                                 </div>
                             </div>
@@ -72,9 +71,6 @@
             </div>
         </div>
 
-
-
-        <%@ include file="footer.jsp" %>
 
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Staff Management</title>
+        <title>Quản Lý Nhân Viên</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -25,7 +25,7 @@
                 <div class="col-12 bg-dark d-flex align-items-center">
                     <div class="p-5 w-100">
                         <h5 class="section-title ff-secondary text-start text-primary fw-normal">Staff List</h5>
-                        <h1 class="text-white mb-4">Browse Our Staff</h1>
+                        <h1 class="text-white mb-4">Danh sách nhân viên</h1>
 
                         <!-- Search, Filter, Sort Form -->
                         <form action="StaffManage" method="get" class="mb-4">
@@ -34,7 +34,7 @@
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="search" name="search" placeholder="Search by staff name" value="${param.search}">
-                                        <label for="search">Search by Staff Name</label>
+                                        <label for="search">Tìm theo tên</label>
                                     </div>
                                 </div>
 
@@ -42,12 +42,12 @@
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <select class="form-control" id="sortColumn" name="sortColumn">
-                                            <option value="StaffName" ${param.sortColumn == 'StaffName' ? 'selected' : ''}>Staff Name</option>
-                                            <option value="PhoneNumber" ${param.sortColumn == 'PhoneNumber' ? 'selected' : ''}>Phone Number</option>
+                                            <option value="StaffName" ${param.sortColumn == 'StaffName' ? 'selected' : ''}>Tên</option>
+                                            <option value="PhoneNumber" ${param.sortColumn == 'PhoneNumber' ? 'selected' : ''}>Số điện thoại</option>
                                             <option value="Email" ${param.sortColumn == 'Email' ? 'selected' : ''}>Email</option>
-                                            <option value="Salary" ${param.sortColumn == 'Salary' ? 'selected' : ''}>Salary</option>
+                                            <option value="Salary" ${param.sortColumn == 'Salary' ? 'selected' : ''}>Lương cứng</option>
                                         </select>
-                                        <label for="sortColumn">Sort by</label>
+                                        <label for="sortColumn">Sắp xếp theo</label>
                                     </div>
                                 </div>
 
@@ -55,22 +55,22 @@
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <select class="form-control" id="sortOrder" name="sortOrder">
-                                            <option value="asc" ${param.sortOrder == 'asc' ? 'selected' : ''}>Ascending</option>
-                                            <option value="desc" ${param.sortOrder == 'desc' ? 'selected' : ''}>Descending</option>
+                                            <option value="asc" ${param.sortOrder == 'asc' ? 'selected' : ''}>Tăng dần</option>
+                                            <option value="desc" ${param.sortOrder == 'desc' ? 'selected' : ''}>Dảm dần</option>
                                         </select>
-                                        <label for="sortOrder">Sort Order</label>
+                                        <label for="sortOrder">Sắp xếp theo</label>
                                     </div>
                                     <!-- Search Button -->
                                 </div>
 
                                 <div class="col-md-3">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Search & Filter</button>
+                                    <button class="btn btn-primary w-100 py-3" type="submit">Tìm và sắp xếp</button>
                                 </div>
                             </div>
                         </form>
 
                         <div class="mb-4 text-end">
-                            <a href="AddStaff" class="btn btn-success">Add New Staff</a>
+                            <a href="AddStaff" class="btn btn-success">Thêm nhân viên</a>
                         </div>
 
                         <!-- Staff List Table -->
@@ -84,12 +84,12 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Staff Name</th>
-                                                <th>Phone Number</th>
+                                                <th>Tên</th>
+                                                <th>Số điện thoại</th>
                                                 <th>Email</th>
-                                                <th>Salary</th>
-                                                <th>New Account</th>
-                                                <th>Action</th>
+                                                <th>Lương cứng</th>
+                                                <th>Tài khoản mới</th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -104,10 +104,11 @@
                                                     <td>
                                                         <c:choose>
                                                             <c:when test="${staff.accountID == 0}">
-                                                                <p style="color:'red'">Staff Fired</p>
+                                                                <p style="color:'red'">Nhân viên đã bị sa thải</p>
                                                             </c:when>
                                                             <c:otherwise>
-                                                                <a href="FireStaff?staffID=${staff.staffID}&page=${currentPage}&accountID=${staff.accountID}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}" class="btn btn-danger btn-sm">Fire</a>
+                                                                <a href="UpdateStaffSalary?staffID=${staff.staffID}&page=${currentPage}&accountID=${staff.accountID}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}" class="btn btn-success btn-sm">Cập nhật lương nhân viên</a>
+                                                                <a href="FireStaff?staffID=${staff.staffID}&page=${currentPage}&accountID=${staff.accountID}&search=${param.search}&sortColumn=${param.sortColumn}&sortOrder=${param.sortOrder}" class="btn btn-danger btn-sm">Sa thải</a>
                                                             </c:otherwise>
                                                         </c:choose>
                                                     </td>
@@ -147,8 +148,6 @@
                 </div>
             </div>
         </div>
-
-        <%@ include file="footer.jsp" %>
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

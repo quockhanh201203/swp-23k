@@ -100,7 +100,7 @@ public class AddReservaton extends HttpServlet {
             response.sendRedirect("error.jsp");
             return;
         }
-
+        request.setAttribute("myreservation", request.getAttribute("myreservation"));
         request.setAttribute("tableList", tables);
         request.getRequestDispatcher("AddReservation.jsp").forward(request, response);
     }

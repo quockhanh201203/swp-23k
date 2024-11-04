@@ -5,7 +5,7 @@
 
 package controller;
 
-import DAO.ShiftDAO;
+import DAO.ReservationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -18,8 +18,8 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author ADMIN
  */
-@WebServlet(name="ShiftRemove", urlPatterns={"/ShiftRemove"})
-public class ShiftRemove extends HttpServlet {
+@WebServlet(name="UpdateReservationStatus", urlPatterns={"/UpdateReservationStatus"})
+public class UpdateReservationStatus extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -36,10 +36,10 @@ public class ShiftRemove extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ShiftRemove</title>");  
+            out.println("<title>Servlet UpdateReservationStatus</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ShiftRemove at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet UpdateReservationStatus at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -56,33 +56,53 @@ public class ShiftRemove extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        ShiftDAO sd = new ShiftDAO();
-        
-        // Get shiftID and staffID from the request parameters
-        String shiftID = request.getParameter("shiftID");
-        String staffID = request.getParameter("staffID");
-        String stafflistpage = request.getParameter("stafflistpage");
+        int reservationID = Integer.parseInt(request.getParameter("reservationID"));
+        String newStatus = request.getParameter("newstatus");
+
+        // Update reservation status in the database
+        ReservationDAO reservationDAO = new ReservationDAO();
+        reservationDAO.changeReservationStatus(reservationID, newStatus);
+
+        // Get all the query parameters to redirect back to the same page
+        String reservationDate = request.getParameter("reservationDate");
+        String reservationTime = request.getParameter("reservationTime");
+        String numberOfGuests = request.getParameter("numberOfGuests");
+        String status = request.getParameter("status");
+        String tableName = request.getParameter("tableName");
+        String customerName = request.getParameter("customerName");
+        String phoneNumber = request.getParameter("phoneNumber");
+        String email = request.getParameter("email");
         String page = request.getParameter("page");
+        String myreservation = request.getParameter("myreservation");
 
-        // Get the week and searchStaff parameters to pass them back to ShiftManage
-        String weekParam = request.getParameter("week");
-        String searchStaff = request.getParameter("searchStaff");
-
-        // Call the DAO to remove the staff from the shift
-        try {
-            sd.deleteShiftStaff(Integer.parseInt(shiftID), Integer.parseInt(staffID));
-        } catch (Exception e) {
-        }
-
-        // Redirect back to ShiftManage with the same parameters (week, searchStaff)
-        if(stafflistpage == null){
-            response.sendRedirect("ShiftManage?week=" + weekParam + "&searchStaff=" + searchStaff);
-            return;
+        if(myreservation == null){
+        // Build the redirect URL with all parameters
+        String redirectURL = "ReservationList?page=" + page +
+                "&reservationDate=" + reservationDate +
+                "&reservationTime=" + reservationTime +
+                "&numberOfGuests=" + numberOfGuests +
+                "&status=" + status +
+                "&tableName=" + tableName +
+                "&customerName=" + customerName +
+                "&phoneNumber=" + phoneNumber +
+                "&email=" + email;
+        response.sendRedirect(redirectURL);
+        return;
         }else{
-            response.sendRedirect("AddStaffShift?shiftID="+ shiftID +"&staffID=" + staffID +"&week=" + weekParam +"&searchStaff=" + searchStaff + "&page=" + page);
+            String redirectURL = "myReservation?page=" + page +
+                "&reservationDate=" + reservationDate +
+                "&reservationTime=" + reservationTime +
+                "&numberOfGuests=" + numberOfGuests +
+                "&status=" + status +
+                "&tableName=" + tableName +
+                "&customerName=" + customerName +
+                "&phoneNumber=" + phoneNumber +
+                "&email=" + email;
+            response.sendRedirect(redirectURL);
             return;
         }
-
+        // Redirect back to the reservation list
+       
     } 
 
     /** 

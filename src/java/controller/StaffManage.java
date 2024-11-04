@@ -80,8 +80,8 @@ public class StaffManage extends HttpServlet {
         // Fetch filtered, sorted, paginated staff list
         List<Staff> staffList = sd.findStaffByPage(page, recordsPerPage, search, sortColumn, sortOrder);
         //List<Staff> staffList = sd.findStaffByPage(page, 1, search, sortColumn, sortOrder);
-        int totalRecords = sd.getTotalPages(recordsPerPage, search);
-        int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
+        int totalPages = sd.getTotalPages(recordsPerPage, search);
+        //int totalPages = (int) Math.ceil((double) totalRecords / recordsPerPage);
 
         // Set attributes to pass to the JSP
         request.setAttribute("staffList", staffList);

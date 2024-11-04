@@ -68,13 +68,32 @@ public class FeedbackServlet extends HttpServlet {
         String hasResponseParam = request.getParameter("hasResponse");
         boolean onlyWithResponse = hasResponseParam != null && hasResponseParam.equals("on");
 
-        // Call the searchFeedback function to retrieve the filtered list
+        // Get pagination parameters
+        int page = 1;
+        try{
+            page = Integer.parseInt(request.getParameter("page")); 
+        }catch(Exception e){
+            
+        }
+                
+        int pageSize = 10; // Number of items per page
+        int offset = (page - 1) * pageSize;
+
+        // Call the searchFeedback function
         FeedbackDAO fbd = new FeedbackDAO();
-        List<Feedback> feedbackList = fbd.searchFeedback(customerName, feedbackNote, onlyWithResponse);
+        List<Feedback> feedbackList = fbd.searchFeedback(customerName, feedbackNote, onlyWithResponse, offset, pageSize);
+
         // Set the result in request attribute
         request.setAttribute("feedbackList", feedbackList);
-        request.getRequestDispatcher("FeedbackList.jsp").forward(request, response);
+        request.setAttribute("currentPage", page);
+        request.setAttribute("pageSize", pageSize);
 
+        // Calculate total pages (you should implement a method in FeedbackDAO to get count)
+        int totalFeedbackCount = fbd.getFeedbackCount(customerName, feedbackNote, onlyWithResponse);
+        int totalPages = (int) Math.ceil((double) totalFeedbackCount / pageSize);
+        request.setAttribute("totalPages", totalPages);
+
+        request.getRequestDispatcher("FeedbackList.jsp").forward(request, response);
     }
 
     /**

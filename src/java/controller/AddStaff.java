@@ -85,12 +85,12 @@ public class AddStaff extends HttpServlet {
         staff.setNewAccount(true);
 
         // Add staff to the database
-        boolean success = sd.addStaff(staffName,phoneNumber,email,salary);
+        String message = sd.addStaff(staffName,phoneNumber,email,salary);
         
-        if (success) {
-            request.setAttribute("message", "Staff added successfully!");
+        if (message.equals("Success")) {
+            request.setAttribute("Smessage", "Thêm nhân viên thành công!");
         } else {
-            request.setAttribute("message", "Failed to add staff. Please try again.");
+            request.setAttribute("Emessage", message);
         }
         
         // Redirect back to the Add Staff page with the message

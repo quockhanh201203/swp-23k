@@ -6,77 +6,77 @@
     <head>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <meta charset="utf-8">
-        <title>Feedback Management</title>
+        <title>Quản lý Phản hồi</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
 
-        <!-- Libraries Stylesheet -->
+        <!-- Thư viện Stylesheet -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
 
-        <!-- Customized Bootstrap Stylesheet -->
+        <!-- Stylesheet Bootstrap tùy chỉnh -->
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
 
         <%@ include file="header.jsp" %>
 
-        <!-- Feedback List Container -->
+        <!-- Container Danh sách Phản hồi -->
         <div class="container-fluid py-5 bg-secondary">
             <div class="row justify-content-center">
                 <div class="col-12 bg-dark d-flex align-items-center">
                     <div class="p-5 w-100">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Feedback List</h5>
-                        <h1 class="text-white mb-4">Your Feedback</h1>
-                        <a href="AddFeedback.jsp" class="btn btn-primary">Add New FeedBack</a>
-                        <!-- Feedback List Table -->
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Danh sách Phản hồi</h5>
+                        <h1 class="text-white mb-4">Phản hồi của bạn</h1>
+                        <a href="AddFeedback.jsp" class="btn btn-primary">Thêm Phản hồi Mới</a>
+                        <!-- Bảng Danh sách Phản hồi -->
                         <c:choose>
                             <c:when test="${empty feedbackList}">
-                                <div class="alert alert-warning text-center">No Feedback Available</div>
+                                <div class="alert alert-warning text-center">Không có phản hồi nào</div>
                             </c:when>
                             <c:otherwise>
                                 <div class="table-responsive">
                                     <table class="table table-dark table-striped table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Feedback Note</th>
+                                                <th>Ghi chú Phản hồi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <c:forEach var="feedback" items="${feedbackList}">
-                                                <!-- First Row: Customer Name and Feedback Note -->
+                                                <!-- Hàng đầu tiên: Tên khách hàng và Ghi chú Phản hồi -->
                                                 <tr>
                                                     <td>
                                                         <span class="limited-text" data-truncated="${fn:substring(feedback.feedbackNote, 0, 100)}">
                                                             <c:choose>
                                                                 <c:when test="${fn:length(feedback.feedbackNote) > 100}">
-                                                                    <!-- Display truncated text and the 'More' link -->
-                                                                    Your Feed Back : ${fn:substring(feedback.feedbackNote, 0, 100)}...
-                                                                    <a href="#" class="more-link" data-fulltext="${feedback.feedbackNote}">More</a>
+                                                                    <!-- Hiển thị văn bản rút gọn và liên kết 'Xem thêm' -->
+                                                                    Phản hồi của bạn: ${fn:substring(feedback.feedbackNote, 0, 100)}...
+                                                                    <a href="#" class="more-link" data-fulltext="${feedback.feedbackNote}">Xem thêm</a>
                                                                 </c:when>
                                                                 <c:otherwise>
-                                                                    Your Feed Back : ${feedback.feedbackNote}
+                                                                    Phản hồi của bạn: ${feedback.feedbackNote}
                                                                 </c:otherwise>
                                                             </c:choose>
                                                         </span>
                                                     </td>
                                                 </tr>
 
-                                                <!-- Second Row: Response Note -->
+                                                <!-- Hàng thứ hai: Ghi chú Phản hồi -->
                                                 <tr>
                                                     <td>
                                                         <span class="limited-text" data-truncated="${fn:substring(feedback.responde.respondeNote, 0, 100)}">
                                                             <c:choose>
                                                                 <c:when test="${feedback.responde != null && fn:length(feedback.responde.respondeNote) > 100}">
-                                                                    <!-- Display truncated response and 'More' link -->
-                                                                    Responde : ${fn:substring(feedback.responde.respondeNote, 0, 100)}...
-                                                                    <a href="#" class="more-link" data-fulltext="${feedback.responde.respondeNote}">More</a>
+                                                                    <!-- Hiển thị văn bản phản hồi rút gọn và liên kết 'Xem thêm' -->
+                                                                    Phản hồi: ${fn:substring(feedback.responde.respondeNote, 0, 100)}...
+                                                                    <a href="#" class="more-link" data-fulltext="${feedback.responde.respondeNote}">Xem thêm</a>
                                                                 </c:when>
                                                                 <c:when test="${feedback.responde != null}">
-                                                                    Responde : ${feedback.responde.respondeNote}
+                                                                    Phản hồi: ${feedback.responde.respondeNote}
                                                                 </c:when>
                                                                 <c:otherwise>
-                                                                    The restaurant haven't responde yet
+                                                                    Nhà hàng chưa có phản hồi
                                                                 </c:otherwise>
                                                             </c:choose>
                                                         </span>
@@ -97,32 +97,30 @@
         <div id="responsePopup" class="modal" style="display: none;">
             <div class="modal-content">
                 <span class="close" id="closePopup">&times;</span>
-                <h2>Add Response</h2>
-                <textarea id="responseText" rows="4" cols="50" placeholder="Type your response here..."></textarea>
+                <h2>Thêm Phản hồi</h2>
+                <textarea id="responseText" rows="4" cols="50" placeholder="Nhập phản hồi của bạn ở đây..."></textarea>
                 <br />
-                <button id="submitResponse" class="btn btn-success">Submit</button>
+                <button id="submitResponse" class="btn btn-success">Gửi</button>
             </div>
         </div>
-
-        <%@ include file="footer.jsp" %>
-        <!-- JavaScript Libraries -->
+        <!-- Thư viện JavaScript -->
         <script>
             $(document).ready(function () {
-                // Handle 'More' link clicks
+                // Xử lý khi nhấn vào liên kết 'Xem thêm'
                 $(document).on('click', '.more-link', function (event) {
-                    event.preventDefault();  // Prevent default link behavior
+                    event.preventDefault();  // Ngăn hành vi mặc định của liên kết
 
-                    var parentSpan = $(this).closest('span');  // Get the parent <span> element
-                    var fullText = $(this).attr('data-fulltext');  // Full text stored in the data-fulltext attribute
-                    var truncatedText = parentSpan.attr('data-truncated');  // Truncated text stored in the data-truncated attribute
+                    var parentSpan = $(this).closest('span');  // Lấy phần tử <span> cha
+                    var fullText = $(this).attr('data-fulltext');  // Văn bản đầy đủ được lưu trong thuộc tính data-fulltext
+                    var truncatedText = parentSpan.attr('data-truncated');  // Văn bản rút gọn được lưu trong thuộc tính data-truncated
 
-                    // Check if the text is currently truncated or expanded
-                    if ($(this).text() === "More") {
-                        // If "More" is clicked, expand the text
-                        parentSpan.html(fullText + ' <a href="#" class="more-link" data-fulltext="' + fullText + '">Less</a>');
+                    // Kiểm tra xem văn bản hiện đang bị rút gọn hay đã mở rộng
+                    if ($(this).text() === "Xem thêm") {
+                        // Nếu nhấn vào "Xem thêm", mở rộng văn bản
+                        parentSpan.html(fullText + ' <a href="#" class="more-link" data-fulltext="' + fullText + '">Thu gọn</a>');
                     } else {
-                        // If "Less" is clicked, collapse the text
-                        parentSpan.html(truncatedText + '... <a href="#" class="more-link" data-fulltext="' + fullText + '">More</a>');
+                        // Nếu nhấn vào "Thu gọn", thu gọn văn bản
+                        parentSpan.html(truncatedText + '... <a href="#" class="more-link" data-fulltext="' + fullText + '">Xem thêm</a>');
                     }
                 });
             });
@@ -141,7 +139,7 @@
         <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
         <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-        <!-- Template Javascript -->
+        <!-- Javascript của Mẫu -->
         <script src="js/main.js"></script>
     </body>
 </html>

@@ -115,6 +115,37 @@ public class StaffDAO extends DBContext {
 
         return staff; // Return the Staff object (null if not found)
     }
+    
+    public Staff findStaffByStaffID(int staffID) {
+        Staff staff = null; // To hold the result
+
+        String sql = """
+        SELECT StaffID, StaffName, PhoneNumber, Email, Salary, NewAccount, AccountID
+        FROM Staff
+        WHERE StaffID = ?
+    """;
+
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, staffID); // Set AccountID parameter
+
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    staff = new Staff();
+                    staff.setStaffID(rs.getInt("StaffID"));
+                    staff.setStaffName(rs.getString("StaffName"));
+                    staff.setPhoneNumber(rs.getString("PhoneNumber"));
+                    staff.setEmail(rs.getString("Email"));
+                    staff.setSalary(rs.getInt("Salary"));
+                    staff.setNewAccount(rs.getBoolean("NewAccount"));
+                    staff.setAccountID(rs.getInt("AccountID"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return staff; // Return the Staff object (null if not found)
+    }
 
     public static void main(String[] args) {
         StaffDAO sd = new StaffDAO();
@@ -160,15 +191,30 @@ public class StaffDAO extends DBContext {
         return totalPages;
     }
 
-    public boolean addStaff(String StaffName, String PhoneNumber, String Email, int Salary) {
+    public String addStaff(String StaffName, String PhoneNumber, String Email, int Salary) {
+        // Initialize the utility classes
         RandomGenerate rd = new RandomGenerate();
         PasswordUtil pw = new PasswordUtil();
         EmailUtility eu = new EmailUtility();
 
+        // Validation for email format
+        if (!Email.matches("^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")) {
+            return "Định dạng email không hợp lệ.";
+        }
+
+        // Validation for phone number format (e.g., 10-11 digits)
+        if (!PhoneNumber.matches("^\\d{10,11}$")) {
+            return "Số điện thoại không hợp lệ. Số điện thoại chỉ nên chứa chữ số và có độ dài từ 10 đến 11 ký tự.";
+        }
+
+        // Validation for salary (e.g., ensure salary is greater than 0)
+        if (Salary <= 0) {
+            return "Lương phải lớn hơn 0.";
+        }
+
         String query = "INSERT INTO Staff (StaffName, PhoneNumber, Email, Salary, NewAccount, AccountID) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
             String[] EmailCut = Email.split("@");
             String username = EmailCut[0];
             String password = rd.generateRandomString(6);
@@ -184,6 +230,7 @@ public class StaffDAO extends DBContext {
             try (ResultSet generatedKeys = accountStatement.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     accountID = generatedKeys.getInt(1); // Assuming the first column is the primary key
+
                     // Set parameters for the SQL query
                     preparedStatement.setString(1, StaffName);
                     preparedStatement.setString(2, PhoneNumber);
@@ -192,10 +239,11 @@ public class StaffDAO extends DBContext {
                     preparedStatement.setBoolean(5, true);
                     preparedStatement.setInt(6, accountID);
 
+                    // Email content
                     String note = """
-                            <div>Chào mừng bạn đến với đội ngũ của nhà hàng 5 Anh Lực!</div>
-                            <div>Chúng tôi rất vui mừng khi bạn gia nhập và mong muốn được làm việc cùng bạn.</div>
-                            <div>Dưới đây là thông tin tài khoản nhân viên của bạn, mà bạn sẽ sử dụng để truy cập vào cổng thông tin nhân viên và các hệ thống nội bộ khác.</div>""";
+                    <div>Chào mừng bạn đến với đội ngũ của nhà hàng 5 Anh Lực!</div>
+                    <div>Chúng tôi rất vui mừng khi bạn gia nhập và mong muốn được làm việc cùng bạn.</div>
+                    <div>Dưới đây là thông tin tài khoản nhân viên của bạn, mà bạn sẽ sử dụng để truy cập vào cổng thông tin nhân viên và các hệ thống nội bộ khác.</div>""";
                     note += "<div> Tên tài khoản :" + username + "</div>";
                     note += "<div> Mật khẩu :" + password + "</div>";
                     note += "<div> Vui lòng sử dụng mật khẩu tạm thời này để đăng nhập lần đầu và thay đổi thành mật khẩu an toàn của riêng bạn.</div>";
@@ -207,18 +255,44 @@ public class StaffDAO extends DBContext {
                     int rowsAffectedS = preparedStatement.executeUpdate();
 
                     if (affectedRowsA == 0 || rowsAffectedS == 0) {
-                        return false;
+                        return "Thêm nhân viên thất bại.";
                     } else {
-                        return true;
+                        return "Success";
                     }
                 } else {
-                    return false;
+                    return "Tạo tài khoản cho nhân viên thất bại.";
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return "Đã xảy ra lỗi: " + e.getMessage();
+        }
+    }
+
+    public String updateStaffSalary(int StaffID, int newSalary) {
+        // Validation for salary (ensure salary is greater than 0)
+        if (newSalary <= 0) {
+            return "Lương phải lớn hơn 0.";
+        }
+
+        String query = "UPDATE Staff SET Salary = ? WHERE StaffID = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            // Set parameters for the SQL query
+            preparedStatement.setInt(1, newSalary);
+            preparedStatement.setInt(2, StaffID);
+
+            // Execute the update query
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected == 0) {
+                return "Cập nhật lương thất bại. StaffID có thể không tồn tại.";
+            } else {
+                return "Success";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Đã xảy ra lỗi: " + e.getMessage();
         }
     }
 

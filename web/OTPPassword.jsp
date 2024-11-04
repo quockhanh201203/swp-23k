@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Restoran - Bootstrap Restaurant Template</title>
+        <title>5 Anh Lực</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -47,8 +47,8 @@
                 <div class="col-md-6 bg-dark d-flex align-items-center">
                     <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
                         <h5 class="section-title ff-secondary text-start text-primary fw-normal">Account</h5>
-                        <h1 class="text-white mb-4">Enter OTP</h1>
-                        <p class="text-white mb-4">Please enter the OTP sent to your email</p>
+                        <h1 class="text-white mb-4">Nhập OTP</h1>
+                        <p class="text-white mb-4">Hãy điền mã OTP đã được gửi đến email của bạn</p>
                         <form action="OTP" method="post"> 
                             <div class="row g-3">
                                 <div class="col-md-12">
@@ -57,7 +57,7 @@
                                         <label for="otp">OTP</label>
                                     </div>
                                     <div class="col-12">
-                                        <button class="btn btn-primary w-100 py-3" type="submit">Verify OTP</button>
+                                        <button class="btn btn-primary w-100 py-3" type="submit">Xác thực OTP</button>
                                     </div>
                                 </div>
                             </div>

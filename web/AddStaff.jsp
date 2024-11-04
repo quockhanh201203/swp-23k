@@ -46,22 +46,22 @@
             <div class="row g-0 justify-content-center">
                 <div class="col-md-6 bg-dark d-flex align-items-center">
                     <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Staff Management</h5>
-                        <h1 class="text-white mb-4">Add New Staff</h1>
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal"><a href="StaffManage">Quản lý nhân viên</a></h5>
+                        <h1 class="text-white mb-4">Thêm nhân viên</h1>
                         <form action="AddStaff" method="post">
                             <div class="row g-3">
                                 <!-- Staff Name -->
                                 <div class="col-md-12">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="staffName" placeholder="Staff Name" name="staffName" required>
-                                        <label for="staffName">Staff Name</label>
+                                        <label for="staffName">Tên</label>
                                     </div>
                                 </div>
                                 <!-- Phone Number -->
                                 <div class="col-md-12">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="phoneNumber" placeholder="Phone Number" name="phoneNumber" required>
-                                        <label for="phoneNumber">Phone Number</label>
+                                        <label for="phoneNumber">Số điện thoại</label>
                                     </div>
                                 </div>
                                 <!-- Email -->
@@ -75,23 +75,24 @@
                                 <div class="col-md-12">
                                     <div class="form-floating">
                                         <input type="number" class="form-control" id="salary" placeholder="Salary" name="salary" required>
-                                        <label for="salary">Salary</label>
+                                        <label for="salary">Lương cứng</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Add Staff</button>
+                                    <button class="btn btn-primary w-100 py-3" type="submit">Thêm</button>
                                 </div>
                             </div>
                         </form>
-                        <c:if test="${not empty message}">
-                            <div class="message text-white">${message}</div>
+                        <c:if test="${not empty Emessage}">
+                            <div class="message text-danger">${Emessage}</div>
+                        </c:if>
+                        <c:if test="${not empty Smessage}">
+                            <div class="message text-success">${Smessage}</div>
                         </c:if>
                     </div>
                 </div>
             </div>
         </div>
-
-        <%@ include file="footer.jsp" %>
 
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

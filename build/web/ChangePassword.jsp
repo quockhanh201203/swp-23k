@@ -49,29 +49,29 @@
                 <div class="col-md-6 bg-dark d-flex align-items-center">
                     <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
                         <h5 class="section-title ff-secondary text-start text-primary fw-normal">Account</h5>
-                        <h1 class="text-white mb-4">Change Password</h1>
+                        <h1 class="text-white mb-4">Đổi mật khẩu</h1>
                         <form action="OTP" method="get">
                             <div class="row g-3">
                                 <div class="col-md-12">
                                     <div class="form-floating">
                                         <input type="password" class="form-control" id="oldPassword" placeholder="Old Password" name="oldPassword" required>
-                                        <label for="oldPassword">Old Password</label>
+                                        <label for="oldPassword">Mật khẩu cũ</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating">
                                         <input type="password" class="form-control" id="newPassword" placeholder="New Password" name="newPassword" required>
-                                        <label for="newPassword">New Password</label>
+                                        <label for="newPassword">Mật khẩu mới</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating">
                                         <input type="password" class="form-control" id="renewPassword" placeholder="Confirm New Password" name="renewPassword" required>
-                                        <label for="renewPassword">Confirm New Password</label>
+                                        <label for="renewPassword">Xác nhận mật khẩu mới</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Change Password</button>
+                                    <button class="btn btn-primary w-100 py-3" type="submit">Đổi mật khẩu</button>
                                 </div>
                             </div>
                         </form>
@@ -82,10 +82,6 @@
                 </div>
             </div>
         </div>
-
-
-
-        <%@ include file="footer.jsp" %>
 
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

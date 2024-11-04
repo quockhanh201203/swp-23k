@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Weekly Staff Shift Management</title>
+        <title>Quản Lý Ca Làm Việc Hàng Tuần</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -23,17 +23,17 @@
             <div class="row justify-content-center">
                 <div class="col-12 bg-dark d-flex align-items-center">
                     <div class="p-5 w-100">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Weekly Staff Shifts</h5>
-                        <h1 class="text-white mb-4">View Staff Shift Schedule</h1>
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Ca Làm Việc Hàng Tuần</h5>
+                        <h1 class="text-white mb-4">Lịch Ca Làm Việc Của Bạn</h1>
 
-                        <!-- Search and Filter Form -->
+                        <!-- Biểu Mẫu Tìm Kiếm và Lọc -->
                         <form action="myShift" method="get" class="mb-4">
                             <div class="row g-3">
-                                <!-- Week Filter -->
+                                <!-- Lọc Theo Tuần -->
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <input type="week" class="form-control" id="week" name="week" value="${param.week != null ? param.week : currentWeek}" onchange="this.form.submit()">
-                                        <label for="week">Select Week</label>
+                                        <label for="week">Chọn Tuần</label>
                                     </div>
                                 </div>
                             </div>
@@ -43,26 +43,26 @@
                                 <thead>
                                     <tr>
                                         <th>--</th>
-                                        <th>Monday</th>
-                                        <th>Tuesday</th>
-                                        <th>Wednesday</th>
-                                        <th>Thursday</th>
-                                        <th>Friday</th>
-                                        <th>Saturday</th>
-                                        <th>Sunday</th>
+                                        <th>Thứ Hai</th>
+                                        <th>Thứ Ba</th>
+                                        <th>Thứ Tư</th>
+                                        <th>Thứ Năm</th>
+                                        <th>Thứ Sáu</th>
+                                        <th>Thứ Bảy</th>
+                                        <th>Chủ Nhật</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
                                         <td>
-                                            Day
+                                            Ban Ngày
                                         </td>
                                         <c:forEach var="date" items="${dates}">
                                             <td>
                                                 <c:forEach var="shift" items="${shifts}">
                                                     <c:if test="${shift.date == date && shift.dayTime == true}">
                                                         <div class="shift">
-                                                            <p>Date: ${shift.date}</p>
+                                                            <p>Ngày: ${shift.date}</p>
                                                             <c:forEach var="shift_staff" items="${shift.shift_staffs}">
                                                                 <div class="shift">
                                                                     <span>${shift_staff.staff.staffName}</span>
@@ -80,14 +80,14 @@
 
                                     <tr>
                                         <td>
-                                            Night
+                                            Ban Đêm
                                         </td>
                                         <c:forEach var="date" items="${dates}">
                                             <td>
                                                 <c:forEach var="shift" items="${shifts}">
                                                     <c:if test="${shift.date == date && shift.dayTime == false}">
                                                         <div class="shift">
-                                                            <p>Date: ${shift.date}</p>
+                                                            <p>Ngày: ${shift.date}</p>
                                                             <c:forEach var="shift_staff" items="${shift.shift_staffs}">
                                                                 <div class="shift">
                                                                     <span>${shift_staff.staff.staffName}</span>
@@ -106,12 +106,12 @@
                             </table>
                         </div>
 
-                        <!-- Pagination -->
-                        <nav aria-label="Page navigation">
+                        <!-- Phân Trang -->
+                        <nav aria-label="Điều Hướng Trang">
                             <ul class="pagination justify-content-center">
                                 <c:if test="${currentPage > 1}">
                                     <li class="page-item">
-                                        <a class="page-link" href="ShiftManage?page=${currentPage - 1}&week=${param.week}&searchStaff=${param.searchStaff}" aria-label="Previous">
+                                        <a class="page-link" href="ShiftManage?page=${currentPage - 1}&week=${param.week}&searchStaff=${param.searchStaff}" aria-label="Trước">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </li>
@@ -123,7 +123,7 @@
                                 </c:forEach>
                                 <c:if test="${currentPage < totalPages}">
                                     <li class="page-item">
-                                        <a class="page-link" href="ShiftManage?page=${currentPage + 1}&week=${param.week}&searchStaff=${param.searchStaff}" aria-label="Next">
+                                        <a class="page-link" href="ShiftManage?page=${currentPage + 1}&week=${param.week}&searchStaff=${param.searchStaff}" aria-label="Tiếp">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </li>
@@ -135,7 +135,6 @@
             </div>
         </div>
 
-        <%@ include file="footer.jsp" %>
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

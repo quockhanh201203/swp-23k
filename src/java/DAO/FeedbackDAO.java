@@ -151,7 +151,7 @@ public class FeedbackDAO extends DBContext {
         return feedback;
     }
 
-    public List<Feedback> searchFeedback(String customerName, String feedbackNote, boolean onlyWithResponse) {
+    public List<Feedback> searchFeedback(String customerName, String feedbackNote, boolean onlyWithResponse, int offset, int limit) {
         List<Feedback> feedbackList = new ArrayList<>();
         StringBuilder query = new StringBuilder(
                 "SELECT f.FeedbackID, f.FeedbackNote, f.CustomerID, "
@@ -171,20 +171,26 @@ public class FeedbackDAO extends DBContext {
             query.append(" AND f.FeedbackNote LIKE ?");
         }
         if (onlyWithResponse) {
-            query.append(" AND r.RespondeID IS NOT NULL"); // Filter for feedback with a response
+            query.append(" AND r.RespondeID IS NOT NULL");
         }
+
+        // Add pagination support for SQL Server
+        query.append(" ORDER BY f.FeedbackID DESC OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
 
         try {
             statement = connection.prepareStatement(query.toString());
             int paramIndex = 1;
 
-            // Set parameters only if they are included in the query
             if (customerName != null && !customerName.isEmpty()) {
                 statement.setString(paramIndex++, "%" + customerName + "%");
             }
             if (feedbackNote != null && !feedbackNote.isEmpty()) {
                 statement.setString(paramIndex++, "%" + feedbackNote + "%");
             }
+
+            // Set pagination parameters
+            statement.setInt(paramIndex++, offset); // OFFSET
+            statement.setInt(paramIndex++, limit);  // FETCH NEXT
 
             resultSet = statement.executeQuery();
 
@@ -216,14 +222,49 @@ public class FeedbackDAO extends DBContext {
 
                 feedbackList.add(feedback);
             }
-            System.out.println(query);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            closeConnection();
         }
 
         return feedbackList;
+    }
+
+    public int getFeedbackCount(String customerName, String feedbackNote, boolean onlyWithResponse) {
+        int count = 0;
+        StringBuilder query = new StringBuilder("SELECT COUNT(*) FROM Feedback f JOIN Customer c ON f.CustomerID = c.CustomerID WHERE 1=1");
+
+        if (customerName != null && !customerName.isEmpty()) {
+            query.append(" AND c.CustomerName LIKE ?");
+        }
+        if (feedbackNote != null && !feedbackNote.isEmpty()) {
+            query.append(" AND f.FeedbackNote LIKE ?");
+        }
+        if (onlyWithResponse) {
+            query.append(" AND r.RespondeID IS NOT NULL");
+        }
+
+        try {
+            statement = connection.prepareStatement(query.toString());
+            int paramIndex = 1;
+
+            if (customerName != null && !customerName.isEmpty()) {
+                statement.setString(paramIndex++, "%" + customerName + "%");
+            }
+            if (feedbackNote != null && !feedbackNote.isEmpty()) {
+                statement.setString(paramIndex++, "%" + feedbackNote + "%");
+            }
+
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                count = resultSet.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        }
+
+        return count;
     }
 
     // Fetch responde based on feedback ID

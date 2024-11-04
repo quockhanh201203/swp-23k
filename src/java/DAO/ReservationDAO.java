@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import Model.*;
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 /**
  *
@@ -67,7 +68,8 @@ public class ReservationDAO extends DBContext {
         }
 
         int offset = (pageNumber - 1) * pageSize;
-        query.append(" ORDER BY r.ReservationDate, r.ReservationTime ");
+        //query.append(" ORDER BY r.ReservationDate, r.ReservationTime ");
+        query.append(" ORDER BY r.ReservationID ");
         query.append("OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
 
         try (PreparedStatement statement = connection.prepareStatement(query.toString())) {
@@ -149,7 +151,8 @@ public class ReservationDAO extends DBContext {
         }
 
         int offset = (pageNumber - 1) * pageSize;
-        query.append(" ORDER BY r.ReservationDate, r.ReservationTime ");
+        //query.append(" ORDER BY r.ReservationDate, r.ReservationTime ");
+        query.append(" ORDER BY r.ReservationID ");
         query.append("OFFSET ? ROWS FETCH NEXT ? ROWS ONLY");
 
         try (PreparedStatement statement = connection.prepareStatement(query.toString())) {
@@ -306,12 +309,16 @@ public class ReservationDAO extends DBContext {
 
     public String addReservation(TableReservation reservation) {
         String conflictMessage = "There is a reservation conflict for the same table within the time range.";
+        String validationError = validateReservation(reservation);
+        if (validationError != null) {
+            return validationError; // Return validation error message if any
+        }
 
         // SQL query to check for conflicting reservations (within 1 hour earlier or later) on the same day
         String conflictQuery = "SELECT COUNT(*) AS conflictCount FROM Table_Reservation "
                 + "WHERE TableID = ? AND ReservationDate = ? "
                 + "AND (CAST(ReservationDate AS DATETIME) + CAST(ReservationTime AS DATETIME) "
-                + "BETWEEN ? AND ?)"; // Ensure time checks for the same day
+                + "BETWEEN ? AND ?)";
 
         // SQL query to insert the reservation if no conflict
         String insertQuery = "INSERT INTO Table_Reservation (ReservationDate, ReservationTime, NumberOfGuests, CustomerID, TableID, Status, Notes) "
@@ -323,7 +330,7 @@ public class ReservationDAO extends DBContext {
             conflictStatement.setInt(1, reservation.getTableID());
             conflictStatement.setDate(2, reservation.getReservationDate());
 
-            // Set the time range (1 hour earlier and 1 hour later) as DATETIME
+            // Set the time range (1 hour earlier and 1 hour later) as TIMESTAMP
             Timestamp oneHourBefore = new Timestamp(reservation.getReservationDate().getTime()
                     + reservation.getReservationTime().getTime() - 3600000); // Subtract 1 hour
             Timestamp oneHourAfter = new Timestamp(reservation.getReservationDate().getTime()
@@ -334,7 +341,7 @@ public class ReservationDAO extends DBContext {
 
             ResultSet rs = conflictStatement.executeQuery();
             if (rs.next() && rs.getInt("conflictCount") > 0) {
-                return conflictMessage;  // Return conflict message if there is a time conflict
+                return conflictMessage; // Return conflict message if there is a time conflict
             }
 
             // If no conflict, proceed with insertion
@@ -356,10 +363,63 @@ public class ReservationDAO extends DBContext {
             // Execute the insertion
             insertStatement.executeUpdate();
             return "Reservation added successfully!";
-
         } catch (SQLException e) {
             e.printStackTrace();
             return "An error occurred while adding the reservation. Please try again.";
+        }
+    }
+
+// Validation method
+    private String validateReservation(TableReservation reservation) {
+        if (reservation == null) {
+            return "Reservation details cannot be null.";
+        }
+        if (reservation.getReservationDate() == null) {
+            return "Reservation date is required.";
+        }
+        if (reservation.getReservationTime() == null) {
+            return "Reservation time is required.";
+        }
+        if (reservation.getNumberOfGuests() <= 0) {
+            return "Number of guests must be greater than zero.";
+        }
+        if (reservation.getCustomerID() <= 0) {
+            return "Customer ID must be a valid positive integer.";
+        }
+        if (reservation.getTableID() <= 0) {
+            return "Table ID must be a valid positive integer.";
+        }
+        return null; // No validation errors
+    }
+
+    public String changeReservationStatus(int reservationId, String newStatus) {
+        // Valid status values
+        List<String> validStatuses = Arrays.asList("Pending", "Confirmed", "Cancelled", "Completed");
+
+        // Check if the new status is valid
+        if (!validStatuses.contains(newStatus)) {
+            return "Invalid status value. Status must be one of: " + String.join(", ", validStatuses);
+        }
+
+        // SQL query to update the status of the reservation
+        String updateQuery = "UPDATE Table_Reservation SET Status = ? WHERE ReservationID = ?";
+
+        try {
+            // Prepare the SQL statement
+            PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
+            updateStatement.setString(1, newStatus);
+            updateStatement.setInt(2, reservationId);
+
+            // Execute the update
+            int rowsAffected = updateStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                return "Reservation status updated successfully!";
+            } else {
+                return "No reservation found with the provided ID.";
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "An error occurred while updating the reservation status. Please try again.";
         }
     }
 

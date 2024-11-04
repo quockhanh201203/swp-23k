@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Reservation Management</title>
+        <title>Quản lý đặt bàn</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -24,8 +24,8 @@
             <div class="row justify-content-center">
                 <div class="col-12 bg-dark d-flex align-items-center">
                     <div class="p-5 w-100">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Reservation List</h5>
-                        <h1 class="text-white mb-4">Manage Reservations</h1>
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Quản lý đặt bàn</h5>
+                        <h1 class="text-white mb-4">Danh sách đặt bàn</h1>
 
                         <!-- Search, Filter, Sort Form -->
                         <form action="ReservationList" method="get" class="mb-4">
@@ -34,42 +34,42 @@
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <input type="date" class="form-control" id="reservationDate" name="reservationDate" value="${param.reservationDate}">
-                                        <label for="reservationDate">Reservation Date</label>
+                                        <label for="reservationDate">Ngày</label>
                                     </div>
                                 </div>
 
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <input type="number" class="form-control" id="numberOfGuests" name="numberOfGuests" placeholder="Guests" value="${param.numberOfGuests}">
-                                        <label for="numberOfGuests">Number of Guests</label>
+                                        <label for="numberOfGuests">Lượng khách</label>
                                     </div>
                                 </div>
 
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="status" name="status" placeholder="Status" value="${param.status}">
-                                        <label for="status">Status</label>
+                                        <label for="status">Trạng thái</label>
                                     </div>
                                 </div>
 
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="tableName" name="tableName" placeholder="Table Name" value="${param.tableName}">
-                                        <label for="tableName">Table Name</label>
+                                        <label for="tableName">Tên bàn</label>
                                     </div>
                                 </div>
 
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="customerName" name="customerName" placeholder="Customer Name" value="${param.customerName}">
-                                        <label for="customerName">Customer Name</label>
+                                        <label for="customerName">Tên người đặt</label>
                                     </div>
                                 </div>
 
                                 <div class="col-md-3">
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" value="${param.phoneNumber}">
-                                        <label for="phoneNumber">Phone Number</label>
+                                        <label for="phoneNumber">Số điện thoại</label>
                                     </div>
                                 </div>
 
@@ -82,13 +82,13 @@
 
                                 <!-- Search Button -->
                                 <div class="col-md-3">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Search & Filter</button>
+                                    <button class="btn btn-primary w-100 py-3" type="submit">Tìm</button>
                                 </div>
                             </div>
                         </form>
 
                         <div class="mb-4 text-end">
-                            <a href="AddReservation" class="btn btn-success">Add New Reservation</a>
+                            <a href="AddReservation?myreservation=no" class="btn btn-success">Thêm đặt bàn</a>
                         </div>
 
                         <!-- Reservation List Table -->
@@ -102,16 +102,16 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Reservation Date</th>
-                                                <th>Reservation Time</th>
-                                                <th>Guests</th>
-                                                <th>Status</th>
-                                                <th>Table Name</th>
-                                                <th>Customer Name</th>
-                                                <th>Phone Number</th>
+                                                <th>Ngày</th>
+                                                <th>Thời gian</th>
+                                                <th>Khách</th>
+                                                <th>Trạng thái</th>
+                                                <th>Tên bàn</th>
+                                                <th>Tên khách</th>
+                                                <th>Số điện thoại</th>
                                                 <th>Email</th>
-                                                <th>Notes</th>
-                                                <th>Action</th>
+                                                <th>Ghi chú</th>
+                                                <th>Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -128,7 +128,15 @@
                                                     <td>${reservation.customer.email}</td>
                                                     <td>${reservation.notes}</td>
                                                     <td>
-                                                        <a href="deleteReservation?reservationID=${reservation.reservationID}" class="btn btn-danger btn-sm">Cancel</a>
+                                                        <c:if test="${reservation.status != 'Confirmed'}">
+                                                            <a href="UpdateReservationStatus?reservationID=${reservation.reservationID}&totalPages=${totalPages}&newstatus=Confirmed&page=${currentPage}&reservationDate=${reservationDate}&reservationTime=${param.reservationTime}&numberOfGuests=${numberOfGuests}&status=${status}&tableName=${tableName}&customerName=${customerName}&phoneNumber=${phoneNumber}&email=${email}" class="btn btn-warning btn-sm">Xác nhận</a>
+                                                        </c:if>
+                                                        <c:if test="${reservation.status != 'Completed'}">
+                                                            <a href="UpdateReservationStatus?reservationID=${reservation.reservationID}&totalPages=${totalPages}&newstatus=Completed&page=${currentPage}&reservationDate=${reservationDate}&reservationTime=${param.reservationTime}&numberOfGuests=${numberOfGuests}&status=${status}&tableName=${tableName}&customerName=${customerName}&phoneNumber=${phoneNumber}&email=${email}" class="btn btn-success btn-sm">Hoàn thành</a>
+                                                        </c:if>
+                                                        <c:if test="${reservation.status != 'Cancelled'}">
+                                                            <a href="UpdateReservationStatus?reservationID=${reservation.reservationID}&totalPages=${totalPages}&newstatus=Cancelled&page=${currentPage}&reservationDate=${reservationDate}&reservationTime=${param.reservationTime}&numberOfGuests=${numberOfGuests}&status=${status}&tableName=${tableName}&customerName=${customerName}&phoneNumber=${phoneNumber}&email=${email}" class="btn btn-danger btn-sm">Hủy</a>
+                                                        </c:if>                                                    
                                                     </td>
                                                 </tr>
                                             </c:forEach>
@@ -168,9 +176,6 @@
                 </div>
             </div>
         </div>
-
-        <%@ include file="footer.jsp" %>
-
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -5,7 +5,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Staff Management</title>
+        <title>Phản hồi</title>
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
         <meta content="" name="keywords">
         <meta content="" name="description">
@@ -24,13 +24,13 @@
             <div class="row g-0 justify-content-center">
                 <div class="col-md-6 bg-dark d-flex align-items-center">
                     <div class="p-5 wow fadeInUp" data-wow-delay="0.2s">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal"><a href="FeedbackList">Cancel</a> </h5>
-                        <h1 class="text-white mb-4">Responde</h1>
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal"><a href="FeedbackList">Quay lại</a> </h5>
+                        <h1 class="text-white mb-4">Phản hồi</h1>
                         <form id="FeedbackList" action="FeedbackList" method="post">
-                            <input type="hidden" name="feedbackId" value="${param.feedbackId}"/> <!-- Pass the FeedbackID -->
+                            <input type="hidden" name="feedbackId" value="${param.feedbackId}"/> 
                             <textarea name="responseNote" rows="4" cols="50" placeholder="Type your response here..." required></textarea>
                             <br />
-                            <button type="submit" class="btn btn-success">Submit</button>
+                            <button type="submit" class="btn btn-success">Hủy</button>
                             <a href="FeedbackList">Cancel</a> 
                         </form>
 
@@ -42,7 +42,6 @@
             </div>
         </div>
 
-        <%@ include file="footer.jsp" %>
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
