@@ -13,10 +13,34 @@ public class orderDto {
     private String GuestNote;
     private int GuestID;
     private int CustomerID;
-    private int total;
+    private int Quantity;
     private int Table_OrderID;
     private Customer customer;
-    private Food food;
+    private String productName;
+
+    public int getQuantity() {
+        return Quantity;
+    }
+
+    public void setQuantity(int Quantity) {
+        this.Quantity = Quantity;
+    }
+
+    public orderDto(int OrderID, String GuestNote, int GuestID, int CustomerID, int Quantity, int Table_OrderID, Customer customer, String productName) {
+        this.OrderID = OrderID;
+        this.GuestNote = GuestNote;
+        this.GuestID = GuestID;
+        this.CustomerID = CustomerID;
+        this.Quantity = Quantity;
+        this.Table_OrderID = Table_OrderID;
+        this.customer = customer;
+        this.productName = productName;
+    }
+
+    
+
+    public orderDto() {
+    }
 
     public int getOrderID() {
         return OrderID;
@@ -49,15 +73,7 @@ public class orderDto {
     public void setCustomerID(int CustomerID) {
         this.CustomerID = CustomerID;
     }
-
-    public int getTotal() {
-        return total;
-    }
-
-    public void setTotal(int total) {
-        this.total = total;
-    }
-
+    
     public int getTable_OrderID() {
         return Table_OrderID;
     }
@@ -74,27 +90,11 @@ public class orderDto {
         this.customer = customer;
     }
 
-    public Food getFood() {
-        return food;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setFood(Food food) {
-        this.food = food;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
-
-    public orderDto() {
-    }
-
-    public orderDto(int OrderID, String GuestNote, int GuestID, int CustomerID, int total, int Table_OrderID, Customer customer, Food food) {
-        this.OrderID = OrderID;
-        this.GuestNote = GuestNote;
-        this.GuestID = GuestID;
-        this.CustomerID = CustomerID;
-        this.total = total;
-        this.Table_OrderID = Table_OrderID;
-        this.customer = customer;
-        this.food = food;
-    }
-    
-    
 }

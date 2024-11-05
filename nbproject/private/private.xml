@@ -3,23 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/Model/dao/food.java</file>
-            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/Model/foodOrder.java</file>
-            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/Model/Ingredient_Food.java</file>
-            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/dal/orderDAO.java</file>
-            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/web/myFeedback.jsp</file>
-            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/web/reservationList.jsp</file>
-            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/web/staffManage.jsp</file>
-            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/Model/dao/DrinkCategory.java</file>
-            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/dal/CustomerDAO.java</file>
-            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/Model/order.java</file>
-            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/DAO/ReservationDAO.java</file>
-            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/controller/myReservation.java</file>
-            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/Model/tableOrder.java</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/web/shiftManage.jsp</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/Model/orderDto.java</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/DAO/OrderDAO.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/web/myFeedback.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/web/reservationList.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/web/staffManage.jsp</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/web/myreservation.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/DAO/ReservationDAO.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/src/java/controller/myReservation.java</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/neo_project/swp-23k/web/myShift.jsp</file>
         </group>
     </open-files>
