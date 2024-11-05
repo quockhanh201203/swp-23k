@@ -4,15 +4,18 @@
  */
 package DAO;
 
+import DAO.DBContext;
 import Model.*;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  *
- * @author Legion
+ * @author ADMIN
  */
-public class UserDAO extends DBContext {
-
+public class UserDAO extends DBContext{
     private Connection connection;
 
     public UserDAO() {
@@ -174,8 +177,4 @@ public class UserDAO extends DBContext {
         }
         return null;
     }
-    
-    
-    
-
 }

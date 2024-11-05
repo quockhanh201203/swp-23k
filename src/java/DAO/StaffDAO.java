@@ -4,12 +4,12 @@
  */
 package DAO;
 
+import Model.Staff;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import Model.*;
 import utils.EmailUtility;
 import utils.PasswordUtil;
 import utils.RandomGenerate;
@@ -18,8 +18,7 @@ import utils.RandomGenerate;
  *
  * @author ADMIN
  */
-public class StaffDAO extends DBContext {
-
+public class StaffDAO extends DBContext{
     public List<Staff> findStaffByPage(int pageNumber, int pageSize, String search, String orderByColumn, boolean isAsc) {
         List<Staff> staffList = new ArrayList<>();
         StringBuilder sql = new StringBuilder("""
@@ -337,5 +336,4 @@ public class StaffDAO extends DBContext {
         }
         return false;
     }
-
 }

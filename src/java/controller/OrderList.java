@@ -110,5 +110,5 @@ public class OrderList extends HttpServlet {
         OrderDAO o = new OrderDAO();
     int totalOrders = o.countOrders(customerID, guestNote, customerName, email, phoneNumber, productName);
     return (totalOrders + limit - 1) / limit; // This calculates the total pages
-}
+    }
 }

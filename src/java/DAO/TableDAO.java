@@ -2,11 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package dal;
+package DAO;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.List;
 import Model.Table;
 
 /**
@@ -61,7 +60,6 @@ public class TableDAO extends DBContext {
             statement.setString(1, table.getTableName());
             statement.setString(2, table.getStatus());
             statement.executeUpdate();
-            
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -138,35 +136,6 @@ public class TableDAO extends DBContext {
             resetStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-    }
-    
-    public List<Table> getTableList() {
-        List<Table> tableList = new ArrayList<>();
-        String sql = " select * from [table]";
-
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Table p = new Table();
-
-                tableList.add(new Table(
-                        rs.getInt(1),  rs.getString(2), rs.getString(3)                )
-                );
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return tableList;
-    }
-        public static void main(String[] args) {
-        TableDAO dao = new TableDAO();
-        List<Table> pr = dao.getTableList(); 
-
-        for (int i = 0; i < pr.size(); i++) {
-            System.out.println(pr.get(i));
         }
     }
 }

@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
-<%@ page import="model.Discount" %>
+<%@ page import="Model.Discount" %>
 
 <%
     List<Discount> discounts = (List<Discount>) request.getAttribute("discounts");
@@ -38,31 +38,25 @@
             <div class="container-xxl position-relative p-0">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
                     <a href="" class="navbar-brand p-0">
-                        <h1 class="text-primary m-0"><i class="fa fa-tags me-3"></i>Discount Management</h1>
+                        <h1 class="text-primary m-0"><i class="fa fa-tags me-3"></i>5 ANH LỰC</h1>
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav ms-auto py-0 pe-4">
-                            <a href="index.html" class="nav-item nav-link">Home</a>
-                            <a href="about.html" class="nav-item nav-link">About</a>
-                            <a href="services.html" class="nav-item nav-link">Services</a>
-                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                            <a href="index.html" class="nav-item nav-link">Trang chủ</a>
+                            <a href="about.html" class="nav-item nav-link">Thông tin</a>
+                           
                         </div>
-                        <a href="discountForm.jsp" class="btn btn-primary py-2 px-4">Add New Discount</a>
+                        <a href="salaryList" class="btn btn-primary py-2 px-4">Lương</a>
                     </div>
                 </nav>
 
                 <div class="container-xxl py-5 bg-dark hero-header mb-5">
                     <div class="container text-center my-5 pt-5 pb-4">
-                        <h1 class="display-3 text-white mb-3 animated slideInDown">Discount List</h1>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb justify-content-center text-uppercase">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item text-white active" aria-current="page">Discount List</li>
-                            </ol>
-                        </nav>
+                        <h1 class="display-3 text-white mb-3 animated slideInDown">DANH SÁCH GIẢM GIÁ</h1>
+                        
                     </div>
                 </div>
             </div>
@@ -70,8 +64,9 @@
 
             <!-- Discount Management -->
             <div class="container-xxl py-5 bg-dark">
-                <h2 class="mb-4 text-white">Discount Management</h2>
-
+                <h2 class="mb-4 text-white">Danh sách giảm giá</h2>
+                <a href="discountForm.jsp" class="btn btn-primary py-2 px-4">Thêm giảm giá mới</a>
+                
                 <!-- Form tìm kiếm -->
                 <div class="mb-3">
                     <form action="DiscountServlet" method="GET">
@@ -86,11 +81,11 @@
                 <!-- Hiển thị danh sách discount -->
                 <table border="1" class="table table-bordered table-striped text-white">
                     <tr class="text-white">
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Value</th>
-                        <th>Date</th>
-                        <th>Actions</th>
+                        <th>Mã giảm giá</th>
+                        <th>Tên mã giảm giá </th>
+                        <th>Gía trị</th>
+                        <th>Ngày tháng</th>
+                        <th>Hành động</th>
                     </tr>
                     <%
                         for (Discount discount : discounts) {
@@ -101,8 +96,8 @@
                         <td><%= discount.getValue() %></td>
                         <td><%= discount.getDate() %></td>
                         <td>
-                            <a href="DiscountServlet?action=edit&id=<%= discount.getDiscountID() %>" class="btn btn-warning btn-sm">Edit</a> |
-                            <a href="DiscountServlet?action=delete&id=<%= discount.getDiscountID() %>" class="btn btn-danger btn-sm">Delete</a>
+                            <a href="DiscountServlet?action=edit&id=<%= discount.getDiscountID() %>" class="btn btn-warning btn-sm">Chỉnh sửa</a> |
+                            <a href="DiscountServlet?action=delete&id=<%= discount.getDiscountID() %>" class="btn btn-danger btn-sm">Xóa</a>
                         </td>
                     </tr>
                     <%
@@ -113,44 +108,7 @@
 
             <!-- Footer Start -->
             <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-                <div class="container py-5">
-                    <div class="row g-5">
-                        <div class="col-lg-3 col-md-6">
-                            <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Company</h4>
-                            <a class="btn btn-link" href="">About Us</a>
-                            <a class="btn btn-link" href="">Contact Us</a>
-                            <a class="btn btn-link" href="">Privacy Policy</a>
-                            <a class="btn btn-link" href="">Terms & Condition</a>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Contact</h4>
-                            <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                            <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                            <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                            <div class="d-flex pt-2">
-                                <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                                <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Opening</h4>
-                            <h5 class="text-light fw-normal">Monday - Saturday</h5>
-                            <p>09AM - 09PM</p>
-                            <h5 class="text-light fw-normal">Sunday</h5>
-                            <p>10AM - 08PM</p>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Newsletter</h4>
-                            <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                            <div class="position-relative mx-auto" style="max-width: 400px;">
-                                <input class="form-control border-primary w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                                <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
             </div>
             <!-- Footer End -->
         </div>

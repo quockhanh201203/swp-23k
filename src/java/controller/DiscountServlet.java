@@ -4,7 +4,7 @@
  */
 package controller;
 
-import dal.DiscountDAO;
+import DAO.DiscountDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;

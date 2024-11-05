@@ -6,7 +6,7 @@ package Model;
 
 /**
  *
- * @author Admin
+ * @author ADMIN
  */
 public class Voucher {
     private int VoucherID;

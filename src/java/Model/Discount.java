@@ -8,10 +8,9 @@ import java.util.Date;
 
 /**
  *
- * @author Admin
+ * @author ADMIN
  */
 public class Discount {
-
     private int discountID;
     private String discountName;
     private double value;

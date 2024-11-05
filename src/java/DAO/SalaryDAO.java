@@ -2,30 +2,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package dal;
+package DAO;
 
-import Model.Salary;
-import java.util.Date;
-import java.text.SimpleDateFormat;
-
-import java.sql.*;
+import Model.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
  *
- * @author Admin
+ * @author ADMIN
  */
 public class SalaryDAO extends DBContext {
 
-  // Fetch all salary records with staff information
     public List<Salary> getAllSalariesWithStaff() {
         List<Salary> salaryList = new ArrayList<>();
         String sql = "SELECT s.SalaryID, s.Salary_Plus, s.Salary_Minus, s.date, s.Note, s.StaffID, "
-                   + "st.StaffName, st.PhoneNumber, st.Email "
-                   + "FROM Salary s "
-                   + "JOIN Staff st ON s.StaffID = st.StaffID";
+                + "st.StaffName, st.PhoneNumber, st.Email "
+                + "FROM Salary s "
+                + "JOIN Staff st ON s.StaffID = st.StaffID";
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
@@ -95,26 +94,25 @@ public class SalaryDAO extends DBContext {
 
     // Update an existing salary record
     public boolean updateSalary(int SalaryPlus, int SalaryMinus, Date Date, String Note, int SalaryID) {
-    String sql = "UPDATE Salary SET Salary_Plus = ?, Salary_Minus = ?, date = ?, Note = ? WHERE SalaryID = ?";
-    try {
-        PreparedStatement statement = connection.prepareStatement(sql);
-        
-        statement.setInt(1, SalaryPlus);
-        statement.setInt(2, SalaryMinus);
-        statement.setDate(3, new java.sql.Date(Date.getTime()));  // Sửa dòng date
-        statement.setString(4, Note);
-        statement.setInt(5, SalaryID);
+        String sql = "UPDATE Salary SET Salary_Plus = ?, Salary_Minus = ?, date = ?, Note = ? WHERE SalaryID = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
 
-        int rowsUpdated = statement.executeUpdate();
-        return rowsUpdated > 0;
-    } catch (SQLException e) {
-        e.printStackTrace();
-    } finally {
-        closeConnection();
+            statement.setInt(1, SalaryPlus);
+            statement.setInt(2, SalaryMinus);
+            statement.setDate(3, new java.sql.Date(Date.getTime()));  // Sửa dòng date
+            statement.setString(4, Note);
+            statement.setInt(5, SalaryID);
+
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeConnection();
+        }
+        return false;
     }
-    return false;
-}
-
 
     // Delete a salary record by ID
     public boolean deleteSalary(int salaryID) {
@@ -132,12 +130,13 @@ public class SalaryDAO extends DBContext {
         }
         return false;
     }
-   public static void main(String[] args) {
+
+    public static void main(String[] args) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(2024, Calendar.FEBRUARY, 1);  // Thiết lập ngày
         Date date = new Date(calendar.getTimeInMillis());
-       SalaryDAO d = new SalaryDAO();
-       boolean isUpdated = d.updateSalary(123, 456, date, "abc", 13);
+        SalaryDAO d = new SalaryDAO();
+        boolean isUpdated = d.updateSalary(123, 456, date, "abc", 13);
 
         // Thông báo kết quả cập nhật
         if (isUpdated) {
@@ -145,5 +144,5 @@ public class SalaryDAO extends DBContext {
         } else {
             System.out.println("Failed to update salary.");
         }
-       }        
+    }
 }

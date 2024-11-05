@@ -4,7 +4,7 @@
  */
 package controller;
 
-import dal.TableDAO;
+import DAO.TableDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;

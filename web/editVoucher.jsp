@@ -46,30 +46,26 @@
         <div class="container-xxl position-relative p-0">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
                 <a href="" class="navbar-brand p-0">
-                    <h1 class="text-primary m-0"><i class="fa fa-tags me-3"></i>Voucher Management</h1>
+                    <h1 class="text-primary m-0"><i class="fa fa-tags me-3"></i>5 Anh Lực</h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                     <span class="fa fa-bars"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto py-0 pe-4">
-                        <a href="index.html" class="nav-item nav-link">Home</a>
-                        <a href="about.html" class="nav-item nav-link">About</a>
-                        <a href="services.html" class="nav-item nav-link">Services</a>
-                        <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        <a href="index.html" class="nav-item nav-link">Trang chủ</a>
+                        <a href="about.html" class="nav-item nav-link">Thông tin</a>
+                        
                     </div>
-                    <a href="voucher" class="btn btn-primary py-2 px-4">Back to Voucher List</a>
+                    <a href="voucher" class="btn btn-primary py-2 px-4">Quay lại</a>
                 </div>
             </nav>
 
             <div class="container-xxl py-5 bg-dark hero-header mb-5">
                 <div class="container text-center my-5 pt-5 pb-4">
-                    <h1 class="display-3 text-white mb-3 animated slideInDown">Edit Voucher</h1>
+                    <h1 class="display-3 text-white mb-3 animated slideInDown">CHỈNH SỬA ƯU ĐÃI</h1>
                     <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb justify-content-center text-uppercase">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item text-white active" aria-current="page">Edit Voucher</li>
-                        </ol>
+                       
                     </nav>
                 </div>
             </div>
@@ -81,22 +77,22 @@
             <div class="row justify-content-center">
                 <div class="col-lg-6">
                     <div class="bg-light p-5 rounded">
-                        <h3 class="mb-4">Edit Voucher</h3>
+                        <h3 class="mb-4">Chỉnh sửa ưu đãi</h3>
                         <form action="voucher" method="POST">
                             <input type="hidden" name="action" value="update"/>
                             <input type="hidden" name="id" value="<%= voucherID %>"/>
 
                             <div class="mb-3">
-                                <label for="voucherName" class="form-label">Voucher Name</label>
+                                <label for="voucherName" class="form-label">Tên phiếu giảm giá</label>
                                 <input type="text" class="form-control" id="voucherName" name="voucherName" value="${voucher.voucherName}" required>
                             </div>
 
                             <div class="mb-3">
-                                <label for="value" class="form-label">Value</label>
+                                <label for="value" class="form-label">Mức ưu đãi</label>
                                 <input type="number" class="form-control" id="value" name="value" step="0.01" value="${voucher.value}" required>
                             </div>
 
-                            <button type="submit" class="btn btn-primary w-100 py-2">Update Voucher</button>
+                            <button type="submit" class="btn btn-primary w-100 py-2">Cập nhật</button>
                         </form>
                     </div>
                 </div>
@@ -106,44 +102,7 @@
 
         <!-- Footer Start -->
         <div class="container-fluid bg-dark text-light footer pt-5 mt-5 wow fadeIn" data-wow-delay="0.1s">
-            <div class="container py-5">
-                <div class="row g-5">
-                    <div class="col-lg-3 col-md-6">
-                        <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Company</h4>
-                        <a class="btn btn-link" href="">About Us</a>
-                        <a class="btn btn-link" href="">Contact Us</a>
-                        <a class="btn btn-link" href="">Privacy Policy</a>
-                        <a class="btn btn-link" href="">Terms & Condition</a>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Contact</h4>
-                        <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                        <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                        <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                        <div class="d-flex pt-2">
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Opening</h4>
-                        <h5 class="text-light fw-normal">Monday - Saturday</h5>
-                        <p>09AM - 09PM</p>
-                        <h5 class="text-light fw-normal">Sunday</h5>
-                        <p>10AM - 08PM</p>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Newsletter</h4>
-                        <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                        <div class="position-relative mx-auto" style="max-width: 400px;">
-                            <input class="form-control border-primary w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                            <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
         </div>
         <!-- Footer End -->
     </div>

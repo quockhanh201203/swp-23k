@@ -2,18 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package dal;
-import java.sql.*;
+package DAO;
+
+import Model.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import Model.Discount;
 
 /**
  *
- * @author Admin
+ * @author ADMIN
  */
-public class DiscountDAO extends DBContext {
-     public List<Discount> getAllDiscounts() {
+public class DiscountDAO extends DBContext{
+    public List<Discount> getAllDiscounts() {
         List<Discount> discounts = new ArrayList<>();
         String sql = "SELECT * FROM Discount";
         try {

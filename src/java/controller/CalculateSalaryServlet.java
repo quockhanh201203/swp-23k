@@ -4,8 +4,7 @@
  */
 package controller;
 
-import DAO.DashBoardDAO;
-import jakarta.servlet.RequestDispatcher;
+import DAO.StaffSalaryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -13,15 +12,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.sql.SQLException;
 import java.util.List;
+import Model.Salary;
 
 /**
  *
- * @author ADMIN
+ * @author Admin
  */
-@WebServlet(name = "DashboardServlet", urlPatterns = {"/DashboardServlet"})
-public class DashboardServlet extends HttpServlet {
+@WebServlet(name = "CalculateSalaryServlet", urlPatterns = {"/CalculateSalary"})
+public class CalculateSalaryServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,10 +39,10 @@ public class DashboardServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet DashboardServlet</title>");
+            out.println("<title>Servlet CalculateSalaryServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet DashboardServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CalculateSalaryServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -61,39 +60,41 @@ public class DashboardServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Trong DashboardServlet.java
-        DashBoardDAO db = new DashBoardDAO();
-        try {
-            // Doanh thu theo ngày
-            List<String> revenueDates = db.getRevenueDates();
-            List<Double> revenueValues = db.getRevenueByDate();
-            request.setAttribute("revenueDates", revenueDates);
-            request.setAttribute("revenueValues", revenueValues);
+         String staffIDParam = request.getParameter("staffID");
+        StaffSalaryDAO salaryDAO = new StaffSalaryDAO();
 
-            // Doanh thu theo loại sản phẩm
-            List<String> productTypes = db.getProductTypes();
-            List<Double> productTotals = db.getProductRevenue();
-            request.setAttribute("productTypes", productTypes);
-            request.setAttribute("productTotals", productTotals);
+        // Nếu staffID không nhập hoặc rỗng, cung cấp giá trị mặc định cho JSP
+        if (staffIDParam == null || staffIDParam.trim().isEmpty()) {
+            request.setAttribute("staffID", "-");
+            request.setAttribute("fixedSalary", "-");
+            request.setAttribute("salaryPlus", "-");
+            request.setAttribute("salaryMinus", "-");
+            request.setAttribute("totalSalary", "-");
+        } else {
+            try {
+                int staffID = Integer.parseInt(staffIDParam);
+                int fixedSalary = salaryDAO.getFixedSalary(staffID);
+                int totalSalary = salaryDAO.calculateTotalSalary(staffID);
+                int salaryPlus = salaryDAO.getTotalSalaryPlus(staffID);
+                int salaryMinus = salaryDAO.getTotalSalaryMinus(staffID);
 
-            // Số lượng đơn hàng theo trạng thái
-            List<String> orderStatuses = db.getOrderStatuses();
-            List<Integer> orderCounts = db.getOrderCountsByStatus();
-            request.setAttribute("orderStatuses", orderStatuses);
-            request.setAttribute("orderCounts", orderCounts);
-
-            // Lịch sử lương
-            List<String> salaryDates = db.getSalaryDates();
-            List<Double> salaryValues = db.getSalaryHistory();
-            request.setAttribute("salaryDates", salaryDates);
-            request.setAttribute("salaryValues", salaryValues);
-
-            // Chuyển tiếp đến trang JSP
-            RequestDispatcher dispatcher = request.getRequestDispatcher("dashboard.jsp");
-            dispatcher.forward(request, response);
-        } catch (SQLException e) {
-            e.printStackTrace();
+                request.setAttribute("staffID", String.valueOf(staffID));
+                request.setAttribute("fixedSalary", String.valueOf(fixedSalary));
+                request.setAttribute("salaryPlus", String.valueOf(salaryPlus));
+                request.setAttribute("salaryMinus", String.valueOf(salaryMinus));
+                request.setAttribute("totalSalary", String.valueOf(totalSalary));
+            } catch (NumberFormatException e) {
+                request.setAttribute("staffID", "Không hợp lệ");
+                request.setAttribute("fixedSalary", "-");
+                request.setAttribute("salaryPlus", "-");
+                request.setAttribute("salaryMinus", "-");
+                request.setAttribute("totalSalary", "-");
+            }
         }
+
+        request.getRequestDispatcher("salaryResult.jsp").forward(request, response);
+
+
     }
 
     /**
@@ -107,7 +108,7 @@ public class DashboardServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+       processRequest(request, response);
     }
 
     /**

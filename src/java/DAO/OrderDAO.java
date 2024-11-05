@@ -5,18 +5,16 @@
 package DAO;
 
 import Model.*;
-import dal.orderDAO;
-import java.util.ArrayList;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-
 /**
  *
  * @author ADMIN
  */
-public class OrderDAO extends DBContext {
-
+public class OrderDAO extends DBContext{
     public List<orderDto> searchOrders(Integer customerID, String guestNote, String customerName,
             String email, String phoneNumber,
             String foodName, String drinkName, String buffetName,

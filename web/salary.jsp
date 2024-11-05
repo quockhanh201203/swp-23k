@@ -3,8 +3,8 @@
     Created on : Oct 17, 2024, 7:54:01 AM
     Author     : Admin
 --%>
-
-<%@page import="model.Salary"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="Model.Salary"%>
 <%@page import="java.util.List"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -49,31 +49,26 @@
             <div class="container-xxl position-relative p-0">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
                     <a href="" class="navbar-brand p-0">
-                        <h1 class="text-primary m-0"><i class="fa fa-dollar-sign me-3"></i>Company</h1>
+                        <h1 class="text-primary m-0"><i class="fa fa-dollar-sign me-3"></i>5 ANH LỰC</h1>
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav ms-auto py-0 pe-4">
-                            <a href="index.jsp" class="nav-item nav-link">Home</a>
-                            <a href="about.jsp" class="nav-item nav-link">About</a>
-                            <a href="service.jsp" class="nav-item nav-link">Service</a>
-                            <a href="contact.jsp" class="nav-item nav-link">Contact</a>
+                            <a href="index.jsp" class="nav-item nav-link">Trang chủ</a>
+                            <a href="about.jsp" class="nav-item nav-link">Thông tin</a>
+                            
                         </div>
-                        <a href="" class="btn btn-primary py-2 px-4">Add New Record</a>
+                        <a href="TableServlet" class="btn btn-primary py-2 px-4">Bàn</a>
                     </div>
                 </nav>
 
                 <div class="container-xxl py-5 bg-dark hero-header mb-5">
                     <div class="container text-center my-5 pt-5 pb-4">
-                        <h1 class="display-3 text-white mb-3 animated slideInDown">Salary Management</h1>
+                        <h1 class="display-3 text-white mb-3 animated slideInDown">QUẢN LÝ TIỀN LƯƠNG</h1>
                         <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb justify-content-center text-uppercase">
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                                <li class="breadcrumb-item text-white active" aria-current="page">Salary</li>
-                            </ol>
+                           
                         </nav>
                     </div>
                 </div>
@@ -82,10 +77,10 @@
 
             <!-- Salary Management -->
             <div class="container-xxl py-5 bg-dark">
-                <h2 class="mb-4 text-white">Salary Management</h2>
+                <h2 class="mb-4 text-white">Quản lý tiền lương</h2>
 
                 <!-- Button to Open the Add Salary Modal -->
-                <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addSalaryModal">Add Salary</button>
+                <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#addSalaryModal">Thêm lương</button>
 
                 <!-- Filter by Staff ID -->
 
@@ -94,13 +89,13 @@
                 <table class="table table-bordered table-striped text-white">
                     <thead>
                         <tr>
-                            <th>Salary ID</th>
-                            <th>Salary Plus</th>
-                            <th>Salary Minus</th>
-                            <th>Date</th>
-                            <th>Note</th>
-                            <th>Staff ID</th>
-                            <th>Actions</th>
+                            <th>Mã lương</th>
+                            <th>Lương công thêm</th>
+                            <th>Lương trừ</th>
+                            <th>Ngày tháng</th>
+                            <th>Ghi chú</th>
+                            <th>Mã nhân viên</th>
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -121,10 +116,10 @@
                             <td><%= salary.getNote() %></td>
                             <td><%= salary.getStaffID() %></td>
                             <td>
-                                <a href="editSalary.jsp?salaryID=<%= salary.getSalaryID() %>" class="btn btn-warning btn-sm">Edit</a> |
+                                <a href="editSalary.jsp?salaryID=<%= salary.getSalaryID() %>" class="btn btn-warning btn-sm">Chỉnh sửa</a> |
                                 <form action="deleteSalary" method="post" style="display:inline;">
                                     <input type="hidden" name="salaryID" value="<%= salary.getSalaryID() %>">
-                                    <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                                    <input type="submit" class="btn btn-danger btn-sm" value="Xóa">
                                 </form>
                             </td>
                         </tr>
@@ -148,33 +143,33 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addSalaryModalLabel">Add Salary</h5>
+                            <h5 class="modal-title" id="addSalaryModalLabel">Them luong</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="SalaryServlet" method="POST">
+                            <form action="salaryList" method="POST">
                                 <input type="hidden" name="action" value="add">
                                 <div class="mb-3">
-                                    <label for="salaryPlus" class="form-label">Salary Plus</label>
+                                    <label for="salaryPlus" class="form-label">Luong cong them</label>
                                     <input type="number" class="form-control" id="salaryPlus" name="salaryPlus" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="salaryMinus" class="form-label">Salary Minus</label>
+                                    <label for="salaryMinus" class="form-label">Luong tru</label>
                                     <input type="number" class="form-control" id="salaryMinus" name="salaryMinus" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="date" class="form-label">Date</label>
+                                    <label for="date" class="form-label">Ngay thang</label>
                                     <input type="date" class="form-control" id="date" name="date" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="note" class="form-label">Note</label>
+                                    <label for="note" class="form-label">Ghi chu</label>
                                     <textarea class="form-control" id="note" name="note" rows="3"></textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="staffID" class="form-label">Staff ID</label>
+                                    <label for="staffID" class="form-label">Ma nhan vien</label>
                                     <input type="text" class="form-control" id="staffID" name="staffID" required>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Add Salary</button>
+                                <button type="submit" class="btn btn-primary">Them luong</button>
                             </form>
                         </div>
                     </div>
@@ -186,45 +181,7 @@
 
             <!-- Footer Start -->
             <div class="container-fluid bg-dark text-light footer pt-5 mt-5">
-                <div class="container py-5">
-                    <div class="row g-5">
-                        <div class="col-lg-3 col-md-6">
-                            <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Company</h4>
-                            <a class="btn btn-link" href="">About Us</a>
-                            <a class="btn btn-link" href="">Contact Us</a>
-                            <a class="btn btn-link" href="">Reservation</a>
-                            <a class="btn btn-link" href="">Privacy Policy</a>
-                            <a class="btn btn-link" href="">Terms & Condition</a>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Contact</h4>
-                            <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
-                            <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
-                            <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
-                            <div class="d-flex pt-2">
-                                <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                                <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                                <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                                <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Opening</h4>
-                            <h5 class="text-light fw-normal">Monday - Saturday</h5>
-                            <p>09AM - 09PM</p>
-                            <h5 class="text-light fw-normal">Sunday</h5>
-                            <p>10AM - 08PM</p>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Newsletter</h4>
-                            <p>Dolor amet sit justo amet elitr clita ipsum elitr est.</p>
-                            <div class="position-relative mx-auto" style="max-width: 400px;">
-                                <input class="form-control border-primary w-100 py-3 ps-4 pe-5" type="text" placeholder="Your email">
-                                <button type="button" class="btn btn-primary py-2 position-absolute top-0 end-0 mt-2 me-2">SignUp</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               
             </div>
             <!-- Footer End -->
         </div>
