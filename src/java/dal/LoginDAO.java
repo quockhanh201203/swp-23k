@@ -7,6 +7,8 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import model.Account;
+import model.Ingredient_Food;
+import model.guest;
 
 /**
  *
@@ -59,17 +61,77 @@ public class LoginDAO extends DBContext{
     }
     return null;
 }
+     public guest newGuest(String guestName, String guestPhone) {
+    String sql = "INSERT INTO [dbo].[Guest]\n" +
+"           ([GuestName]\n" +
+"           ,[GuestPhone])\n" +
+"     VALUES\n" +
+"           (?\n" +
+"           ,?)";
+    try {
+        guest a = new guest();
+        PreparedStatement st = connection.prepareStatement(sql);
+        st.setString(1, guestName);
+        st.setString(2, guestPhone);
+        
+        
+        int rowsAffected = st.executeUpdate();
+        if (rowsAffected > 0) {
+            a.setGuestName(guestName); // Sử dụng setter hợp lệ
+            a.setGuestPhone(guestPhone); // Sử dụng setter hợp lệ
+    
+            return a;
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    return null;
+}
+      public int getGuestId(String guestName) {
+    String sql = "SELECT TOP 1 GuestID\n" +
+                 "FROM guest\n" +
+                 "WHERE GuestName = ?\n" +
+                 "ORDER BY GuestID DESC;";
+
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        st.setString(1, guestName);
+        try (ResultSet rs = st.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("GuestID"); // Trả về GuestID trực tiếp
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return -1; // Trả về -1 nếu không tìm thấy
+}
+  public int getCustomerId(int accountID) {
+    String sql = "SELECT [CustomerID] FROM [dbo].[Customer] WHERE AccountID = ?";
+
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        st.setInt(1, accountID);
+        try (ResultSet rs = st.executeQuery()) {
+            if (rs.next()) {
+                // Sửa "cusID" thành "CustomerID"
+                return rs.getInt("CustomerID");
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return -1; // Trả về -1 nếu không tìm thấy hoặc có lỗi
+}
+  
+  
+
      public static void main(String[] args) {
         
         LoginDAO d = new LoginDAO();
-         Account a = d.login("tung", "123");
-         if (a != null) {
-        System.out.println("Login successful!");
-        System.out.println("Account ID: " + a.getAccountID());
-        System.out.println("Username: " + a.getUsername());
-        System.out.println("Role ID: " + a.getRoleID());
-    } else {
-        System.out.println("Login failed. Invalid username or password.");
-    }
+        
+         int fetchedGuest = d.getGuestId("tung");
+
+            System.out.println(fetchedGuest);
+         
     }
 }

@@ -14,7 +14,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import model.Account;
+import model.guest;
 
 /**
  *
@@ -80,12 +83,14 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-LoginDAO ld = new LoginDAO();
-    
-        String username = request.getParameter("username");
+        LoginDAO ld = new LoginDAO();
+        String loginType= request.getParameter("loginType");
+        
+        if(  loginType.equals("wl") ){
+            String username = request.getParameter("username");
         String password = request.getParameter("password");
         
-        Account ac = ld.login(username, password);
+        Account ac = ld.login(username,hashPassword(password) );
         Account account = ld.getId(username);
              
             if (ac == null || ac.equals(ac.getUsername())) {
@@ -101,12 +106,54 @@ LoginDAO ld = new LoginDAO();
                 session.setAttribute("id", account.getAccountID());
                 session.setAttribute("username", username);
                 session.setAttribute("password", password);
+                   String goc = "customer";
+            session.setAttribute("goc", goc);
             System.out.println("Session ID attribute: " + session.getAttribute("id"));
+              System.out.println("Session goc attribute: " + session.getAttribute("goc"));
+
             System.out.println("Session Username attribute: " + session.getAttribute("username"));
             System.out.println("Session Password attribute: " + session.getAttribute("password"));
                
-                    response.sendRedirect("home");
+                    response.sendRedirect("homepage");
                 }
+        }else{
+            
+            HttpSession session = request.getSession();
+
+            String guestname = request.getParameter("guestname");
+            String phone = request.getParameter("phone");   
+            ld.newGuest(guestname, phone);
+           int guestID = ld.getGuestId(guestname);
+            session.setAttribute("guestID", guestID);
+
+            session.setAttribute("guestname", guestname);
+                   String goc = "guest";
+            session.setAttribute("goc", goc);
+            System.out.println("Session goc attribute: " + session.getAttribute("goc"));
+            System.out.println("Session ID attribute: " + session.getAttribute("guestID"));
+            System.out.println("Session Username attribute: " + session.getAttribute("guestname"));
+
+                
+        response.sendRedirect("homepage");
+
+            
+        }
+        
+    }
+      public static String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] messageDigest = md.digest(password.getBytes());
+
+            // Chuyển đổi kết quả từ byte thành chuỗi hexa
+            StringBuilder sb = new StringBuilder();
+            for (byte b : messageDigest) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
     /** 
      * Returns a short description of the servlet.

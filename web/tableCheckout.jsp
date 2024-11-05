@@ -1,3 +1,8 @@
+
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -97,17 +102,18 @@
                     <h1 class="mb-5">Explore Our Services</h1>
                 </div>
                 <div class="row g-4">
-                    
+               <c:forEach items="${tableList}" var="tb">
+
                     <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-    <a href="your-link-here" class="service-item rounded pt-3">
+        <a href="stafftableorder?tableID=${tb.getTableID()}">${tb.getTableName() }</a>
+
         <div class="p-4">
-            <i class="fa fa-3x fa-user-tie text-primary mb-4"></i>
-            <h5>Master Chefs</h5>
-            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
+           
+           
         </div>
     </a>
 </div>
-
+               </c:forEach>
                     
                 </div>
             </div>

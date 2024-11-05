@@ -4,9 +4,7 @@
  */
 package controller;
 
-import dal.LoginDAO;
 import dal.tableOrderDAO;
-import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,15 +12,15 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import java.util.Date;
+import java.util.List;
+import model.table;
 
 /**
  *
  * @author tran tung
  */
-@WebServlet(name = "newTableOrder", urlPatterns = {"/newtableorder"})
-public class newTableOrder extends HttpServlet {
+@WebServlet(name = "staffTableOrder", urlPatterns = {"/stafftableorder"})
+public class staffTableOrder extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +39,10 @@ public class newTableOrder extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet newTableOrder</title>");
+            out.println("<title>Servlet staffTableOrder</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet newTableOrder at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet staffTableOrder at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,7 +60,12 @@ public class newTableOrder extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        tableOrderDAO tod = new tableOrderDAO();
+        int tableID = Integer.parseInt(request.getParameter("tableID"));
+        List<model.dao.checkoutTableOrder> tableOrderList = tod.getstaffTableOrder(tableID);
+        request.setAttribute("tableOrderList", tableOrderList);
+        request.getRequestDispatcher("staffCheckout.jsp").forward(request, response);
+
     }
 
     /**
@@ -76,38 +79,7 @@ public class newTableOrder extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        tableOrderDAO d = new tableOrderDAO();
-        LoginDAO ld = new LoginDAO();
-        HttpSession session = request.getSession();
 
-        Date currentDate = new Date();
-        int tableID = Integer.parseInt(request.getParameter("tableID"));
-        int accountID = (int) session.getAttribute("id");
-        String goc = (String) session.getAttribute("goc");  
-        switch (goc) {
-            case "customer":
-                
-                Integer customerID = ld.getCustomerId(accountID);
-                System.out.println("customerID : " + customerID);
-                d.newOrderTable(0, currentDate, tableID, customerID, null);
-                request.setAttribute("successMessage", "Order placed successfully!");
-                response.sendRedirect("menu?success=true");
-                break;
-            case "guest":
-                int guestID = (int) session.getAttribute("guestID");
-                System.out.println(guestID);
-                d.newOrderTable(0, currentDate, tableID, null, guestID);
-                request.setAttribute("successMessage", "Order placed successfully!");
-
-                response.sendRedirect("menu?success=true");
-                break;
-                
-        }
-
-
-// Kiểm tra nếu guestID là null
-
-// Thêm thông báo thành công
     }
 
     /**

@@ -76,14 +76,14 @@ public class Ingredient extends HttpServlet {
 
         List<Ingredient_Food> ingredientList3 = md.getIngredient_FoodList();
         request.setAttribute("ingredientList3", ingredientList3);
-            
-        
-        
-        
-        
-        
 
         request.getRequestDispatcher("ingredient.jsp").forward(request, response);
+        
+       
+        
+        
+        
+        
 
     }
 

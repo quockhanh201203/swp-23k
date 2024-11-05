@@ -250,14 +250,20 @@
                           <div class="table-title">
             <div class="row">
                 <div class="col-sm-4">
-                    <h2>Manage <b>Ingredients</b></h2>
+                    <h2>Quản lý <b>Nguyên liệu</b></h2>
                 </div>
                 <div class="col-sm-4 text-center">
                     <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal">
-                        <i class="material-icons">&#xE147;</i> <span>Add New Recipe</span>
+                        <i class="material-icons">&#xE147;</i> <span> công thức mới </span>
                     </a>
+                    
                 </div>
-                
+                 <div class="col-sm-4 text-center">
+                     
+                     <a href="ingredientlist" class="btn btn-success" >
+                        <i class="material-icons">&#xE147;</i> <span>Danh sách nguyên liệu</span>
+                    </a>
+                      </div>
             </div>
         </div>
 

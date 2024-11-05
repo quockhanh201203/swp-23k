@@ -1,3 +1,8 @@
+
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -97,17 +102,28 @@
                     <h1 class="mb-5">Explore Our Services</h1>
                 </div>
                 <div class="row g-4">
-                    
-                    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-    <a href="your-link-here" class="service-item rounded pt-3">
-        <div class="p-4">
-            <i class="fa fa-3x fa-user-tie text-primary mb-4"></i>
-            <h5>Master Chefs</h5>
-            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
-        </div>
-    </a>
-</div>
+              <c:set var="totalSum" value="0" /> <!-- Khởi tạo biến totalSum với giá trị 0 -->
 
+<c:forEach items="${tableOrderList}" var="tb">
+    <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+     <a href="orderdetail?tableOrderID=${tb.getTable_OrderID()}">Order Detail</a>
+
+        <div class="p-4">
+            <h5>Customer name: ${tb.getCustomerName()}</h5>
+            <h5>Guest name: ${tb.getGuestName()}</h5>
+            <h5>Order Date: ${tb.getOrderdate()}</h5>
+            <h5>Total:$ ${tb.getTotalPrice()}</h5>
+        </div>
+    </div>
+    
+    <!-- Cộng dồn totalPrice vào totalSum -->
+    <c:set var="totalSum" value="${totalSum + tb.getTotalPrice()}" />
+</c:forEach>
+
+<!-- Hiển thị tổng totalPrice -->
+<div>
+    <h5>Total Price for All Orders:$ ${totalSum}</h5>
+</div>
                     
                 </div>
             </div>

@@ -14,14 +14,19 @@ public class tableOrder {
     private int Table_OrderID;
     private int TotalPrice;
     private Date OrderDate;
+    private int CustomerID;
+    private int GuestID;
     private int TableID;
     public tableOrder(){
         
     }
-    public tableOrder(int Table_OrderID, int TotalPrice, Date OrderDate, int TableID) {
+
+    public tableOrder(int Table_OrderID, int TotalPrice, Date OrderDate, int CustomerID, int GuestID, int TableID) {
         this.Table_OrderID = Table_OrderID;
         this.TotalPrice = TotalPrice;
         this.OrderDate = OrderDate;
+        this.CustomerID = CustomerID;
+        this.GuestID = GuestID;
         this.TableID = TableID;
     }
 
@@ -49,6 +54,22 @@ public class tableOrder {
         this.OrderDate = OrderDate;
     }
 
+    public int getCustomerID() {
+        return CustomerID;
+    }
+
+    public void setCustomerID(int CustomerID) {
+        this.CustomerID = CustomerID;
+    }
+
+    public int getGuestID() {
+        return GuestID;
+    }
+
+    public void setGuestID(int GuestID) {
+        this.GuestID = GuestID;
+    }
+
     public int getTableID() {
         return TableID;
     }
@@ -59,7 +80,7 @@ public class tableOrder {
 
     @Override
     public String toString() {
-        return "tableOrder{" + "Table_OrderID=" + Table_OrderID + ", TotalPrice=" + TotalPrice + ", OrderDate=" + OrderDate + ", TableID=" + TableID + '}';
+        return "tableOrder{" + "Table_OrderID=" + Table_OrderID + ", TotalPrice=" + TotalPrice + ", OrderDate=" + OrderDate + ", CustomerID=" + CustomerID + ", GuestID=" + GuestID + ", TableID=" + TableID + '}';
     }
-    
+   
 }
