@@ -3,18 +3,37 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/git25.9/swp-23k/web/buffetList.jsp</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/newTableOrder.java</file>
-            <file>file:/C:/git25.9/swp-23k/web/orderList.jsp</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/buffetList.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/Model/foodOrder.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/OrderList.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/DAO/OrderDAO.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/odlist.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/staffTableOrder.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/Model/orderDto.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/search.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/Model/dao/buffetOrder.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/menu-sidebar.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/price-history-manage.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/menu.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/controller/ProfileController.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/Homepage.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/buffet-detail.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/controller/DrinkCategoryManageController.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/drink-manage.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/Model/dao/foodCategory.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/controller/BuffetManageController.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/controller/FoodManageController.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/admin-header.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/homepageB.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/Signup.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/admin-profile.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/controller/BuffetDetailController.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/drinkCategory.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/controller/SalaryServlet.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/footer.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/profile.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/drink-category-manage.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/Model/PriceHistory.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/foodCategory.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/header.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/buffet-manage.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/controller/AdminProfileController.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/food-category-manage.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/controller/FoodCategoryManageController.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/web/food-manage.jsp</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/DAO/FoodDAO.java</file>
+            <file>file:/D:/Desktop/SWP391_1/swp-23k/src/java/Model/Food.java</file>
         </group>
     </open-files>
 </project-private>
