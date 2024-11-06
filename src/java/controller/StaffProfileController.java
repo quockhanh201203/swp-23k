@@ -2,11 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
 
 import DAO.UserDAO;
-import Model.Admin;
+import Model.Customer;
 import Model.Staff;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,28 +19,24 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author Legion
  */
-@WebServlet(name="AdminProfileController", urlPatterns={"/admin-profile"})
-public class AdminProfileController extends HttpServlet {
-   
-    
+@WebServlet(name = "StaffProfileController", urlPatterns = {"/staff-profile"})
+public class StaffProfileController extends HttpServlet {
 
-   
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         UserDAO userDAO = new UserDAO();
         int accountID = (Integer) request.getSession().getAttribute("id");
-        Admin admin = userDAO.getAdminByAccountId(accountID);
-        request.setAttribute("admin", admin); //role 3 // staff: role2
+        Staff staff = userDAO.getStaffByAccountId(accountID);
+        request.setAttribute("staff", staff);
         request.setAttribute("isSuccess", request.getParameter("status"));
         request.setAttribute("type", request.getParameter("type"));
-        request.getRequestDispatcher("admin-profile.jsp").forward(request, response);
-    } 
+        request.getRequestDispatcher("staff-profile.jsp").forward(request, response);
+    }
 
-    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         String action = request.getParameter("action");
 
         if ("updateProfile".equals(action)) {
@@ -52,23 +47,22 @@ public class AdminProfileController extends HttpServlet {
             response.sendRedirect("error.jsp"); // Handle unknown action
         }
     }
-    
-    
+
     private void handleUpdateProfile(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String adminName = request.getParameter("adminName");
+        String staffName = request.getParameter("staffName");
         String phoneNumber = request.getParameter("phoneNumber");
-        String adminID = request.getParameter("adminID");
+        String staffID = request.getParameter("staffID");
 
         // Perform validation if necessary
         // Update profile logic (e.g., update database)
         // Assume a UserDAO class exists to update the user's profile
         UserDAO userDAO = new UserDAO();
-        boolean isUpdated = userDAO.updateAdminProfile(adminID, adminName, phoneNumber);
+        boolean isUpdated = userDAO.updateStaffProfile(staffID, staffName, phoneNumber);
 
         if (isUpdated) {
-            response.sendRedirect("admin-profile?status=true&type=profile");
+            response.sendRedirect("staff-profile?status=true&type=profile");
         } else {
-            response.sendRedirect("admin-profile?status=false&type=profile");
+            response.sendRedirect("staff-profile?status=false&type=profile");
         }
 
     }
@@ -81,7 +75,7 @@ public class AdminProfileController extends HttpServlet {
 
         if (!newPassword.equals(confirmNewPassword)) {
             // Passwords don't match
-            response.sendRedirect("admin-profile?status=false&type=pass");
+            response.sendRedirect("staff-profile?status=true&type=pass");
             return;
         }
 
@@ -89,14 +83,11 @@ public class AdminProfileController extends HttpServlet {
         boolean isUpdated = userDAO.changePassword(username, newPassword, currentPassword);
 
         if (isUpdated) {
-            response.sendRedirect("admin-profile?status=true&type=pass");
+            response.sendRedirect("staff-profile?status=true&type=pass");
         } else {
-            response.sendRedirect("admin-profile?status=false&type=pass");
+            response.sendRedirect("staff-profile?status=false&type=pass");
         }
 
     }
-
-
-    
 
 }

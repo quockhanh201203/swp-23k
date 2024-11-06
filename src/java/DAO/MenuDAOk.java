@@ -100,6 +100,16 @@ public class MenuDAOk extends DBContext{
             e.printStackTrace();
         }
     }
+    
+    public void deletePriceHistory(int id) {
+        String sql = "DELETE FROM Price_History WHERE [Price_HistoryID] = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void addFoodCategory(FoodCategory category) {
         String sql = "INSERT INTO FoodCategory (CategoryName) VALUES (?)";
