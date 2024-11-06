@@ -62,16 +62,16 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav ms-auto py-0 pe-4">
-                            <a href="foods" class="nav-item nav-link"> <i class="fas fa-tshirt mr-2"></i>Food List</a>
-                            <a href="drinks" class="nav-item nav-link"> <i class="fas fa-tshirt mr-2"></i>Drink List</a>
-                            <a href="buffets" class="nav-item nav-link"> <i class="fas fa-tshirt mr-2"></i>Buffet List</a>
-                            <a href="price-history" class="nav-item nav-link"> <i class="fas fa-tshirt mr-2"></i>Price History</a>
+                            <a href="foods" class="nav-item nav-link"> <i class="fas fa-tshirt mr-2"></i>Ds Món Ăn</a>
+                            <a href="drinks" class="nav-item nav-link"> <i class="fas fa-tshirt mr-2"></i>Ds Đồ Uống</a>
+                            <a href="buffets" class="nav-item nav-link"> <i class="fas fa-tshirt mr-2"></i>Ds Buffet</a>
+                            <a href="price-history" class="nav-item nav-link"> <i class="fas fa-tshirt mr-2"></i>Bảng Cập Nhật Giá</a>
 
                             <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Category</a>
+                                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Món Ăn và Đồ Uống</a>
                                 <div class="dropdown-menu m-0">
-                                    <a href="food-category" class="dropdown-item active">Food Category</a>
-                                    <a href="drink-category" class="dropdown-item">Drink Category</a>
+                                    <a href="food-category" class="dropdown-item active">Món ăn</a>
+                                    <a href="drink-category" class="dropdown-item">Đồ Uống</a>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                         </c:if>
 
                         <c:if test="${empty sessionScope.id}">
-                            <a href="Login.jsp" class="btn btn-primary py-2 px-4">Login</a>
+                            <a href="Login.jsp" class="btn btn-primary py-2 px-4">Đăng Nhập</a>
                         </c:if>
                     </div>
                 </nav>

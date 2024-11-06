@@ -131,7 +131,7 @@
                                                                     <!-- Buffet Name -->
                                                                     <div class="mb-3">
                                                                         <label for="buffetName" class="form-label">Buffet Price</label>
-                                                                        <input type="text" class="form-control" name="price" min="1" value="${buffet.price}" required>
+                                                                        <input type="number" class="form-control" name="price" min="1" value="${buffet.price}" required>
                                                                     </div>
 
                                                                     <!-- Buffet Image -->

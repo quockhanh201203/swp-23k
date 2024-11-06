@@ -4,6 +4,7 @@
  */
 package Model;
 
+import DAO.FoodDAO;
 import DAO.MenuDAO;
 
 /**
@@ -95,8 +96,8 @@ public class Food {
         this.DrinkID = DrinkID;
     }
 
-    public int getPrice() {
-        return Price;
+    public double getPrice() {
+        return new FoodDAO().getFoodPrice(FoodID);
     }
 
     public void setPrice(int Price) {
