@@ -43,7 +43,7 @@ public class DBContext {
     private final String dbName = "5AnhLucDB";
     private final String portNumber = "1433";
     private final String instance = "";
-    private final String userID = "sa";
+    private final String userID = "trantung";
     private final String password = "123";
 
     public void closeConnection() {

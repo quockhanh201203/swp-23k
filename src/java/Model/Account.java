@@ -13,7 +13,9 @@ public class Account {
     private String username;
     private String password;
     private int roleID;
-
+    public Account(){
+        
+    }
     // Getters and Setters
     public int getAccountID() {
         return accountID;
