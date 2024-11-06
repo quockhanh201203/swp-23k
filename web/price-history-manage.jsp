@@ -48,7 +48,7 @@
                             <button type="submit" class="btn btn-primary">Filter</button>
                         </form>    
                         <div class="table-responsive">
-                            
+
                             <table id="history" class="table table-light table-striped table-bordered">
                                 <thead class="thead-dark">
                                     <tr>
@@ -57,6 +57,7 @@
                                         <th>Price</th>
                                         <th>StartDate</th>
                                         <th>EndDate</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -67,6 +68,12 @@
                                             <td>${ph.price}</td>
                                             <td>${ph.startDate}</td>
                                             <td>${ph.endDate}</td>
+                                            <td>
+                                                <form action="price-history" method="post">
+                                                    <input type="hidden" name="priceHistoryId" value="${ph.priceHistoryId}">
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>

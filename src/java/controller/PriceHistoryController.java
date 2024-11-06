@@ -44,6 +44,9 @@ public class PriceHistoryController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         
+        int priceHistoryId = Integer.parseInt(request.getParameter("priceHistoryId"));
+        new MenuDAOk().deletePriceHistory(priceHistoryId);
+        response.sendRedirect("price-history");
     }
 
 }
