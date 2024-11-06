@@ -17,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import utils.PasswordUtil;
 
 /**
  *
@@ -74,13 +75,14 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         LoginDAO ld = new LoginDAO();
+        PasswordUtil pu = new PasswordUtil();
         String loginType= request.getParameter("loginType");
         
         if(  loginType.equals("wl") ){
             String username = request.getParameter("username");
         String password = request.getParameter("password");
         
-        Account ac = ld.login(username,password );
+        Account ac = ld.login(username,pu.hashPassword(password)) ;
         Account account = ld.getId(username);
              
             if (ac == null || ac.equals(ac.getUsername())) {
