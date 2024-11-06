@@ -26,7 +26,8 @@ public class ProfileController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         UserDAO userDAO = new UserDAO();
-        Customer customer = userDAO.getFirstCustomer();
+        int accountID = (Integer) request.getSession().getAttribute("id");
+        Customer customer = userDAO.getCustomerByAccountId(accountID);
         request.setAttribute("customer", customer);
         request.setAttribute("isSuccess", request.getParameter("status"));
         request.setAttribute("type", request.getParameter("type"));

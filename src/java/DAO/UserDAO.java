@@ -26,12 +26,13 @@ public class UserDAO extends DBContext{
         }
     }
 
-    public Customer getFirstCustomer() {
-        String query = "SELECT TOP 1 CustomerID, CustomerName, PhoneNumber, Email, Point, AccountID "
-                + "FROM Customer ORDER BY CustomerID ASC";
+    public Customer getCustomerByAccountId(int accountId) {
+        String query = "SELECT CustomerID, CustomerName, PhoneNumber, Email, Point, AccountID "
+                + "FROM Customer WHERE accountID = ? ORDER BY CustomerID ASC";
 
-        try (PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
-
+        try (PreparedStatement statement = connection.prepareStatement(query); ) {
+            statement.setInt(1, accountId);
+            ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 Customer customer = new Customer();
                 customer.setCustomerID(resultSet.getInt("CustomerID"));
