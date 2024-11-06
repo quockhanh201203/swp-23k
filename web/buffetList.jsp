@@ -166,7 +166,7 @@
                     <div class="w-100 d-flex flex-column text-start ps-4">
                         <h5 class="d-flex justify-content-between border-bottom pb-2">
                             <span>${buffet.getBuffetName()}</span>
-                            <span class="text-primary">$${buffet.getPrice()}</span>
+                            <span class="text-primary">${buffet.getPrice()}Đ</span>
                         </h5>
                         <small class="fst-italic">${buffet.getFoodName()}</small>
                         <small class="fst-italic">${buffet.getDrinkName()}</small>

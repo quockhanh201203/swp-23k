@@ -56,7 +56,7 @@
             <div class="container-xxl position-relative p-0">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
                     <a href="" class="navbar-brand p-0">
-                        <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Restoran</h1>
+                        <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>5anhluc</h1>
                         <!-- <img src="img/logo.png" alt="Logo"> -->
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -170,7 +170,7 @@
                             <div class="w-100 d-flex flex-column text-start ps-4">
                                 <h5 class="d-flex justify-content-between border-bottom pb-2">
                                     <span>${drink.drinkName}</span>
-                                    <span class="text-primary">$${drink.price}</span>
+                                    <span class="text-primary">${drink.price}Đ</span>
                                 </h5>
                                 <small class="fst-italic">${drink.categoryName}</small>
                                   <a href="javascript:void(0);" class="btn btn-primary py-2 px-4" 
@@ -223,7 +223,7 @@
                                                 <div class="w-100 d-flex flex-column text-start ps-4">
                                                     <h5 class="d-flex justify-content-between border-bottom pb-2">
                                                         <span>${buffet.getBuffetName()}</span>
-                                                        <span class="text-primary">$${buffet.getPrice()}</span>
+                                                        <span class="text-primary">${buffet.getPrice()}Đ</span>
                                                     </h5>
                                                     <small class="fst-italic">${buffet.getFoodName()}</small>
                                                     <small class="fst-italic">${buffet.getDrinkName() }</small>

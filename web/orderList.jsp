@@ -120,7 +120,7 @@
             <div class="w-100 d-flex flex-column text-start ps-4">
                 <h5 class="d-flex justify-content-between border-bottom pb-2">
                     <span>${f.getFoodName()}</span>
-                    Price: <span class="text-primary">$${f.getPrice()}</span>
+                    Price: <span class="text-primary">${f.getPrice()}Đ</span>
                     Quantity: <span class="text-primary">${f.getQuantity()}</span>
                 </h5>
                 <small class="fst-italic">Note: ${f.getGuestNote()}</small>
@@ -192,7 +192,7 @@
             <div class="w-100 d-flex flex-column text-start ps-4">
                 <h5 class="d-flex justify-content-between border-bottom pb-2">
                     <span>${f.getDrinkName()}</span>
-                    Price: <span class="text-primary">$${f.getPrice()}</span>
+                    Price: <span class="text-primary">${f.getPrice()}Đ</span>
                     Quantity: <span class="text-primary">${f.getQuantity()}</span>
                 </h5>
                 <small class="fst-italic">Note: ${f.getGuestNote()}</small>
@@ -286,7 +286,7 @@
             <div class="w-100 d-flex flex-column text-start ps-4">
                 <h5 class="d-flex justify-content-between border-bottom pb-2">
                     <span>${f.getBuffetName()}</span>
-                    Price: <span class="text-primary">$${f.getPrice()}</span>
+                    Price: <span class="text-primary">${f.getPrice()}Đ</span>
                 </h5>
                 <small class="fst-italic">Note: ${f.getGuestNote()}</small>
 
@@ -356,10 +356,8 @@
             </div>
 
             <c:set var="total" value="0" />
-            <c:forEach items="${foodOrderList}" var="f">
-                <c:set var="total" value="${total + (f.getPrice() * f.getQuantity())}" />
-            </c:forEach>
-            <h1 class="mb-5">Total: $${total}</h1>
+
+
             <form action="checkout" method="post"> 
                 <label for="total"></label>
                 <input type="hidden" id="total" name="total" step="0.01" required value="${total}">
