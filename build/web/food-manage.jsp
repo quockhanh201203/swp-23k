@@ -81,8 +81,7 @@
             <div class="row justify-content-center">
                 <div class="col-12 bg-dark d-flex align-items-center">
                     <div class="p-5 w-100">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Food List</h5>
-                        <h1 class="text-white mb-4">Food List</h1>
+                        <h1 class="text-white mb-4">Thực Đơn</h1>
 
                         <form action="price-history" method="get" class="form-inline mb-4">
                             <div class="form-group mr-3">
@@ -103,7 +102,7 @@
                                 </select>
                             </div>
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFoodModal">
-                                Add Food
+                                Thêm
                             </button>
                         </form>
 
@@ -162,7 +161,7 @@
                                                         <div class="modal-content">
                                                             <form action="foods" method="POST">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="addDrinkModalLabel">Edit Food</h5>
+                                                                    <h5 class="modal-title" id="addDrinkModalLabel">Thay đổi</h5>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
@@ -173,13 +172,13 @@
 
                                                                     <!-- Food Name -->
                                                                     <div class="mb-3">
-                                                                        <label for="foodName" class="form-label">Food Name</label>
+                                                                        <label for="foodName" class="form-label">Tên Món Ăn</label>
                                                                         <input type="text" class="form-control" name="foodName" pattern=".*\S.*" title="Input cannot be only spaces" value="${food.foodName}"  required>
                                                                     </div>
 
                                                                     <!-- Category ID -->
                                                                     <div class="form-group">
-                                                                        <label for="category">Category:</label>
+                                                                        <label for="category">Loại:</label>
                                                                         <select name="categoryId" class="form-control">
                                                                             <c:forEach items="${foodCategorys}" var="fc">
                                                                                 <option value="${fc.categoryID}" ${fc.categoryID == food.categoryID ? 'selected' : ''}>${fc.categoryName}</option>
@@ -189,7 +188,7 @@
 
                                                                     <!-- Status -->
                                                                     <div class="mb-3">
-                                                                        <label for="status" class="form-label">Status</label>
+                                                                        <label for="status" class="form-label">Trạng Thái</label>
                                                                         <select class="form-control" name="status" required>
                                                                             <option value="Active" ${food.status == 'Active' ? 'selected' : ''}>Active</option>
                                                                             <option value="Deactive" ${food.status == 'Deactive' ? 'selected' : ''}>De-Active</option>
@@ -198,19 +197,19 @@
 
                                                                     <!-- Price -->
                                                                     <div class="mb-3">
-                                                                        <label for="price" class="form-label">Price</label>
+                                                                        <label for="price" class="form-label">Giá</label>
                                                                         <input type="text" class="form-control" name="price" value="${food.price}" min="1" required>
                                                                     </div>
 
                                                                     <!-- Image URL -->                          
                                                                     <div class="mb-3">
-                                                                        <label for="image" class="form-label">Image URL</label>
+                                                                        <label for="image" class="form-label">Hình Ảnh</label>
                                                                         <input type="text" class="form-control" name="image" value="${food.image}" pattern=".*\S.*" title="Input cannot be only spaces" required>
                                                                     </div>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                    <button type="submit" class="btn btn-primary">Update Food</button>
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">X</button>
+                                                                    <button type="submit" class="btn btn-primary">Cập Nhật</button>
                                                                 </div>
                                                                 <!-- Set action type -->
                                                                 <input type="hidden" name="action" value="update">

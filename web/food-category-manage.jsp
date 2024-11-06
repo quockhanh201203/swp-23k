@@ -32,20 +32,20 @@
                 <div class="modal-content">
                     <form action="food-category" method="post">
                         <div class="modal-header">
-                            <h5 class="modal-title">Add Category</h5>
+                            <h5 class="modal-title">Thêm </h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>Category Name</label>
+                                <label>Loại đồ ăn</label>
                                 <input type="text" name="categoryName" pattern=".*\S.*" title="Input cannot be only spaces" class="form-control" required>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <input type="hidden" name="action" value="add">
-                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="submit" class="btn btn-primary">Thêm</button>
                         </div>
                     </form>
                 </div>
@@ -75,7 +75,7 @@
                                     Failed!
                                 </div>
                             </c:if>
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#addCategoryModal">Add Category</button>    
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#addCategoryModal">Thêm </button>    
                             <table id="category" class="table table-light table-striped table-bordered">
                                 <thead>
                                     <tr>
@@ -103,7 +103,7 @@
                                                         <div class="modal-content">
                                                             <form action="food-category" method="post">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title">Update Category</h5>
+                                                                    <h5 class="modal-title">Sửa </h5>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
@@ -117,7 +117,7 @@
                                                                 <div class="modal-footer">
                                                                     <input type="hidden" name="action" value="update">
                                                                     <input type="hidden" id="categoryId" name="id" value="${category.categoryID}">
-                                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                                    <button type="submit" class="btn btn-primary">Cập Nhật</button>
                                                                 </div>
                                                             </form>
                                                         </div>
