@@ -70,6 +70,7 @@
                                     <a href="salaryList" class="dropdown-item">Lương</a>
                                     <a href="CustomerServlet" class="dropdown-item">Khách hàng</a>
                                     <a href="FeedbackList" class="dropdown-item">Danh sách phản hồi</a>
+                                    <a href="OrderList" class="dropdown-item">Lịch sử gọi món</a>
                                 </div>
                             </div>
                             
