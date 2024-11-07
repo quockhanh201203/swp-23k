@@ -27,8 +27,6 @@
     </head>
     <body>
 
-
-
         <div class="modal fade" id="addFoodModal" tabindex="-1" role="dialog" aria-labelledby="addFoodModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document" style="max-width: 90vw;">
                 <div class="modal-content" style="display: inline-block;">

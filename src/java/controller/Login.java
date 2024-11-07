@@ -5,6 +5,7 @@
 
 package controller;
 
+import DAO.AccountDAO;
 import DAO.LoginDAO;
 import Model.Account;
 import java.io.IOException;
@@ -75,6 +76,7 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         LoginDAO ld = new LoginDAO();
+        AccountDAO ad = new AccountDAO();
         PasswordUtil pu = new PasswordUtil();
         String loginType= request.getParameter("loginType");
         
@@ -97,7 +99,7 @@ public class Login extends HttpServlet {
                  HttpSession session = request.getSession();
                 session.setAttribute("id", account.getAccountID());
                 session.setAttribute("username", username);
-                session.setAttribute("password", password);
+                session.setAttribute("RoleID", ad.findAccountByID(account.getAccountID()).getRoleID());
                    String goc = "customer";
             session.setAttribute("goc", goc);
             System.out.println("Session ID attribute: " + session.getAttribute("id"));

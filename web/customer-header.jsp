@@ -54,7 +54,7 @@
             <div class="container-xxl position-relative p-0">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
                     <a href="" class="navbar-brand p-0">
-                        <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>Restorant</h1>
+                        <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>5 Anh Lực</h1>
                         <!-- <img src="img/logo.png" alt="Logo"> -->
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -62,46 +62,16 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav ms-auto py-0 pe-4">
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Quản lý người dùng</a>
-                                <div class="dropdown-menu m-0">
-                                    <a href="StaffManage" class="dropdown-item">Quản lý nhân viên</a>
-                                    <a href="ShiftManage" class="dropdown-item">Quản lý ca làm</a>
-                                    <a href="salaryList" class="dropdown-item">Lương</a>
-                                    <a href="CustomerServlet" class="dropdown-item">Khách hàng</a>
-                                    <a href="FeedbackList" class="dropdown-item">Danh sách phản hồi</a>
-                                </div>
-                            </div>
-                            
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Bàn ăn & Giảm giá</a>
-                                <div class="dropdown-menu m-0">
-                                    <a href="TableServlet" class="dropdown-item">Quản lý bàn</a>
-                                    <a href="ReservationList" class="dropdown-item">Danh sách đặt bàn</a>
-                                    <a href="DiscountServlet" class="dropdown-item">Giảm giá</a>
-                                    <a href="voucher" class="dropdown-item">Phiếu giảm giá</a>
-                                </div>  
-                            </div>
-
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Quản lý sản phẩm</a>
-                                <div class="dropdown-menu m-0">
-                                    <a href="foods" class="dropdown-item">Đồ ăn</a>
-                                    <a href="buffets" class="dropdown-item">Buffet</a>
-                                    <a href="drinks" class="dropdown-item">Nước</a>
-                                    <a href="drink-category" class="dropdown-item">Phân loại nước</a>
-                                    <a href="food-category" class="dropdown-item">Phân loại đồ ăn</a>
-                                    <a href="price-history" class="dropdown-item">Lịch sử giá</a>
-                                    <a href="buffet-detail" class="dropdown-item">Chi tiết Buffet</a>
-                                </div>
-                            </div>
+                            <a href="myFeedBack" class="nav-item nav-link">Nhận xét</a>
+                            <a href="myReservation" class="nav-item nav-link">Đặt bàn</a>
+                            <a href="menu" class="nav-item nav-link">Menu</a>
                         </div>
                         <c:if test="${not empty sessionScope.id}">
-                            <a href="admin-profile" class="btn btn-primary py-2 px-4">${sessionScope.username}!</a>
+                            <a href="profile" class="btn btn-primary py-2 px-4">${sessionScope.username}!</a>
                         </c:if>
 
                         <c:if test="${empty sessionScope.id}">
-                            <a href="Login.jsp" class="btn btn-primary py-2 px-4">Đăng nhập</a>
+                            <a href="Login.jsp" class="btn btn-primary py-2 px-4">Login</a>
                         </c:if>
                     </div>
                 </nav>

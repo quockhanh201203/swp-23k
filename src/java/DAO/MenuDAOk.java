@@ -38,7 +38,7 @@ public class MenuDAOk extends DBContext{
 
     public List<FoodCategory> getAllFoodCategories() {
         List<FoodCategory> categories = new ArrayList<>();
-        String sql = "SELECT CategoryID, CategoryName FROM FoodCategory";
+        String sql = "SELECT CategoryID, CategoryName FROM Food_Category";
 
         try (PreparedStatement statement = connection.prepareStatement(sql); ResultSet rs = statement.executeQuery()) {
 
@@ -112,7 +112,7 @@ public class MenuDAOk extends DBContext{
     }
 
     public void addFoodCategory(FoodCategory category) {
-        String sql = "INSERT INTO FoodCategory (CategoryName) VALUES (?)";
+        String sql = "INSERT INTO Food_Category (CategoryName) VALUES (?)";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, category.getCategoryName());
             System.out.println(statement.executeUpdate());
@@ -122,7 +122,7 @@ public class MenuDAOk extends DBContext{
     }
 
     public void updateFoodCategory(FoodCategory category) {
-        String sql = "UPDATE FoodCategory SET CategoryName = ? WHERE CategoryID = ?";
+        String sql = "UPDATE Food_Category SET CategoryName = ? WHERE CategoryID = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, category.getCategoryName());
             statement.setInt(2, category.getCategoryID());
@@ -133,7 +133,7 @@ public class MenuDAOk extends DBContext{
     }
 
     public void deleteFoodCategory(int id) {
-        String sql = "DELETE FROM FoodCategory WHERE CategoryID = ?";
+        String sql = "DELETE FROM Food_Category WHERE CategoryID = ?";
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, id);
             statement.executeUpdate();
@@ -255,7 +255,7 @@ public class MenuDAOk extends DBContext{
     }
 
     public List<FoodCategory> getFoodCategories() {
-        String query = "SELECT CategoryID, CategoryName FROM FoodCategory";
+        String query = "SELECT CategoryID, CategoryName FROM Food_Category";
         List<FoodCategory> drinkCategories = new ArrayList<>();
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -276,7 +276,7 @@ public class MenuDAOk extends DBContext{
     }
 
     public FoodCategory getFoodCategoryByID(int categoryID) {
-        String query = "SELECT CategoryID, CategoryName FROM FoodCategory WHERE CategoryID = ?";
+        String query = "SELECT CategoryID, CategoryName FROM Food_Category WHERE CategoryID = ?";
         FoodCategory foodCategory = null;
 
         try (PreparedStatement stmt = connection.prepareStatement(query)) {

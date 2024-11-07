@@ -18,8 +18,7 @@
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
-
-        <%@ include file="header.jsp" %>
+<%@ include file="customer-header.jsp" %>
 
         <!-- Container Danh sách Phản hồi -->
         <div class="container-fluid py-5 bg-secondary">

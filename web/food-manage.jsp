@@ -31,7 +31,25 @@
     <body>
         <!-- Sidebar -->
 
-        <%@ include file="admin-header.jsp" %>
+        <%
+    // Grab RoleID from the session
+    Integer roleID = (Integer) session.getAttribute("RoleID");
+
+    // Check RoleID and include the appropriate header
+    if (roleID == 0) {
+        // If RoleID is not in the session, include the default header.jsp
+        %><%@ include file="header.jsp" %><%
+    } else if (roleID == 1) {
+        // RoleID 1 is customer
+        %><%@ include file="customer-header.jsp" %><%
+    } else if (roleID == 2) {
+        // RoleID 2 is staff
+        %><%@ include file="staff-header.jsp" %><%
+    } else if (roleID == 3) {
+        // RoleID 3 is admin
+        %><%@ include file="admin-header.jsp" %><%
+    }
+        %>
         <div class="modal fade" id="addFoodModal" tabindex="-1" role="dialog" aria-labelledby="addFoodModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">

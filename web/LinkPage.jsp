@@ -19,7 +19,6 @@
             <h1>Customer</h1>
             <div><a href="myFeedBack">myFeedBack</a></div>
             <div><a href="myReservation">myReservation</a></div>
-            
             <div><a href="profile">Profile</a></div>
 
 
@@ -43,7 +42,6 @@
             <div><a href="ShiftManage">ShiftManage</a></div>
             <div><a href="FeedbackList">FeedbackList</a></div>
             <div><a href="ReservationList">ReservationList</a></div>
-            <div><a href="DashboardServlet">DashBoard ( chưa xong )</a></div>
             //Khanh
             <div><a href="foods">Food</a></div>
             <div><a href="buffets">Buffet</a></div>
@@ -53,11 +51,6 @@
             <div><a href="food-category">Food Category</a></div>
             <div><a href="price-history">Price History</a></div>
             <div><a href="buffet-detail">Buffet Detail</a></div>
-
-
-
-
-
             //Cong
             <div><a href="CustomerServlet">Customer</a></div>
             <div><a href="DiscountServlet">Discount</a></div>

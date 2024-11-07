@@ -18,7 +18,7 @@
     </head>
     <body>
 
-        <%@ include file="header.jsp" %>
+        <%@ include file="customer-header.jsp" %>
 
         <div class="container-xxl py-5 px-0 wow fadeInUp bg-secondary" data-wow-delay="0.1s">
             <div class="row g-0 justify-content-center">
