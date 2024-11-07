@@ -125,7 +125,7 @@
 
             <!-- Navbar & Hero Start -->
             <div class="container-xxl position-relative p-0">
-                if (roleID == 0) {
+                if (roleID == null) {
         // If RoleID is not in the session, include the default header.jsp
         %><%@ include file="header.jsp" %><%
     } else if (roleID == 1) {

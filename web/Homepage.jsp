@@ -113,18 +113,18 @@
         </div>
 
         <!-- Popup 2: Select Table -->
-        
+
         <div id="popupTable">
             <div class="popup-content">
                 <button class="close-btn" onclick="closePopup2()">×</button>
                 <p>Xin vui lòng chọn 1 bàn:</p>
                 <div class="table-options">
-                     <form action="homepage" method="post">
-                <c:forEach items="${tableList}" var="tb">
-                    <label><input type="radio" name="table" value="${tb.getTableID()}">${tb.getTableName()}</label>
-                </c:forEach>
-                <button class="btn btn-primary py-2 px-4" type="submit">Chọn bàn</button>
-            </form>                </div>
+                    <form action="homepage" method="post">
+                        <c:forEach items="${tableList}" var="tb">
+                            <label><input type="radio" name="table" value="${tb.getTableID()}">${tb.getTableName()}</label>
+                            </c:forEach>
+                        <button class="btn btn-primary py-2 px-4" type="submit">Chọn bàn</button>
+                    </form>                </div>
             </div>
         </div>  
 
@@ -148,20 +148,23 @@
     Integer roleID = (Integer) session.getAttribute("RoleID");
 
     // Check RoleID and include the appropriate header
-    if (roleID == 0) {
+    if (roleID == null) {
         // If RoleID is not in the session, include the default header.jsp
-        %><%@ include file="header.jsp" %><%
-    } else if (roleID == 1) {
+            %><%@ include file="header.jsp" %><%
+            }else if (roleID == null) {
         // RoleID 1 is customer
-        %><%@ include file="customer-header.jsp" %><%
+            %><%@ include file="header.jsp" %><%
+    }else if (roleID == 1) {
+        // RoleID 1 is customer
+            %><%@ include file="customer-header.jsp" %><%
     } else if (roleID == 2) {
         // RoleID 2 is staff
-        %><%@ include file="staff-header.jsp" %><%
+            %><%@ include file="staff-header.jsp" %><%
     } else if (roleID == 3) {
         // RoleID 3 is admin
-        %><%@ include file="admin-header.jsp" %><%
+            %><%@ include file="admin-header.jsp" %><%
     }
-        %>
+            %>
 
             <!-- Menu Start -->
             <div class="container-xxl py-5">
@@ -201,52 +204,52 @@
 
 
             <!-- Team Start -->
-    <div class="container-xxl pt-5 pb-3">
-    <div class="container">
-        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h5 class="section-title ff-secondary text-center text-primary fw-normal">Popular in Social Media</h5>
-            <h1 class="mb-5">Best Sellers</h1>
-        </div>
-        
+            <div class="container-xxl pt-5 pb-3">
+                <div class="container">
+                    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                        <h5 class="section-title ff-secondary text-center text-primary fw-normal">Popular in Social Media</h5>
+                        <h1 class="mb-5">Best Sellers</h1>
+                    </div>
 
-        <div class="row g-4">
-            <c:forEach items="${list2}" var="a"> 
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                    <div class="team-item text-center rounded overflow-hidden">
-                        <div class="rounded-circle overflow-hidden m-4">
-                            <img class="img-fluid" src="${a.getImage()}" alt=""> 
-                        </div>
-                        <h5 class="mb-0">${a.getFoodName()}</h5>
-                        <small>${a.getCategoryName()}</small> 
-                        <div class="d-flex justify-content-center mt-3">
-                       
-                        </div>
+
+                    <div class="row g-4">
+                        <c:forEach items="${list2}" var="a"> 
+                            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                                <div class="team-item text-center rounded overflow-hidden">
+                                    <div class="rounded-circle overflow-hidden m-4">
+                                        <img class="img-fluid" src="${a.getImage()}" alt=""> 
+                                    </div>
+                                    <h5 class="mb-0">${a.getFoodName()}</h5>
+                                    <small>${a.getCategoryName()}</small> 
+                                    <div class="d-flex justify-content-center mt-3">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                        <h1 class="mb-5">Best Buffet</h1>
+                    </div>
+                    <div class="row g-4 mt-4"> 
+                        <c:forEach items="${list3}" var="buffet"> 
+                            <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
+                                <div class="team-item text-center rounded overflow-hidden">
+                                    <div class="rounded-circle overflow-hidden m-4">
+                                        <img class="img-fluid" src="${buffet.getImage()}" alt=""> 
+                                    </div>
+                                    <h5 class="mb-0">${buffet.getBuffetName()}</h5> 
+                                    <small class="fst-italic">${buffet.getFoodName()}</small>
+                                    <small class="fst-italic">${buffet.getDrinkName()}</small>
+                                    <div class="d-flex justify-content-center mt-3">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
                     </div>
                 </div>
-            </c:forEach>
-        </div>
-        <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-            <h1 class="mb-5">Best Buffet</h1>
-        </div>
-        <div class="row g-4 mt-4"> 
-            <c:forEach items="${list3}" var="buffet"> 
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
-                    <div class="team-item text-center rounded overflow-hidden">
-                        <div class="rounded-circle overflow-hidden m-4">
-                            <img class="img-fluid" src="${buffet.getImage()}" alt=""> 
-                        </div>
-                        <h5 class="mb-0">${buffet.getBuffetName()}</h5> 
-                        <small class="fst-italic">${buffet.getFoodName()}</small>
-                        <small class="fst-italic">${buffet.getDrinkName()}</small>
-                        <div class="d-flex justify-content-center mt-3">
-                     
-                        </div>
-                    </div>
-                </div>
-            </c:forEach>
-        </div>
-    </div>
-</div>
+            </div>
 
 
             <!-- Back to Top -->

@@ -64,7 +64,7 @@
     Integer roleID = (Integer) session.getAttribute("RoleID");
 
     // Check RoleID and include the appropriate header
-    if (roleID == 0) {
+    if (roleID == null) {
         // If RoleID is not in the session, include the default header.jsp
         %><%@ include file="header.jsp" %><%
     } else if (roleID == 1) {
