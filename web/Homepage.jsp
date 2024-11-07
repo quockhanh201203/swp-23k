@@ -150,10 +150,7 @@
     // Check RoleID and include the appropriate header
     if (roleID == null) {
         // If RoleID is not in the session, include the default header.jsp
-            %><%@ include file="header.jsp" %><%
-            }else if (roleID == null) {
-        // RoleID 1 is customer
-            %><%@ include file="header.jsp" %><%
+            %><%@ include file="customer-header.jsp" %><%
     }else if (roleID == 1) {
         // RoleID 1 is customer
             %><%@ include file="customer-header.jsp" %><%

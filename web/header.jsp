@@ -62,18 +62,12 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarCollapse">
                         <div class="navbar-nav ms-auto py-0 pe-4">
-<!--                            <a href="homepage" class="nav-item nav-link">Home</a>
-                            <a href="about.html" class="nav-item nav-link">About</a>
+                            <a class="nav-item nav-link"></a>
+                            <a href="header.jsp"></a>
+<!--                         <a href="about.html" class="nav-item nav-link">About</a>
                             <a href="service.html" class="nav-item nav-link">Service</a>
                             <a href="menu.html" class="nav-item nav-link">Menu</a>-->
-                            <div class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Pages</a>
-                                <div class="dropdown-menu m-0">
-                                    <a href="profile" class="dropdown-item active">Profile</a>
-                                    <a href="team.html" class="dropdown-item">Our Team</a>
-                                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                                </div>
-                            </div>
+                          
                         </div>
 <!--                        <a href="contact.html" class="nav-item nav-link">Contact</a>-->
                         <c:if test="${not empty sessionScope.id}">

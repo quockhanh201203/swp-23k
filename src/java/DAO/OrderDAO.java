@@ -34,7 +34,7 @@ public class OrderDAO extends DBContext{
                 + "LEFT JOIN Drink d ON od.DrinkID = d.DrinkID "
                 + "LEFT JOIN Order_Buffet ob ON o.OrderID = ob.OrderID "
                 + "LEFT JOIN Buffet b ON ob.BuffetID = b.BuffetID "
-                + "WHERE 1=1" // Always true condition to simplify appending conditions
+                + "WHERE o.CustomerID IS NOT NULL" // Always true condition to simplify appending conditions
         );
 
         // Dynamically add conditions if parameters are provided
@@ -152,7 +152,7 @@ public class OrderDAO extends DBContext{
                 + "LEFT JOIN Customer c ON o.CustomerID = c.CustomerID "
                 + "LEFT JOIN Order_Food ofd ON o.OrderID = ofd.OrderID "
                 + "LEFT JOIN Food f ON ofd.FoodID = f.FoodID "
-                + "WHERE 1=1"
+                + "WHERE o.CustomerID IS NOT NULL"
         );
 
         // Dynamically add conditions if parameters are provided

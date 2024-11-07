@@ -52,29 +52,30 @@ public class CustomerDAO extends DBContext {
     }
     
     public List<Customer> selectAllCustomers() {
-        List<Customer> customerList = new ArrayList<>();
-        String sql = "SELECT *\n"
-                + "FROM Customer\n"
-                + "LEFT JOIN Account ON Customer.AccountID = Account.AccountID;";
+        List<Customer> customers = new ArrayList<>();
+        String query = "SELECT CustomerID, CustomerName, PhoneNumber, Email, Point, AccountID FROM Customer";
 
-        try {
-            PreparedStatement st = connection.prepareStatement(sql);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Customer p = new Customer();
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
 
-                customerList.add(new Customer(
-                        rs.getInt(1), rs.getString(2), rs.getString(3),
-                        rs.getString(4), rs.getInt(5), rs.getInt(6)
-                        
-                )
-                );
+            try (ResultSet resultSet = statement.executeQuery()) {
+               while (resultSet.next()) {
+                // Retrieve data from each row and create a new Customer object
+                int customerID = resultSet.getInt("CustomerID");
+                String customerName = resultSet.getString("CustomerName");
+                String phoneNumber = resultSet.getString("PhoneNumber");
+                String email = resultSet.getString("Email");
+                int point = resultSet.getInt("Point");
+                int accountID = resultSet.getInt("AccountID");
+
+                Customer customer = new Customer(customerID, customerName, phoneNumber, email, point, accountID);
+                customers.add(customer);
             }
-
-        } catch (Exception e) {
-            System.out.println(e);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return customerList;
+
+        return customers;
     }
     
     public List<Customer> searchCustomersByName(String name) {

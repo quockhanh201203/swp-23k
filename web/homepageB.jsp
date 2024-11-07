@@ -1,4 +1,4 @@
-
+    
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -125,20 +125,23 @@
 
             <!-- Navbar & Hero Start -->
             <div class="container-xxl position-relative p-0">
-                if (roleID == null) {
-        // If RoleID is not in the session, include the default header.jsp
-        %><%@ include file="header.jsp" %><%
-    } else if (roleID == 1) {
+            <%
+    // Grab RoleID from the session
+    Integer roleID = (Integer) session.getAttribute("RoleID");
+if (roleID == null) {
         // RoleID 1 is customer
-        %><%@ include file="customer-header.jsp" %><%
+            %><%@ include file="customer-header.jsp" %><%
+    }else if (roleID == 1) {
+        // RoleID 1 is customer
+            %><%@ include file="customer-header.jsp" %><%
     } else if (roleID == 2) {
         // RoleID 2 is staff
-        %><%@ include file="staff-header.jsp" %><%
+            %><%@ include file="staff-header.jsp" %><%
     } else if (roleID == 3) {
         // RoleID 3 is admin
-        %><%@ include file="admin-header.jsp" %><%
+            %><%@ include file="admin-header.jsp" %><%
     }
-        %>
+            %>
 
                 <div class="container-xxl py-5 bg-dark hero-header mb-5">
                     <div class="container my-5 py-5">
