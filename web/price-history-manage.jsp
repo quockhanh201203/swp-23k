@@ -6,7 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>User List</title>
+        <title>Danh Sách Lịch Sử Giá</title>
         <!-- Bootstrap CSS -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
         <!-- DataTable CSS -->
@@ -51,31 +51,31 @@
             <div class="row justify-content-center">
                 <div class="col-12 bg-dark d-flex align-items-center">
                     <div class="p-5 w-100">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Price History List</h5>
-                        <h1 class="text-white mb-4">Price History List</h1>
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Danh Sách Lịch Sử Giá</h5>
+                        <h1 class="text-white mb-4">Danh Sách Lịch Sử Giá</h1>
 
                         <form action="price-history" method="get" class="form-inline mb-4">
                             <div class="form-group mr-3">
-                                <label style="color: white" for="startDate" class="mr-2">Start Date:</label>
+                                <label style="color: white" for="startDate" class="mr-2">Ngày Bắt Đầu:</label>
                                 <input type="date" id="startDate" name="startDate" class="form-control" value="${startDate}" />
                             </div>
                             <div class="form-group mr-3">
-                                <label style="color: white" for="endDate" class="mr-2">End Date:</label>
+                                <label style="color: white" for="endDate" class="mr-2">Ngày Kết Thúc:</label>
                                 <input type="date" id="endDate" name="endDate" class="form-control" value="${endDate}" />
                             </div>
-                            <button type="submit" class="btn btn-primary">Filter</button>
+                            <button type="submit" class="btn btn-primary">Lọc</button>
                         </form>    
                         <div class="table-responsive">
 
                             <table id="history" class="table table-light table-striped table-bordered">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th>Price_HistoryID</th>
-                                        <th>ProductID</th>
-                                        <th>Price</th>
-                                        <th>StartDate</th>
-                                        <th>EndDate</th>
-                                        <th>Action</th>
+                                        <th>ID Lịch Sử Giá</th>
+                                        <th>ID Sản Phẩm</th>
+                                        <th>Giá</th>
+                                        <th>Ngày Bắt Đầu</th>
+                                        <th>Ngày Kết Thúc</th>
+                                        <th>Hành Động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -89,7 +89,7 @@
                                             <td>
                                                 <form action="price-history" method="post">
                                                     <input type="hidden" name="priceHistoryId" value="${ph.priceHistoryId}">
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                    <button type="submit" class="btn btn-danger">Xóa</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -101,9 +101,6 @@
                 </div>
             </div>
         </div>
-
-
-
 
         <%@ include file="footer.jsp" %>
         <!-- JavaScript Libraries -->

@@ -6,7 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>User List</title>
+        <title>Danh sách Món Ăn</title>
         <!-- Bootstrap CSS -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
         <!-- DataTable CSS -->
@@ -31,8 +31,8 @@
             <div class="modal-dialog modal-lg" role="document" style="max-width: 90vw;">
                 <div class="modal-content" style="display: inline-block;">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addFoodModalLabel">Add Food</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h5 class="modal-title" id="addFoodModalLabel">Thêm Món Ăn</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -45,12 +45,12 @@
                             <table id="selectFood" class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Select</th>
-                                        <th>Food ID</th>
-                                        <th>Food Name</th>
-                                        <th>Category ID</th>
-                                        <th>Status</th>
-                                        <th>Image</th>
+                                        <th>Chọn</th>
+                                        <th>ID Món Ăn</th>
+                                        <th>Tên Món Ăn</th>
+                                        <th>ID Loại</th>
+                                        <th>Trạng Thái</th>
+                                        <th>Hình Ảnh</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -66,7 +66,7 @@
                                     </c:forEach>
                                 </tbody>
                             </table>
-                            <button type="submit" class="btn btn-primary">Add Selected Foods</button>
+                            <button type="submit" class="btn btn-primary">Thêm Món Ăn Đã Chọn</button>
                         </form>
                     </div>
                 </div>
@@ -82,32 +82,32 @@
             <div class="row justify-content-center">
                 <div class="col-12 bg-dark d-flex align-items-center">
                     <div class="p-5 w-100">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Buffet Food</h5>
-                        <h1 class="text-white mb-4">Buffet Food</h1>
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Thực Đơn Buffet</h5>
+                        <h1 class="text-white mb-4">Thực Đơn Buffet</h1>
                         <div class="table-responsive">
                             <c:if test="${param.success ne null}">
                                 <div class="alert alert-success" role="alert">
-                                    Success!
+                                    Thành công!
                                 </div>
                             </c:if>
                             <c:if test="${param.fail ne null}">
                                 <div class="alert alert-danger" role="alert">
-                                    Failed!
+                                    Thất bại!
                                 </div>
                             </c:if>
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFoodModal">
-                                Add Food to Buffet
+                                Thêm Món Ăn vào Buffet
                             </button>  
                             <table id="foodTable" class="table table-light table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Food ID</th>
-                                        <th>Food Name</th>
-                                        <th>Category ID</th>
-                                        <th>Price</th>
-                                        <th>Status</th>
-                                        <th>Image</th>
-                                        <th>Actions</th>
+                                        <th>ID Món Ăn</th>
+                                        <th>Tên Món Ăn</th>
+                                        <th>ID Loại</th>
+                                        <th>Giá</th>
+                                        <th>Trạng Thái</th>
+                                        <th>Hình Ảnh</th>
+                                        <th>Hành Động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -118,13 +118,13 @@
                                             <td>${food.foodCategory.categoryName}</td>
                                             <td>${food.price}</td>
                                             <td>${food.status}</td>
-                                            <td><img src="${food.image}" alt="Food Image" width="100" height="100"/></td>
+                                            <td><img src="${food.image}" alt="Hình Ảnh Món Ăn" width="100" height="100"/></td>
                                             <td>
                                                 <form action="buffet-detail" method="post" class="mt-3">
                                                     <input type="hidden" name="action" value="delete">
                                                     <input type="hidden" name="foodId" value="${food.foodID}">
                                                     <input type="hidden" name="buffetId" value="${buffetId}">
-                                                    <button type="submit" class="btn btn-danger">Remove</button>
+                                                    <button type="submit" class="btn btn-danger">Xóa</button>
 
                                                 </form>
                                             </td>
@@ -141,7 +141,6 @@
 
 
 
-        <%@ include file="footer.jsp" %>
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

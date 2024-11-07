@@ -103,7 +103,7 @@
 
                         <form action="price-history" method="get" class="form-inline mb-4">
                             <div class="form-group mr-3">
-                                <label for="categoryFilter">Category:</label>
+                                <label for="categoryFilter">Loại: </label>
                                 <select id="categoryFilter" class="form-control">
                                     <option value="">All</option>
                                     <c:forEach items="${foodCategorys}" var="fc">
@@ -112,11 +112,11 @@
                                 </select>
                             </div>
                             <div class="form-group mr-3">
-                                <label for="statusFilter">Status: </label>
+                                <label for="statusFilter">Trạng thái:  </label>
                                 <select id="statusFilter" class="form-control">
                                     <option value="">All</option>
-                                    <option value="Active">Active</option>
-                                    <option value="De-Active">De-Active</option>
+                                    <option value="Hoạt động">Hoạt động</option>
+                                    <option value="Không hoạt động">Không hoạt động</option>
                                 </select>
                             </div>
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addFoodModal">
@@ -141,13 +141,13 @@
                             <table id="foodTable" class="table table-light table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Food ID</th>
-                                        <th>Food Name</th>
-                                        <th>Category Name</th>
-                                        <th>Price</th>
-                                        <th>Status</th>
-                                        <th>Image</th>
-                                        <th>Actions</th>
+                                        <th>ID</th>
+                                        <th>Tên thức ăn</th>
+                                        <th>Phân loại</th>
+                                        <th>Giá</th>
+                                        <th>Trạng thái</th>
+                                        <th>Ảnh</th>
+                                        <th>Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -157,7 +157,7 @@
                                             <td>${food.foodName}</td>
                                             <td>${food.foodCategory.categoryName}</td>
                                             <td>${food.price}</td>
-                                            <td>${food.status}</td>
+                                            <td>${food.status == 'Active' ?  'Hoạt động' : 'Không hoạt động'}</td>
                                             <td><img src="${food.image}" alt="Food Image" width="100" height="100"/></td>
                                             <td>
                                                 <button type="button" class="btn btn-info" data-toggle="modal" data-target="#updateFoodModal_${food.foodID}">Edit</button>
@@ -166,10 +166,10 @@
                                                     <input type="hidden" name="status" value="${food.status == 'Active' ?  'De-Active' : 'Active'}">
                                                     <input type="hidden" name="id" value="${food.foodID}">
                                                     <c:if test="${food.status == 'Active'}">
-                                                        <button type="submit" class="btn btn-danger">De Active</button>
+                                                        <button type="submit" class="btn btn-danger">Không hoạt động</button>
                                                     </c:if>
                                                     <c:if test="${food.status == 'De-Active'}">
-                                                        <button type="submit" class="btn btn-success">Active</button>
+                                                        <button type="submit" class="btn btn-success">Hoạt động</button>
                                                     </c:if>
 
                                                 </form>
@@ -250,7 +250,6 @@
 
 
 
-        <%@ include file="footer.jsp" %>
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -280,12 +279,12 @@
                     pageLength: 5,
                     "lengthChange": false,
                     "sScrollY": ($(window).height() - 300)
-                });
+                }); //search
 
                 $('#categoryFilter').on('change', function () {
                     var categoryValue = $(this).val();
                     table.column(2).search(categoryValue).draw(); // Adjust column index accordingly
-                });
+                }); //filter
 
                 // Event listener for status filter
                 $('#statusFilter').on('change', function () {
@@ -300,7 +299,7 @@
                         table.column(4).search('^' + statusValue + '$', true, false).draw();
                     }
                     
-                });
+                });//filter
 
             });
         </script>
