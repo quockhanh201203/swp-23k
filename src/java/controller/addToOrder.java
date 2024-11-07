@@ -103,7 +103,7 @@ public class addToOrder extends HttpServlet {
                     case "guest":
                         int guestID = (int) session.getAttribute("guestID");
                        
-                        int tableOrderIDg = td.getTableOrderIDc(guestID);   
+                        int tableOrderIDg = td.getTableOrderIDg(guestID);   
                         System.out.println(guestID);
                          System.out.println(tableOrderIDg);
                         order newOrderg = d.createOrderWithFood(note, guestID, null, 0, tableOrderIDg, foodID, quantity);

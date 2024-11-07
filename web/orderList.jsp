@@ -1,5 +1,3 @@
-
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -111,7 +109,10 @@
                         <div class="tab-content">
                             <div id="tab-1" class="tab-pane fade show p-0 active">
                                 <div class="row g-4">
-                                    <c:set var="total" value="0" />
+                                    <c:set var="fTotal" value="0" />
+                                    <c:set var="dTotal" value="0" />
+                                    <c:set var="bTotal" value="0" />
+                                   
 
                                  <c:forEach items="${foodOrderList}" var="f">
     <div class="col-lg-6">
@@ -182,28 +183,28 @@
             </div>
         </div>
     </div>
-    <c:set var="total" value="${total + (f.getPrice() * f.getQuantity())}" />
+    <c:set var="fTotal" value="${fTotal + (f.getPrice() * f.getQuantity())}" />
 </c:forEach>
 
-<c:forEach items="${drinkOrderList}" var="f">
+<c:forEach items="${drinkOrderList}" var="d">
     <div class="col-lg-6">
         <div class="d-flex align-items-center">
-            <img class="flex-shrink-0 img-fluid rounded" src="${f.getImage()}" alt="" style="width: 80px;">
+            <img class="flex-shrink-0 img-fluid rounded" src="${d.getImage()}" alt="" style="width: 80px;">
             <div class="w-100 d-flex flex-column text-start ps-4">
                 <h5 class="d-flex justify-content-between border-bottom pb-2">
-                    <span>${f.getDrinkName()}</span>
-                    Price: <span class="text-primary">${f.getPrice()}Đ</span>
-                    Quantity: <span class="text-primary">${f.getQuantity()}</span>
+                    <span>${d.getDrinkName()}</span>
+                    Price: <span class="text-primary">${d.getPrice()}Đ</span>
+                    Quantity: <span class="text-primary">${d.getQuantity()}</span>
                 </h5>
-                <small class="fst-italic">Note: ${f.getGuestNote()}</small>
+                <small class="fst-italic">Note: ${d.getGuestNote()}</small>
 
                 <!-- Form xóa -->
-                <form id="deleteForm${f.getOrderID()}" action="orderlist" method="post" style="display: inline;">
-                    <input type="hidden" name="orderID" value="${f.getOrderID()}" />
-                    <input type="hidden" name="orderDrinkID" value="${f.getOrder_DrinkID()}" />
+                <form id="deleteForm${d.getOrderID()}" action="orderlist" method="post" style="display: inline;">
+                    <input type="hidden" name="orderID" value="${d.getOrderID()}" />
+                    <input type="hidden" name="orderDrinkID" value="${d.getOrder_DrinkID()}" />
                     <input type="hidden" name="actionB" value="delete" />
                     <input type="hidden" name="product" value="drink" />
-                    <button type="button" class="btn btn-danger btn-sm me-2" onclick="confirmDelete(${f.getOrderID()})">Bỏ chọn món</button>
+                    <button type="button" class="btn btn-danger btn-sm me-2" onclick="confirmDelete(${d.getOrderID()})">Bỏ chọn món</button>
                 </form>
 
                 <script>
@@ -215,31 +216,31 @@
                 </script>
 
                 <!-- Nút Update -->
-                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#infoFormModal${f.getOrderID()}">
+                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#infoFormModal${d.getOrderID()}">
                     Chỉnh sửa
                 </button>
 
                 <!-- Modal chứa form -->
-                <div class="modal fade" id="infoFormModal${f.getOrderID()}" tabindex="-1" aria-labelledby="infoFormModalLabel${f.getOrderID()}" aria-hidden="true">
+                <div class="modal fade" id="infoFormModal${d.getOrderID()}" tabindex="-1" aria-labelledby="infoFormModalLabel${d.getOrderID()}" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="infoFormModalLabel${f.getOrderID()}"></h5>
+                                <h5 class="modal-title" id="infoFormModalLabel${d.getOrderID()}"></h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <form action="orderlist" method="post">
                                 <input type="hidden" name="product" value="drink" />
-                                <input type="hidden" name="orderID" value="${f.getOrderID()}" />
-                                <input type="hidden" name="orderDrinkID" value="${f.getOrder_DrinkID()}" />
+                                <input type="hidden" name="orderID" value="${d.getOrderID()}" />
+                                <input type="hidden" name="orderDrinkID" value="${d.getOrder_DrinkID()}" />
                                 <input type="hidden" name="actionB" value="update" />
                                 <div class="modal-body">
                                     <div class="mb-3">
-                                        <label for="quantity${f.getOrderID()}" class="form-label">Số lượng</label>
-                                        <input type="number" id="quantity${f.getOrderID()}" name="quantity" min="0" max="10" value="${f.getQuantity()}" required>
+                                        <label for="quantity${d.getOrderID()}" class="form-label">Số lượng</label>
+                                        <input type="number" id="quantity${d.getOrderID()}" name="quantity" min="0" max="10" value="${f.getQuantity()}" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="note${f.getOrderID()}" class="form-label">ghi chú</label>
-                                        <input type="text" id="note${f.getOrderID()}" name="note" value="${f.getGuestNote()}">
+                                        <label for="note${d.getOrderID()}" class="form-label">ghi chú</label>
+                                        <input type="text" id="note${d.getOrderID()}" name="note" value="${d.getGuestNote()}">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -274,29 +275,29 @@
                                     
                                     
                                     
-    <c:set var="total" value="${total + (f.getPrice() * f.getQuantity())}" />
+    <c:set var="dTotal" value="${dTotal + (d.getPrice() * d.getQuantity())}" />
 </c:forEach>
                                     
                                     
                                     
-                                      <c:forEach items="${buffetOrderList}" var="f">
+                                <c:forEach items="${buffetOrderList}" var="b">
     <div class="col-lg-6">
         <div class="d-flex align-items-center">
-            <img class="flex-shrink-0 img-fluid rounded" src="${f.getImage()}" alt="" style="width: 80px;">
+            <img class="flex-shrink-0 img-fluid rounded" src="${b.getImage()}" alt="" style="width: 80px;">
             <div class="w-100 d-flex flex-column text-start ps-4">
                 <h5 class="d-flex justify-content-between border-bottom pb-2">
-                    <span>${f.getBuffetName()}</span>
-                    Price: <span class="text-primary">${f.getPrice()}Đ</span>
+                    <span>${b.getBuffetName()}</span>
+                    Price: <span class="text-primary">${b.getPrice()}Đ</span>
                 </h5>
-                <small class="fst-italic">Note: ${f.getGuestNote()}</small>
+                <small class="fst-italic">Note: ${b.getGuestNote()}</small>
 
                 <!-- Form xóa -->
-                <form id="deleteForm${f.getOrderID()}" action="orderlist" method="post" style="display: inline;">
+                <form id="deleteForm${b.getOrderID()}" action="orderlist" method="post" style="display: inline;">
                     <input type="hidden" name="product" value="buffet" />
-                    <input type="hidden" name="orderID" value="${f.getOrderID()}" />
-                    <input type="hidden" name="orderBuffetID" value="${f.getOrder_BuffetID()}" />
+                    <input type="hidden" name="orderID" value="${b.getOrderID()}" />
+                    <input type="hidden" name="orderBuffetID" value="${b.getOrder_BuffetID()}" />
                     <input type="hidden" name="actionB" value="delete" />
-                    <button type="button" class="btn btn-danger btn-sm me-2" onclick="confirmDelete(${f.getOrderID()})">Bỏ chọn món</button>
+                    <button type="button" class="btn btn-danger btn-sm me-2" onclick="confirmDelete(${b.getOrderID()})">Bỏ chọn món</button>
                 </form>
 
                 <script>
@@ -308,27 +309,27 @@
                 </script>
 
                 <!-- Nút Update -->
-                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#infoFormModal${f.getOrderID()}">
+                <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#infoFormModal${b.getOrderID()}">
                     Chỉnh sửa
                 </button>
 
                 <!-- Modal chứa form -->
-                <div class="modal fade" id="infoFormModal${f.getOrderID()}" tabindex="-1" aria-labelledby="infoFormModalLabel${f.getOrderID()}" aria-hidden="true">
+                <div class="modal fade" id="infoFormModal${b.getOrderID()}" tabindex="-1" aria-labelledby="infoFormModalLabel${b.getOrderID()}" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="infoFormModalLabel${f.getOrderID()}">Đặt món</h5>
+                                <h5 class="modal-title" id="infoFormModalLabel${b.getOrderID()}">Đặt món</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <form action="orderlist" method="post">
                                 <input type="hidden" name="product" value="buffet" />
-                                <input type="hidden" name="orderID" value="${f.getOrderID()}" />
-                                <input type="hidden" name="orderBuffetID" value="${f.getOrder_BuffetID()}" />
+                                <input type="hidden" name="orderID" value="${b.getOrderID()}" />
+                                <input type="hidden" name="orderBuffetID" value="${b.getOrder_BuffetID()}" />
                                 <input type="hidden" name="actionB" value="update" />
                                 <div class="modal-body">
                                     <div class="mb-3">
-                                        <label for="note${f.getOrderID()}" class="form-label">Note:</label>
-                                        <input type="text" id="note${f.getOrderID()}" name="note" value="${f.getGuestNote()}">
+                                        <label for="note${b.getOrderID()}" class="form-label">Note:</label>
+                                        <input type="text" id="note${b.getOrderID()}" name="note" value="${b.getGuestNote()}">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -342,8 +343,13 @@
             </div>
         </div>
     </div>
+    <c:set var="bTotal" value="${bTotal + b.getPrice()}" />
 </c:forEach>
 
+<c:set var="grandTotal" value="${fTotal + dTotal + bTotal}" />
+                                    <div class="col-12 text-center">
+    <h1 class="text-primary">Total Amount: ${grandTotal}Đ</h1>
+                                    </div>
                                     
                                  
 
@@ -355,12 +361,10 @@
                 </div>
             </div>
 
-            <c:set var="total" value="0" />
-
-
+          
             <form action="checkout" method="post"> 
                 <label for="total"></label>
-                <input type="hidden" id="total" name="total" step="0.01" required value="${total}">
+                <input type="hidden" id="total" name="total" step="0.01" required value="${grandTotal}">
                 <button type="submit" class="btn btn-primary">Checkout</button>
             </form>
             <!-- Menu End -->

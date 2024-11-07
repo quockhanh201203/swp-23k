@@ -3,18 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/git25.9/swp-23k/web/buffetList.jsp</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/newTableOrder.java</file>
-            <file>file:/C:/git25.9/swp-23k/web/orderList.jsp</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/buffetList.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/Model/foodOrder.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/OrderList.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/DAO/OrderDAO.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/odlist.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/staffTableOrder.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/Model/orderDto.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/search.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/Model/dao/buffetOrder.java</file>
+            <file>file:/C:/git25.9/swp-23k/src/java/DAO/LoginDAO.java</file>
+            <file>file:/C:/git25.9/swp-23k/web/staffCheckout.jsp</file>
+            <file>file:/C:/git25.9/swp-23k/src/java/controller/staffCheckout.java</file>
         </group>
     </open-files>
 </project-private>

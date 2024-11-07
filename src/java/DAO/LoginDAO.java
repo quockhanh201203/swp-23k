@@ -123,6 +123,24 @@ public class LoginDAO extends DBContext{
 }
   
   
+   public int getCustomerIdbyName(String customerName) {
+    String sql = "SELECT [CustomerID] FROM [dbo].[Customer] WHERE CustomerName = ?";
+
+    try (PreparedStatement st = connection.prepareStatement(sql)) {
+        st.setString(1, customerName);
+        try (ResultSet rs = st.executeQuery()) {
+            if (rs.next()) {
+                // Sửa "cusID" thành "CustomerID"
+                return rs.getInt("CustomerID");
+            }
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return -1; // Trả về -1 nếu không tìm thấy hoặc có lỗi
+}
+  
+  
 
      public static void main(String[] args) {
         

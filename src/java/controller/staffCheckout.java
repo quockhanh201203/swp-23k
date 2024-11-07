@@ -5,7 +5,9 @@
 
 package controller;
 
+import DAO.LoginDAO;
 import DAO.tableDAOt;
+import DAO.voucherCheckoutDAO;
 import Model.tableT;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -76,7 +78,29 @@ public class staffCheckout extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+                String customerName = request.getParameter("customerName");
+                LoginDAO ld = new LoginDAO();
+                int customerID = ld.getCustomerIdbyName(customerName);
+                String action = request.getParameter("action");
+                switch (action){
+                    case "searchvoucher":
+                         voucherCheckoutDAO vd = new voucherCheckoutDAO();
+              List<Model.dao.voucherCustomer> voucherList = vd.getCustomerVoucher(customerID);
+              request.setAttribute("voucherList", voucherList);
+request.getRequestDispatcher("staffCheckout.jsp").forward(request, response);       
+break;
+               
+                }
+               
+               
+
+
+
+
+
+
+
+
     }
 
     /** 
