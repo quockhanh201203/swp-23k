@@ -6,6 +6,7 @@ package DAO;
 
 import Model.dao.buffet;
 import Model.dao.food;
+import Model.homePage;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -114,4 +115,44 @@ public class homepageDAO  extends DBContext{
         }
         return buffetList;
 }
+    
+     public homePage getHomePageBanner() {
+    homePage homePage = new homePage();
+    String sql = "SELECT * FROM Homepage WHERE id = 1";
+
+    try {
+        PreparedStatement st = connection.prepareStatement(sql);
+        ResultSet rs = st.executeQuery();
+        if (rs.next()) {
+            // Gán giá trị từ ResultSet vào đối tượng homePage
+            homePage.setBanner(rs.getString("banner"));
+            homePage.setImg1(rs.getString("img1"));
+            homePage.setImg2(rs.getString("img2"));
+            homePage.setImg3(rs.getString("img3"));
+            homePage.setImg4(rs.getString("img4"));
+            homePage.setScript1(rs.getString("script1"));
+            homePage.setScript2(rs.getString("script2"));
+        }
+    } catch (Exception e) {
+        System.out.println(e);
+    }
+    return homePage;
+}
+
+    
+    public static void main(String[] args) {
+       
+         homepageDAO dao = new homepageDAO();
+    homePage homePage = dao.getHomePageBanner();
+
+    System.out.println("Banner: " + homePage.getBanner());
+    System.out.println("Img1: " + homePage.getImg1());
+    System.out.println("Img2: " + homePage.getImg2());
+    System.out.println("Img3: " + homePage.getImg3());
+    System.out.println("Img4: " + homePage.getImg4());
+    System.out.println("Script1: " + homePage.getScript1());
+    System.out.println("Script2: " + homePage.getScript2());
+    }
+    
+    
 }

@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
 
 import DAO.LoginDAO;
@@ -21,43 +20,46 @@ import java.util.List;
  *
  * @author tran tung
  */
-@WebServlet(name="odlist", urlPatterns={"/orderlist"})
+@WebServlet(name = "odlist", urlPatterns = {"/orderlist"})
 public class odlist extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet odlist</title>");  
+            out.println("<title>Servlet odlist</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet odlist at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet odlist at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     @Override
-       protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         orderDAOt od = new orderDAOt();
         LoginDAO ld = new LoginDAO();
@@ -74,8 +76,25 @@ public class odlist extends HttpServlet {
 
                 request.setAttribute("foodOrderList", foodOrderList);
                 request.setAttribute("drinkOrderList", drinkOrderList);
-                 request.setAttribute("buffetOrderList", buffetOrderList);
+                request.setAttribute("buffetOrderList", buffetOrderList);
                 request.getRequestDispatcher("orderList.jsp").forward(request, response);
+                break;
+            case "guest":
+                
+                
+                int guestID = (int) session.getAttribute("guestID");
+                 List<Model.dao.orderN> foodOrderListG = od.foodOrderListG(guestID);
+                List<Model.dao.orderDrink> drinkOrderListG = od.drinkOrderListG(guestID);
+                List<Model.dao.buffetOrder> buffetOrderListG = od.buffetOrderListG(guestID);
+
+                request.setAttribute("foodOrderList", foodOrderListG);
+                request.setAttribute("drinkOrderList", drinkOrderListG);
+                request.setAttribute("buffetOrderList", buffetOrderListG);
+                request.getRequestDispatcher("orderList.jsp").forward(request, response);
+                break;
+                
+                
+
         }
 
     }
@@ -101,9 +120,9 @@ public class odlist extends HttpServlet {
                 int orderID = Integer.parseInt(request.getParameter("orderID"));
                 int orderFoodID = Integer.parseInt(request.getParameter("orderFoodID"));
                 if ("delete".equals(actionF)) {
-                     od.deleteOrderStep1(orderFoodID);
+                    od.deleteOrderStep1(orderFoodID);
                     od.deleteOrderStep2(orderID);
-                   
+
                     response.sendRedirect("orderlist");
                 } else {
                     String note = request.getParameter("note");
@@ -121,21 +140,18 @@ public class odlist extends HttpServlet {
 
                 break;
             case "drink":
-                
-                 String actionD = request.getParameter("actionB");
+
+                String actionD = request.getParameter("actionB");
 
                 int orderIDd = Integer.parseInt(request.getParameter("orderID"));
                 int orderDrinkIDd = Integer.parseInt(request.getParameter("orderDrinkID"));
                 System.out.println(orderIDd);
                 System.out.println(orderDrinkIDd);
                 if ("delete".equals(actionD)) {
-                    
-                    
-                    
-                     od.deleteOrderDStep1(orderDrinkIDd);
-                      od.deleteOrderStep2(orderIDd);
-                   
-                  
+
+                    od.deleteOrderDStep1(orderDrinkIDd);
+                    od.deleteOrderStep2(orderIDd);
+
                     response.sendRedirect("orderlist");
                 } else {
                     String note = request.getParameter("note");
@@ -150,42 +166,39 @@ public class odlist extends HttpServlet {
 
                     response.sendRedirect("orderlist");
                 }
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
+
+                break;
+            case "buffet":
+                String actionB = request.getParameter("actionB");
+                int orderIDb = Integer.parseInt(request.getParameter("orderID"));
+                int orderBuffetIDb = Integer.parseInt(request.getParameter("orderBuffetID"));
+                if ("delete".equals(actionB)) {
+
+                    od.deleteOrderBStep1(orderBuffetIDb);
+                    od.deleteOrderStep2(orderIDb);
+
+                    response.sendRedirect("orderlist");
+                } else {
+                    String note = request.getParameter("note");
+                    try {
+                        od.noteUpdate(note, orderIDb);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        response.getWriter().write("Error: " + e.getMessage());
+                    }
+
+                    response.sendRedirect("orderlist");
+                }
+
                 break;
 
-                    
-                
-                
-//                switch (action) {
-//            case "delete":
-//
-//                
-//                break;
-//            case "update":
-//               
-//
-//                break;
-//
-//        }
         }
 
     }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

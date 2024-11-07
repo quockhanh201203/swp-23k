@@ -5,10 +5,7 @@
 
 package controller;
 
-import DAO.homepageDAO;
-import DAO.tableDAOt;
-import Model.homePage;
-import Model.tableT;
+import DAO.orderDAOt;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -22,8 +19,8 @@ import java.util.List;
  *
  * @author tran tung
  */
-@WebServlet(name="homepageB", urlPatterns={"/homepageB"})
-public class homepageB extends HttpServlet {
+@WebServlet(name="orderDetail", urlPatterns={"/orderdetail"})
+public class orderDetail extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -40,10 +37,10 @@ public class homepageB extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet homepageB</title>");  
+            out.println("<title>Servlet orderDetail</title>");  
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet homepageB at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet orderDetail at " + request.getContextPath () + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,21 +57,13 @@ public class homepageB extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-      homepageDAO md = new homepageDAO();
-        tableDAOt tb = new tableDAOt();
-        List<tableT> tableList = tb.getTableList();
-        request.setAttribute("tableList", tableList);
-        List<Model.dao.food> list = md.getNewList();
-        request.setAttribute("list", list);
-        List<Model.dao.food> list2 = md.getTopList();
-        request.setAttribute("list2", list2);
-        List<Model.dao.buffet> list3 = md.getTopBuffetList();
-        request.setAttribute("list3", list3);
-        homePage homepage = md.getHomePageBanner();
-        request.setAttribute("homepage", homepage);
+     orderDAOt od = new orderDAOt();
 
-        request.getRequestDispatcher("homepageB.jsp").forward(request, response);  
-    } 
+                int tableOrderID = Integer.parseInt(request.getParameter("tableOrderID"));
+            List<Model.dao.orderN> foodOrderCheckoutList = od.foodOrderCheckout(tableOrderID);        
+        request.setAttribute("foodOrderCheckoutList", foodOrderCheckoutList);
+        
+        request.getRequestDispatcher("orderDetail.jsp").forward(request, response);    } 
 
     /** 
      * Handles the HTTP <code>POST</code> method.
