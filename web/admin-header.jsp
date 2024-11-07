@@ -71,6 +71,7 @@
                                     <a href="CustomerServlet" class="dropdown-item">Khách hàng</a>
                                     <a href="FeedbackList" class="dropdown-item">Danh sách phản hồi</a>
                                     <a href="OrderList" class="dropdown-item">Lịch sử gọi món</a>
+                                    <a href="CalculateSalary" class="dropdown-item">Lương Tổng</a>
                                 </div>
                             </div>
                             
