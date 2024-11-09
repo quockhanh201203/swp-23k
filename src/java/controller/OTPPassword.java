@@ -137,6 +137,8 @@ public class OTPPassword extends HttpServlet {
         String generatedOtp = (String) session.getAttribute("otp");
 
         if (userOtp != null && userOtp.equals(generatedOtp)) {
+            session.removeAttribute("id");
+            session.removeAttribute("RoleID");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/Login.jsp");
             dispatcher.forward(request, response);
         } else {
