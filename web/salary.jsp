@@ -93,8 +93,8 @@
                     <thead>
                         <tr>
                             <th>Mã lương</th>
-                            <th>Lương công thêm</th>
-                            <th>Lương trừ</th>
+                            <th>Lương thưởng</th>
+                            <th>Lương phạt</th>
                             <th>Ngày tháng</th>
                             <th>Ghi chú</th>
                             <th>Mã nhân viên</th>

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="DAO.SalaryDAO, Model.Salary" %>
 <%
     int salaryID = Integer.parseInt(request.getParameter("salaryID"));

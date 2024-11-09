@@ -365,7 +365,7 @@
             <form action="checkout" method="post"> 
                 <label for="total"></label>
                 <input type="hidden" id="total" name="total" step="0.01" required value="${grandTotal}">
-                <button type="submit" class="btn btn-primary">Checkout</button>
+                <button type="submit" class="btn btn-primary">Hoàn tất gọi món</button>
             </form>
             <!-- Menu End -->
 

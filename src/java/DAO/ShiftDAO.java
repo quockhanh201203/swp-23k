@@ -345,7 +345,8 @@ public class ShiftDAO extends DBContext {
     }
 
     public List<Shift> getMostRecentShiftsBefore(Date beforeDate) throws Exception {
-        List<Shift> shifts = new ArrayList<>();
+        // HashMap to track unique shifts by ShiftID
+        HashMap<Integer, Shift> shiftMap = new HashMap<>();
         String query = "SELECT Top 14 s.ShiftID, s.StaffQuantity, s.WEEKDATE, s.date, s.DayTime, "
                 + "ss.ShiftID , ss.StaffID, ss.Status, st.StaffName, st.PhoneNumber, st.Email, st.Salary, st.NewAccount "
                 + "FROM Shift s "
@@ -359,23 +360,26 @@ public class ShiftDAO extends DBContext {
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
-                    Shift shift = new Shift();
-                    shift.setShiftID(resultSet.getInt("ShiftID"));
-                    shift.setStaffQuantity(resultSet.getInt("StaffQuantity"));
-                    shift.setWeekDate(resultSet.getString("WEEKDATE"));
-                    shift.setDate(resultSet.getDate("date"));
-                    shift.setDayTime(resultSet.getBoolean("DayTime"));
+                    int shiftID = resultSet.getInt("ShiftID");
 
-                    // Create the shift_staffs list if it's null
-                    if (shift.getShift_staffs() == null) {
-                        shift.setShift_staffs(new ArrayList<>());
+                    // Check if the shift already exists in the map
+                    Shift shift = shiftMap.get(shiftID);
+                    if (shift == null) { // If not, create and add a new Shift object
+                        shift = new Shift();
+                        shift.setShiftID(shiftID);
+                        shift.setStaffQuantity(resultSet.getInt("StaffQuantity"));
+                        shift.setWeekDate(resultSet.getString("WEEKDATE"));
+                        shift.setDate(resultSet.getDate("date"));
+                        shift.setDayTime(resultSet.getBoolean("DayTime"));
+                        shift.setShift_staffs(new ArrayList<>()); // Initialize the list
+                        shiftMap.put(shiftID, shift); // Add to the map
                     }
 
-                    // Create ShiftStaff object
+                    // Process ShiftStaff and Staff information if available
                     int staffID = resultSet.getInt("StaffID");
                     if (staffID > 0) { // Only add ShiftStaff if StaffID is valid
                         ShiftStaff shiftStaff = new ShiftStaff();
-                        shiftStaff.setShiftID(shift.getShiftID());
+                        shiftStaff.setShiftID(shiftID);
                         shiftStaff.setStaffID(staffID);
                         shiftStaff.setStatus(resultSet.getString("Status"));
 
@@ -394,11 +398,12 @@ public class ShiftDAO extends DBContext {
                         // Add ShiftStaff to the shift's shift_staffs list
                         shift.getShift_staffs().add(shiftStaff);
                     }
-                    shifts.add(shift);
                 }
             }
         }
-        return shifts;
+
+        // Return the values of the map as a list
+        return new ArrayList<>(shiftMap.values());
     }
 
     public List<Shift> cloneShiftsForNewWeek(List<Shift> previousShifts, LocalDate newStartDate) {

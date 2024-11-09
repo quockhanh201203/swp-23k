@@ -68,13 +68,18 @@
                             <input type="hidden" name="action" value="updateProfile">
                             <input type="hidden" name="adminID" value="${admin.adminID}">
                             <div class="row mt-2">
-                                <div class="col-md-12"><label class="labels">Tên Quản Trị Viên</label><input type="text" name="customerName" class="form-control" value="${admin.name}"></div>
+                                <div class="col-md-12"><label class="labels text-white">Tên Quản Trị Viên</label><input type="text" name="customerName" class="form-control" value="${admin.name}"></div>
                             </div>
                             <div class="row mt-3">
-                                <div class="col-md-12"><label class="labels">Số Điện Thoại</label><input type="text" class="form-control" name="phoneNumber" value="${admin.phoneNumber}"></div>
-                                <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" value="${admin.email}" readonly></div>
+                                <div class="col-md-12"><label class="labels text-white">Số Điện Thoại</label><input type="text" class="form-control" name="phoneNumber" value="${admin.phoneNumber}"></div>
+                                <div class="col-md-12"><label class="labels text-white">Email</label><input type="text" class="form-control" value="${admin.email}" readonly></div>
                             </div>
-                            <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Lưu Hồ Sơ</button></div>
+                            <div class="mt-5 d-flex justify-content-center">
+                                <a class="btn btn-primary profile-button me-4" href="Login.jsp">Đăng nhập</a>
+                                <button class="btn btn-primary profile-button me-4" type="submit">Lưu Hồ Sơ</button>
+                                <a class="btn btn-primary profile-button me-4" href="changepass">Đổi mật khẩu</a>
+                            </div>
+
                         </form>
                         <c:if test="${isSuccess ne null && isSuccess && type eq 'profile'}">
                             <div class="alert alert-success alert-dismissible fade show mt-2" role="alert" id="mess">

@@ -3,18 +3,38 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/git25.9/swp-23k/web/buffetList.jsp</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/newTableOrder.java</file>
-            <file>file:/C:/git25.9/swp-23k/web/orderList.jsp</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/buffetList.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/Model/foodOrder.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/OrderList.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/DAO/OrderDAO.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/odlist.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/staffTableOrder.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/Model/orderDto.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/search.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/Model/dao/buffetOrder.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/DAO/CustomerDAO.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/salary.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/controller/AddReservaton.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/AddReservation.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/customer-header.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/orderList.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/controller/odlist.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/controller/Login.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/AddResponde.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/homepageB.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/UpdateProfile.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/AddFeedback.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/DAO/OrderDAO.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/controller/myReservation.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/OrderHistory.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/header.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/controller/ChangePassword.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/editVoucher.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/DAO/orderDAOt.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/DAO/ShiftDAO.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/editSalary.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/Homepage.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/controller/OrderList.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/admin-header.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/customer.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/utils/PhoneNumberValidator.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/controller/homepageB.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/controller/ForgotPassword.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/utils/PasswordUtil.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/controller/CustomerServlet.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/controller/ReservationList.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/staff-header.jsp</file>
         </group>
     </open-files>
 </project-private>

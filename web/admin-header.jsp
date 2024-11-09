@@ -54,7 +54,7 @@
             <div class="container-xxl position-relative p-0">
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
                     <a href="" class="navbar-brand p-0">
-                        <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>>5 Anh Lực</h1>
+                        <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>5 Anh Lực</h1>
                         <!-- <img src="img/logo.png" alt="Logo"> -->
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -94,7 +94,6 @@
                                     <a href="drink-category" class="dropdown-item">Phân loại nước</a>
                                     <a href="food-category" class="dropdown-item">Phân loại đồ ăn</a>
                                     <a href="price-history" class="dropdown-item">Lịch sử giá</a>
-                                    <a href="buffet-detail" class="dropdown-item">Chi tiết Buffet</a>
                                 </div>
                             </div>
                         </div>
