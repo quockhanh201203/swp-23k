@@ -2,7 +2,12 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%
+    // Biến session đã có sẵn trong JSP, không cần khai báo lại
+    Integer tableID = (Integer) session.getAttribute("tableID");
+        String message = (String) request.getAttribute("message");
 
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -119,12 +124,20 @@
                 <button class="close-btn" onclick="closePopup2()">×</button>
                 <p>Xin vui lòng chọn 1 bàn:</p>
                 <div class="table-options">
-                    <form action="homepage" method="post">
-                        <c:forEach items="${tableList}" var="tb">
-                            <label><input type="radio" name="table" value="${tb.getTableID()}">${tb.getTableName()}</label>
-                            </c:forEach>
-                        <button class="btn btn-primary py-2 px-4" type="submit">Chọn bàn</button>
-                    </form>                </div>
+                     <form action="homepage" method="post">
+                <c:forEach items="${tableList}" var="tb">
+                    <label><input type="radio" name="table" value="${tb.getTableID()}">${tb.getTableName()}</label>
+                </c:forEach>
+                    
+                    <input type="hidden" name="tableID" value="<%= tableID %>"> --> 
+                    
+                    
+                    
+                    
+                    
+                    
+                <button class="btn btn-primary py-2 px-4" type="submit">Chọn bàn</button>
+            </form>                </div>
             </div>
         </div>  
 
@@ -143,9 +156,34 @@
 
 
             <!-- Navbar & Hero Start -->
-            <%
-    // Grab RoleID from the session
-    Integer roleID = (Integer) session.getAttribute("RoleID");
+            <div class="container-xxl position-relative p-0">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+                    <a href="" class="navbar-brand p-0">
+                        <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>5 Anh Lực</h1>
+                        <!-- <img src="img/logo.png" alt="Logo"> -->
+                    </a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                        <span class="fa fa-bars"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav ms-auto py-0 pe-4">
+                            <a href="index.html" class="nav-item nav-link active">Home</a>
+                            <a href="about.html" class="nav-item nav-link">About</a>
+                            <a href="service.html" class="nav-item nav-link">Service</a>
+                            <a href="menu.html" class="nav-item nav-link">Menu</a>
+                            <div class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
+                                <div class="dropdown-menu m-0">
+                                    <a href="booking.html" class="dropdown-item">Booking</a>
+                                    <a href="team.html" class="dropdown-item">Our Team</a>
+                                    <a href="testimonial.html" class="dropdown-item">Testimonial</a>
+                                </div>
+                            </div>
+                            <a href="contact.html" class="nav-item nav-link">Contact</a>
+                        </div>
+                        <a href="Login.jsp" class="btn btn-primary py-2 px-4">Đăng nhập</a>
+                    </div>
+                </nav>
 
     // Check RoleID and include the appropriate header
     if (roleID == null) {

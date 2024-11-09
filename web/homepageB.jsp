@@ -3,6 +3,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<%
+    // Biến session đã có sẵn trong JSP, không cần khai báo lại
+    Integer tableID = (Integer) session.getAttribute("tableID");
+        String message = (String) request.getAttribute("message");
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 

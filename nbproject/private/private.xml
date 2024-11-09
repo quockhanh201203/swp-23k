@@ -3,6 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/DAO/CustomerDAO.java</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/salary.jsp</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/controller/AddReservaton.java</file>
@@ -35,6 +36,15 @@
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/controller/CustomerServlet.java</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/src/java/controller/ReservationList.java</file>
             <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/NeoProject/swp-23k/web/staff-header.jsp</file>
+=======
+            <file>file:/C:/git25.9/swp-23k/src/java/controller/newTableOrder.java</file>
+            <file>file:/C:/git25.9/swp-23k/web/menu.jsp</file>
+            <file>file:/C:/git25.9/swp-23k/src/java/controller/Homepage.java</file>
+            <file>file:/C:/git25.9/swp-23k/src/java/controller/odlist.java</file>
+            <file>file:/C:/git25.9/swp-23k/web/Homepage.jsp</file>
+            <file>file:/C:/git25.9/swp-23k/web/homepageB.jsp</file>
+            <file>file:/C:/git25.9/swp-23k/src/java/controller/menu.java</file>
+>>>>>>> 50af2a49a3a76b3f8674b1b041d8cd1f98e080ff
         </group>
     </open-files>
 </project-private>

@@ -92,8 +92,22 @@ public class checkout extends HttpServlet {
         response.sendRedirect("orderlist?error=" + e.getMessage());
     }
                         break;
+                    case "guest" : 
+                        
+                         int guestID = (int) session.getAttribute("guestID");
+                         try {
+                d.totalUpdate(total, guestID,guestID);
 
-
+    response.sendRedirect("orderlist?success=true");
+    } catch (Exception e) {
+        // Xử lý nếu có lỗi xảy ra
+        e.printStackTrace();
+        response.sendRedirect("orderlist?error=" + e.getMessage());
+    }
+                        
+                        
+                        
+                        
 
     }    }
 
