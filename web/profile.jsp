@@ -83,7 +83,11 @@
                                 <div class="col-md-12"><label class="labels">Email ID</label><input type="text" class="form-control"  value="${customer.email}" readonly></div>
                                 <div class="col-md-12"><label class="labels">Point</label><input type="text" class="form-control"  value="${customer.point}"></div>
                             </div>
-                            <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
+                            <div class="mt-5 d-flex justify-content-center">
+                                <a class="btn btn-primary profile-button me-4" href="Login.jsp">Đăng nhập</a>
+                                <button class="btn btn-primary profile-button me-4" type="submit">Lưu Hồ Sơ</button>
+                                <a class="btn btn-primary profile-button me-4" href="changepass">Đổi mật khẩu</a>
+                            </div>
                         </form>
                         <c:if test="${isSuccess ne null && isSuccess && type eq 'profile'}">
                             <div class="alert alert-success alert-dismissible fade show mt-2" role="alert" id="mess">

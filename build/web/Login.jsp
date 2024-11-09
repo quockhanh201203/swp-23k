@@ -106,6 +106,9 @@
                                         <input type="tel" class="form-control" id="email" placeholder="Your phone number " name="phone" required>
                                             <label for="email">Số điện thoại</label>
                                     </div>
+                                        <c:if test="${not empty message}">
+        <p style="color: red;">${message}</p>
+    </c:if>
                                     
                                 </div>
                                
@@ -144,6 +147,10 @@
                                  <div class="col-12 text-center mt-3">
                                     <p class="text-white">Không có tài khoản? <a href="Signup.jsp" style="color: #FFA737;">Đăng ký</a></p>
                                 </div>
+                                 <div class="col-12 text-center mt-3">
+<c:if test="${not empty error}">
+        <p style="color: red;">${error}</p>
+    </c:if>                                </div>
                                 <div class="col-12 text-center mt-3">
                                     <a href="ForgotPassword" style="color: #FFA737;">Quên mật khẩu</a>
                                 </div>

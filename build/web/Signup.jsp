@@ -60,17 +60,6 @@
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                         <span class="fa fa-bars"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <div class="navbar-nav ms-auto py-0 pe-4">
-                            <a href="index.html" class="nav-item nav-link">Trang chủ</a>
-                            
-                            
-                            <a href="menu.html" class="nav-item nav-link">Thức đơn</a>
-                            
-                          
-                        </div>
-                        <a href="CustomerServlet" class="btn btn-primary py-2 px-4">Người dùng</a>
-                    </div>
                 </nav>
 
                 <div class="container-xxl py-5 bg-dark hero-header mb-5">

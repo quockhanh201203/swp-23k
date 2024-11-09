@@ -18,7 +18,8 @@ import utils.RandomGenerate;
  *
  * @author ADMIN
  */
-public class StaffDAO extends DBContext{
+public class StaffDAO extends DBContext {
+
     public List<Staff> findStaffByPage(int pageNumber, int pageSize, String search, String orderByColumn, boolean isAsc) {
         List<Staff> staffList = new ArrayList<>();
         StringBuilder sql = new StringBuilder("""
@@ -114,7 +115,7 @@ public class StaffDAO extends DBContext{
 
         return staff; // Return the Staff object (null if not found)
     }
-    
+
     public Staff findStaffByStaffID(int staffID) {
         Staff staff = null; // To hold the result
 
@@ -209,6 +210,19 @@ public class StaffDAO extends DBContext{
         // Validation for salary (e.g., ensure salary is greater than 0)
         if (Salary <= 0) {
             return "Lương phải lớn hơn 0.";
+        }
+
+        String emailCheckQuery = "SELECT COUNT(*) FROM Staff WHERE Email = ? AND AccountID IS NOT NULL";
+        try (PreparedStatement emailCheckStatement = connection.prepareStatement(emailCheckQuery)) {
+            emailCheckStatement.setString(1, Email);
+            try (ResultSet resultSet = emailCheckStatement.executeQuery()) {
+                if (resultSet.next() && resultSet.getInt(1) > 0) {
+                    return "Email đã tồn tại. Vui lòng sử dụng email khác.";
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Đã xảy ra lỗi khi kiểm tra email: " + e.getMessage();
         }
 
         String query = "INSERT INTO Staff (StaffName, PhoneNumber, Email, Salary, NewAccount, AccountID) VALUES (?, ?, ?, ?, ?, ?)";

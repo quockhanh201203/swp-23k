@@ -6,7 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>User List</title>
+        <title>Danh Sách Người Dùng</title>
         <!-- Bootstrap CSS -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
         <!-- DataTable CSS -->
@@ -32,20 +32,20 @@
                 <div class="modal-content">
                     <form action="food-category" method="post">
                         <div class="modal-header">
-                            <h5 class="modal-title">Add Category</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <h5 class="modal-title">Thêm Loại Đồ Ăn</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label>Category Name</label>
-                                <input type="text" name="categoryName" pattern=".*\S.*" title="Input cannot be only spaces" class="form-control" required>
+                                <label>Tên Loại Đồ Ăn</label>
+                                <input type="text" name="categoryName" pattern=".*\S.*" title="Không được chỉ nhập khoảng trắng" class="form-control" required>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <input type="hidden" name="action" value="add">
-                            <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="submit" class="btn btn-primary">Thêm</button>
                         </div>
                     </form>
                 </div>
@@ -55,33 +55,51 @@
 
 
 
-        <%@ include file="admin-header.jsp" %>
+        <%
+    // Grab RoleID from the session
+    Integer roleID = (Integer) session.getAttribute("RoleID");
+
+    // Check RoleID and include the appropriate header
+    if (roleID == null) {
+        // If RoleID is not in the session, include the default header.jsp
+        %><%@ include file="header.jsp" %><%
+    } else if (roleID == 1) {
+        // RoleID 1 is customer
+        %><%@ include file="customer-header.jsp" %><%
+    } else if (roleID == 2) {
+        // RoleID 2 is staff
+        %><%@ include file="staff-header.jsp" %><%
+    } else if (roleID == 3) {
+        // RoleID 3 is admin
+        %><%@ include file="admin-header.jsp" %><%
+    }
+        %>
 
         <div class="container-fluid py-5 bg-secondary" >
 
             <div class="row justify-content-center">
                 <div class="col-12 bg-dark d-flex align-items-center">
                     <div class="p-5 w-100">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Food Category</h5>
-                        <h1 class="text-white mb-4">Food Category</h1>
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Loại Đồ Ăn</h5>
+                        <h1 class="text-white mb-4">Loại Đồ Ăn</h1>
                         <div class="table-responsive">
                             <c:if test="${param.success ne null}">
                                 <div class="alert alert-success" role="alert">
-                                    Success!
+                                    Thành công!
                                 </div>
                             </c:if>
                             <c:if test="${param.fail ne null}">
                                 <div class="alert alert-danger" role="alert">
-                                    Failed!
+                                    Thất bại!
                                 </div>
                             </c:if>
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#addCategoryModal">Add Category</button>    
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#addCategoryModal">Thêm Loại Đồ Ăn</button>    
                             <table id="category" class="table table-light table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Category ID</th>
-                                        <th>Food Name</th>
-                                        <th>Action</th>
+                                        <th>ID Loại</th>
+                                        <th>Tên Loại Đồ Ăn</th>
+                                        <th>Hành Động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -91,11 +109,11 @@
                                             <td>${category.categoryName}</td>
                                             <td>
                                                 <button class="btn btn-info" data-toggle="modal" data-target="#updateCategoryModal" 
-                                                        data-id="${category.categoryID}" data-name="${category.categoryName}">Edit</button>
+                                                        data-id="${category.categoryID}" data-name="${category.categoryName}">Chỉnh Sửa</button>
                                                 <form action="food-category" method="post" style="display:inline-block;">
                                                     <input type="hidden" name="action" value="delete">
                                                     <input type="hidden" name="id" value="${category.categoryID}">
-                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                    <button type="submit" class="btn btn-danger">Xóa</button>
                                                 </form>
                                                 <!-- Update Category Modal -->
                                                 <div class="modal fade" id="updateCategoryModal" tabindex="-1" aria-labelledby="updateCategoryModalLabel" aria-hidden="true">
@@ -103,21 +121,21 @@
                                                         <div class="modal-content">
                                                             <form action="food-category" method="post">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title">Update Category</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <h5 class="modal-title">Cập Nhật Loại Đồ Ăn</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <div class="form-group">
-                                                                        <label>Category Name</label>
-                                                                        <input type="text" id="categoryName" name="categoryName" value="${category.categoryName}" pattern=".*\S.*" title="Input cannot be only spaces" class="form-control" required>
+                                                                        <label>Tên Loại Đồ Ăn</label>
+                                                                        <input type="text" id="categoryName" name="categoryName" value="${category.categoryName}" pattern=".*\S.*" title="Không được chỉ nhập khoảng trắng" class="form-control" required>
                                                                     </div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <input type="hidden" name="action" value="update">
                                                                     <input type="hidden" id="categoryId" name="id" value="${category.categoryID}">
-                                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                                    <button type="submit" class="btn btn-primary">Cập Nhật</button>
                                                                 </div>
                                                             </form>
                                                         </div>
@@ -133,9 +151,6 @@
                 </div>
             </div>
         </div>
-
-
-
 
         <%@ include file="footer.jsp" %>
         <!-- JavaScript Libraries -->

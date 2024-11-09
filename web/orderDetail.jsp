@@ -59,24 +59,30 @@
 
             <!-- Navbar & Hero Start -->
             <div class="container-xxl position-relative p-0">
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
-                    <a href="" class="navbar-brand p-0">
-                        <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>5anhluc</h1>
-                        <!-- <img src="img/logo.png" alt="Logo"> -->
-                    </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                        <span class="fa fa-bars"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarCollapse">
-                        <div class="navbar-nav ms-auto py-0 pe-4">
-                            
-                    </div>
-                </nav>
+                <%
+    // Grab RoleID from the session
+    Integer roleID = (Integer) session.getAttribute("RoleID");
+
+    // Check RoleID and include the appropriate header
+    if (roleID == null) {
+        // If RoleID is not in the session, include the default header.jsp
+                %><%@ include file="header.jsp" %><%
+    } else if (roleID == 1) {
+        // RoleID 1 is customer
+                %><%@ include file="customer-header.jsp" %><%
+    } else if (roleID == 2) {
+        // RoleID 2 is staff
+                %><%@ include file="staff-header.jsp" %><%
+    } else if (roleID == 3) {
+        // RoleID 3 is admin
+                %><%@ include file="admin-header.jsp" %><%
+    }
+                %>
 
                 <div class="container-xxl py-5 bg-dark hero-header mb-5">
                     <div class="container text-center my-5 pt-5 pb-4">
                         <nav aria-label="breadcrumb">
-                            
+
                         </nav>
                     </div>
                 </div>
@@ -103,103 +109,135 @@
                         <div class="tab-content">
                             <div id="tab-1" class="tab-pane fade show p-0 active">
                                 <div class="row g-4">
-                                    <c:set var="total" value="0" />
+                                     <c:set var="fTotal" value="0" />
+                                    <c:set var="dTotal" value="0" />
+                                    <c:set var="bTotal" value="0" />
 
-                           <c:forEach items="${foodOrderCheckoutList}" var="f">
-    <div class="col-lg-6">
-        <div class="d-flex align-items-center">
-            <img class="flex-shrink-0 img-fluid rounded" src="${f.getImage()}" alt="" style="width: 80px;">
-            <div class="w-100 d-flex flex-column text-start ps-4">
-                <h5 class="d-flex justify-content-between border-bottom pb-2">
-                    <span>${f.getFoodName()}</span>
-                    <input type="hidden" name="orderID" value="${total}" />
-                    <input type="hidden" name="foodOrderID" value="${total}" />
-                    Price:  <span class="text-primary">${f.getPrice()}Đ</span>
-                    Quantity:  <span class="text-primary">${f.getQuantity()}</span>
-                </h5>
-                <small class="fst-italic">Note: ${f.getGuestNote()}</small>
-                
-                <!-- Form xóa -->
-                
-                
-               
+                                    <c:forEach items="${foodOrderCheckoutList}" var="f">
+                                        <div class="col-lg-6">
+                                            <div class="d-flex align-items-center">
+                                                <img class="flex-shrink-0 img-fluid rounded" src="${f.getImage()}" alt="" style="width: 80px;">
+                                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                        <span>${f.getFoodName()}</span>
+                                                        <input type="hidden" name="orderID" value="${total}" />
+                                                        <input type="hidden" name="foodOrderID" value="${total}" />
+                                                        Price:  <span class="text-primary">${f.getPrice()}Đ</span>
+                                                        Quantity:  <span class="text-primary">${f.getQuantity()}</span>
+                                                    </h5>
+                                                    <small class="fst-italic">Note: ${f.getGuestNote()}</small>
 
-                <!-- Nút Update -->
-                
+                                                    <!-- Form xóa -->
 
-                <!-- Modal chứa form -->
-                <div class="modal fade" id="infoFormModal" tabindex="-1" aria-labelledby="infoFormModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="infoFormModalLabel">Fill Your Information</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+
+
+                                                    <!-- Nút Update -->
+
+
+                                                    <!-- Modal chứa form -->
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+    <c:set var="fTotal" value="${fTotal + (f.getPrice() * f.getQuantity())}" />
+                                    </c:forEach>
+                                    <c:forEach items="${drinkOrderCheckoutList}" var="d">
+                                        <div class="col-lg-6">
+                                            <div class="d-flex align-items-center">
+                                                <img class="flex-shrink-0 img-fluid rounded" src="${d.getImage()}" alt="" style="width: 80px;">
+                                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                        <span>${d.getDrinkName()}</span>
+                                                        <input type="hidden" name="orderID" value="${total}" />
+                                                        <input type="hidden" name="foodOrderID" value="${total}" />
+                                                        Giá:  <span class="text-primary">${d.getPrice()}Đ</span>
+                                                        Số lượng:  <span class="text-primary">${d.getQuantity()}</span>
+                                                    </h5>
+                                                    <small class="fst-italic">Note: ${d.getGuestNote()}</small>
+
+                                                    <!-- Form xóa -->
+
+
+
+
+                                                    <!-- Nút Update -->
+
+
+                                                    <!-- Modal chứa form -->
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+    <c:set var="dTotal" value="${dTotal + (d.getPrice() * d.getQuantity())}" />
+                                    </c:forEach>
+                                    <c:forEach items="${buffetOrderCheckoutList}" var="b">
+                                        <div class="col-lg-6">
+                                            <div class="d-flex align-items-center">
+                                                <img class="flex-shrink-0 img-fluid rounded" src="${b.getImage()}" alt="" style="width: 80px;">
+                                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                        <span>${b.getBuffetName()}</span>
+                                                        <input type="hidden" name="orderID" value="${total}" />
+                                                        <input type="hidden" name="foodOrderID" value="${total}" />
+                                                        Giá:  <span class="text-primary">${b.getPrice()}Đ</span>
+                                                    </h5>
+                                                    <small class="fst-italic">Note: ${b.getGuestNote()}</small>
+
+                                                    <!-- Form xóa -->
+
+
+
+
+                                                    <!-- Nút Update -->
+
+
+                                                    <!-- Modal chứa form -->
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+    <c:set var="bTotal" value="${bTotal + b.getPrice()}" />
+                                    </c:forEach>
+
+                                </div>
                             </div>
-                            <form action="orderlist" method="post">
-                                  <input type="hidden" name="orderID" value="${f.getOrderID()}" />
-                    <input type="hidden" name="orderFoodID" value="${f.getOrder_FoodID()}" />
-                    <input type="hidden" name="actionB" value="update" />
-                                <div class="modal-body">
-                                    <!-- Các trường thông tin -->
-                                       
-                                    <div class="mb-3">
-                                        <label for="email" class="form-label"></label>
-                                        Quantity: <input type="number" name="quantity" min="0" max="10" value="${f.getQuantity()}" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="message" class="form-label"></label>
-                                         Note:   <input type="text" name="note" value="${f.getGuestNote()}">
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
-                            </form>
                         </div>
                     </div>
                 </div>
-
-            </div>
-        </div>
-    </div>
-    <c:set var="total" value="${total + (f.getPrice() * f.getQuantity())}" />
-</c:forEach>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
-            <c:set var="total" value="0" />
-            <c:forEach items="${foodOrderList}" var="f">
-            <c:set var="total" value="${total + (f.getPrice() * f.getQuantity())}" />
-            </c:forEach>
-            <h1 class="mb-5">Total: $${total}</h1>
-        <form action="checkout" method="post"> 
-        <label for="total"></label>
-        <input type="hidden" id="total" name="total" step="0.01" required value="${total}">
-        <button type="submit" class="btn btn-primary">Checkout</button>
-    </form>
+<c:set var="grandTotal" value="${fTotal + dTotal + bTotal}" />
+           
+            <h1 class="mb-5">Tổng: ${grandTotal}Đ</h1>
+            <form action="orderdetail" method="post"> 
+                <label for="total"></label>
+                <input type="hidden" id="tableOrderID" name="tableOrderID" value="${tableOrderID}">
+
+
+
+                <button type="submit" class="btn btn-primary">Thanh toán</button>
+            </form>
             <!-- Menu End -->
 
 
             <!-- Footer Start -->
-           
+
             <!-- Footer End -->
 
 
             <!-- Back to Top -->
             <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
         </div>
-       <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('success') === 'true') {
-            window.alert("The employee has successfully received the information and will proceed with the payment.");
-        }
-    </script>
+        <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('success') === 'true') {
+                window.alert("Checkout Successfully.");
+            }
+        </script>
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -17,7 +17,7 @@
     </head>
     <body>
 
-        <%@ include file="header.jsp" %>
+<%@ include file="customer-header.jsp" %>
 
         <!-- Reservation List Container -->
         <div class="container-fluid py-5 bg-secondary">

@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
 
+import DAO.AccountDAO;
 import DAO.LoginDAO;
 import Model.Account;
 import java.io.IOException;
@@ -17,41 +17,45 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import utils.PasswordUtil;
 
 /**
  *
  * @author tran tung
  */
-@WebServlet(name="Login", urlPatterns={"/login"})
+@WebServlet(name = "Login", urlPatterns = {"/login"})
 public class Login extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet Login</title>");  
+            out.println("<title>Servlet Login</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet Login at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet Login at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -59,12 +63,13 @@ public class Login extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         processRequest(request, response);
-    } 
+    }
 
-    /** 
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -72,65 +77,91 @@ public class Login extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         LoginDAO ld = new LoginDAO();
-        String loginType= request.getParameter("loginType");
-        
-        if(  loginType.equals("wl") ){
+        AccountDAO ad = new AccountDAO();
+        PasswordUtil pu = new PasswordUtil();
+        String loginType = request.getParameter("loginType");
+
+        if (loginType.equals("wl")) {
             String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        
-        Account ac = ld.login(username,password );
-        Account account = ld.getId(username);
-             
+            String password = request.getParameter("password");
+
+            Account ac = ld.login(username, pu.hashPassword(password));
+            Account account = ld.getId(username);
+
             if (ac == null || ac.equals(ac.getUsername())) {
-                String error = "Incorrect username or password";
+                String error = "Sai tài khoản hoặc mật khẩu";
                 request.setAttribute("error", error);
                 request.getRequestDispatcher("Login.jsp").forward(request, response);
-              
-                 
-                
-            }else{
-                
-                 HttpSession session = request.getSession();
+
+            } else {
+                int roleID = ad.findAccountByID(account.getAccountID()).getRoleID();
+                HttpSession session = request.getSession();
                 session.setAttribute("id", account.getAccountID());
                 session.setAttribute("username", username);
-                session.setAttribute("password", password);
-                   String goc = "customer";
-            session.setAttribute("goc", goc);
-            System.out.println("Session ID attribute: " + session.getAttribute("id"));
-              System.out.println("Session goc attribute: " + session.getAttribute("goc"));
+                session.setAttribute("RoleID", roleID);
+                String goc = "customer";
+                session.setAttribute("goc", goc);
+                System.out.println("Session ID attribute: " + session.getAttribute("id"));
+                System.out.println("Session goc attribute: " + session.getAttribute("goc"));
 
-            System.out.println("Session Username attribute: " + session.getAttribute("username"));
-            System.out.println("Session Password attribute: " + session.getAttribute("password"));
-               
+                System.out.println("Session Username attribute: " + session.getAttribute("username"));
+                System.out.println("Session Password attribute: " + session.getAttribute("password"));
+
+                if(roleID == 2 || roleID == 3){
+                    response.sendRedirect("homepageB");
+                }else {
                     response.sendRedirect("homepage");
                 }
-        }else{
-            
+            }
+        } else {
+
             HttpSession session = request.getSession();
 
             String guestname = request.getParameter("guestname");
-            String phone = request.getParameter("phone");   
-            ld.newGuest(guestname, phone);
-           int guestID = ld.getGuestId(guestname);
+            String phone = request.getParameter("phone");
+            
+             String message = null;
+
+    // Check if guestname is valid (maximum 10 characters)
+    if (guestname == null || guestname.length() > 10) {
+        message = "tên không quá 10 kí tự";
+    }
+    // Check if phone is a valid 10-digit number
+    else if (phone == null || !phone.matches("\\d{10}")) {
+        message = "Định dạng số điện thoại không đúng";
+    } else {
+        // Both guestname and phone are valid
+             ld.newGuest(guestname, phone);
+            int guestID = ld.getGuestId(guestname);
             session.setAttribute("guestID", guestID);
 
             session.setAttribute("guestname", guestname);
-                   String goc = "guest";
+            String goc = "guest";
             session.setAttribute("goc", goc);
             System.out.println("Session goc attribute: " + session.getAttribute("goc"));
             System.out.println("Session ID attribute: " + session.getAttribute("guestID"));
             System.out.println("Session Username attribute: " + session.getAttribute("guestname"));
 
-                
-        response.sendRedirect("homepage");
-
-            
-        }
-        
+            response.sendRedirect("homepage"); // Redirect to a success page
+        return; // Exit the method after redirecting
     }
-      public static String hashPassword(String password) {
+
+    // If there is an error, set the message and forward to the JSP
+    request.setAttribute("message", message);
+request.getRequestDispatcher("Login.jsp").forward(request, response);    
+            
+            
+            
+            
+           
+
+        }
+
+    }
+
+    public static String hashPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             byte[] messageDigest = md.digest(password.getBytes());
@@ -145,8 +176,10 @@ public class Login extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
-    /** 
+
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

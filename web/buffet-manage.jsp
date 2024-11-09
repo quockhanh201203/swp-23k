@@ -6,7 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>User List</title>
+        <title>Danh sách Buffet</title>
         <!-- Bootstrap CSS -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
         <!-- DataTable CSS -->
@@ -32,8 +32,8 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="addBuffetModalLabel">Add Buffet</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h5 class="modal-title" id="addBuffetModalLabel">Thêm Buffet</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -42,18 +42,18 @@
                             <input type="hidden" name="type" value="buffet">
                             <input type="hidden" name="action" value="add">
                             <div class="form-group">
-                                <label for="buffetName">Buffet Name</label>
-                                <input type="text" class="form-control" id="buffetName" pattern=".*\S.*" title="Input cannot be only spaces" name="buffetName" required>
+                                <label for="buffetName">Tên Buffet</label>
+                                <input type="text" class="form-control" id="buffetName" pattern=".*\S.*" title="Không được chỉ nhập khoảng trắng" name="buffetName" required>
                             </div>
                             <div class="form-group">
-                                <label for="buffetPrice">Buffet Price</label>
+                                <label for="buffetPrice">Giá Buffet</label>
                                 <input type="number" class="form-control" id="buffetPrice" min="1" name="buffetPrice" required>
                             </div>
                             <div class="form-group">
-                                <label for="buffetImage">Image URL</label>
-                                <input type="text" class="form-control" id="buffetImage" pattern=".*\S.*" title="Input cannot be only spaces" name="buffetImage" required>
+                                <label for="buffetImage">URL Hình ảnh</label>
+                                <input type="text" class="form-control" id="buffetImage" pattern=".*\S.*" title="Không được chỉ nhập khoảng trắng" name="buffetImage" required>
                             </div>
-                            <button type="submit" class="btn btn-primary">Add Buffet</button>
+                            <button type="submit" class="btn btn-primary">Thêm Buffet</button>
                         </form>
                     </div>
                 </div>
@@ -68,32 +68,32 @@
             <div class="row justify-content-center">
                 <div class="col-12 bg-dark d-flex align-items-center">
                     <div class="p-5 w-100">
-                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Buffet List</h5>
-                        <h1 class="text-white mb-4">Buffet List</h1>
+                        <h5 class="section-title ff-secondary text-start text-primary fw-normal">Danh sách Buffet</h5>
+                        <h1 class="text-white mb-4">Danh sách Buffet</h1>
 
 
                         <div class="table-responsive">
                             <c:if test="${param.success ne null}">
                                 <div class="alert alert-success" role="alert">
-                                    Success!
+                                    Thành công!
                                 </div>
                             </c:if>
                             <c:if test="${param.fail ne null}">
                                 <div class="alert alert-danger" role="alert">
-                                    Failed!
+                                    Thất bại!
                                 </div>
                             </c:if>
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addBuffetModal">
-                                Add Buffet
+                                Thêm Buffet
                             </button>
                             <table id="buffetTable" class="table table-light table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Buffet ID</th>
-                                        <th>Buffet Name</th>
-                                        <th>Price</th>
-                                        <th>Image</th>
-                                        <th>Actions</th>
+                                        <th>ID Buffet</th>
+                                        <th>Tên Buffet</th>
+                                        <th>Giá</th>
+                                        <th>Hình ảnh</th>
+                                        <th>Hành động</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -104,15 +104,15 @@
                                             <td>${buffet.price}</td>
                                             <td><img src="${buffet.image}" alt="Buffet Image" width="100" height="100"/></td>
                                             <td>
-                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editBuffetModal_${buffet.buffetID}">Edit</button>
-                                                <a href="buffet-detail?buffetId=${buffet.buffetID}" class="btn btn-info btn-sm">Info</a>
+                                                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#editBuffetModal_${buffet.buffetID}">Chỉnh sửa</button>
+                                                <a href="buffet-detail?buffetId=${buffet.buffetID}" class="btn btn-info btn-sm">Thông tin</a>
                                                 <div class="modal fade" id="editBuffetModal_${buffet.buffetID}" tabindex="-1" aria-labelledby="updateBuffetModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <form action="buffets" method="POST">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="addBuffetModalLabel">Add Buffet</h5>
-                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <h5 class="modal-title" id="addBuffetModalLabel">Chỉnh sửa Buffet</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
                                                                 </div>
@@ -124,24 +124,24 @@
 
                                                                     <!-- Buffet Name -->
                                                                     <div class="mb-3">
-                                                                        <label for="buffetName" class="form-label">Buffet Name</label>
-                                                                        <input type="text" class="form-control" name="buffetName" pattern=".*\S.*" title="Input cannot be only spaces" value="${buffet.buffetName}" required>
+                                                                        <label for="buffetName" class="form-label">Tên Buffet</label>
+                                                                        <input type="text" class="form-control" name="buffetName" pattern=".*\S.*" title="Không được chỉ nhập khoảng trắng" value="${buffet.buffetName}" required>
                                                                     </div>
 
-                                                                    <!-- Buffet Name -->
+                                                                    <!-- Buffet Price -->
                                                                     <div class="mb-3">
-                                                                        <label for="buffetName" class="form-label">Buffet Price</label>
-                                                                        <input type="text" class="form-control" name="price" min="1" value="${buffet.price}" required>
+                                                                        <label for="buffetPrice" class="form-label">Giá Buffet</label>
+                                                                        <input type="number" class="form-control" name="price" min="1" value="${buffet.price}" required>
                                                                     </div>
 
                                                                     <!-- Buffet Image -->
                                                                     <div class="mb-3">
-                                                                        <label for="image" class="form-label">Image URL</label>
-                                                                        <input type="text" class="form-control" name="image" pattern=".*\S.*" title="Input cannot be only spaces" value="${buffet.image}" required>
+                                                                        <label for="image" class="form-label">URL Hình ảnh</label>
+                                                                        <input type="text" class="form-control" name="image" pattern=".*\S.*" title="Không được chỉ nhập khoảng trắng" value="${buffet.image}" required>
                                                                     </div>
                                                                 </div>
                                                                 <div class="modal-footer">
-                                                                    <button type="submit" class="btn btn-primary">Update Buffet</button>
+                                                                    <button type="submit" class="btn btn-primary">Cập nhật Buffet</button>
                                                                 </div>
                                                                 <!-- Set action type -->
                                                                 <input type="hidden" name="action" value="update">
@@ -165,7 +165,6 @@
 
 
 
-        <%@ include file="footer.jsp" %>
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -203,3 +202,4 @@
 
     </body>
 </html>
+

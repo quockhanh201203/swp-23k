@@ -8,7 +8,6 @@ package controller;
 import DAO.LoginDAO;
 import DAO.orderDAOt;
 import DAO.tableOrderDAO;
-import Model.order;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,41 +16,45 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import Model.order;
 
 /**
  *
- * @author tran tung
+ * @author ADMIN
  */
-@WebServlet(name="addToOrder", urlPatterns={"/addtoorder"})
+@WebServlet(name = "addToOrder", urlPatterns = {"/addtoorder"})
 public class addToOrder extends HttpServlet {
-   
-    /** 
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet addToOrder</title>");  
+            out.println("<title>Servlet addToOrder</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet addToOrder at " + request.getContextPath () + "</h1>");
+            out.println("<h1>Servlet addToOrder at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
-    } 
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
+    /**
      * Handles the HTTP <code>GET</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -59,12 +62,13 @@ public class addToOrder extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        processRequest(request, response);
-    } 
+            throws ServletException, IOException {
 
-    /** 
+    }
+
+    /**
      * Handles the HTTP <code>POST</code> method.
+     *
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
@@ -72,8 +76,8 @@ public class addToOrder extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-                        HttpSession session = request.getSession();
+            throws ServletException, IOException {
+                          HttpSession session = request.getSession();
 
         String addType = request.getParameter("addType");
         orderDAOt d = new orderDAOt();
@@ -140,8 +144,7 @@ public class addToOrder extends HttpServlet {
                         int guestID = (int) session.getAttribute("guestID");
                        
                         int tableOrderIDg = td.getTableOrderIDc(guestID);   
-                        System.out.println(guestID);
-                         System.out.println(tableOrderIDg);
+                        
                         order drinkOrderg = d.createOrderWithDrink(noteD, guestID, null, 0, tableOrderIDg, drinkID, quantityD);
                         if (drinkOrderg != null) {
                             response.sendRedirect("orderlist");
@@ -215,10 +218,12 @@ public class addToOrder extends HttpServlet {
                 break;
         }
 
-    }    }
+    }    
+    }
 
-    /** 
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override

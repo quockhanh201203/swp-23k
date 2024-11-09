@@ -70,8 +70,8 @@ public class homepageB extends HttpServlet {
         request.setAttribute("list2", list2);
         List<Model.dao.buffet> list3 = md.getTopBuffetList();
         request.setAttribute("list3", list3);
-        homePage homepage = md.getHomePageBanner();
-        request.setAttribute("homepage", homepage);
+//        homePage homepage = md.getHomePageBanner();
+//        request.setAttribute("homepage", homepage);
 
         request.getRequestDispatcher("homepageB.jsp").forward(request, response);  
     } 

@@ -345,10 +345,15 @@
     </div>
     <c:set var="bTotal" value="${bTotal + b.getPrice()}" />
 </c:forEach>
+                                    
+                                    
+                                    
+                                    
+                                    
 
 <c:set var="grandTotal" value="${fTotal + dTotal + bTotal}" />
                                     <div class="col-12 text-center">
-    <h1 class="text-primary">Total Amount: ${grandTotal}Đ</h1>
+    <h1 class="text-primary">Tổng: ${grandTotal}Đ</h1>
                                     </div>
                                     
                                  
@@ -365,7 +370,7 @@
             <form action="checkout" method="post"> 
                 <label for="total"></label>
                 <input type="hidden" id="total" name="total" step="0.01" required value="${grandTotal}">
-                <button type="submit" class="btn btn-primary">Checkout</button>
+                <button type="submit" class="btn btn-primary">Hoàn tất gọi món</button>
             </form>
             <!-- Menu End -->
 

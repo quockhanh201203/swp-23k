@@ -17,7 +17,25 @@
     </head>
     <body>
 
-        <%@ include file="header.jsp" %>
+        <%
+    // Grab RoleID from the session
+    Integer roleID = (Integer) session.getAttribute("RoleID");
+
+    // Check RoleID and include the appropriate header
+    if (roleID == null) {
+        // If RoleID is not in the session, include the default header.jsp
+        %><%@ include file="header.jsp" %><%
+    } else if (roleID == 1) {
+        // RoleID 1 is customer
+        %><%@ include file="customer-header.jsp" %><%
+    } else if (roleID == 2) {
+        // RoleID 2 is staff
+        %><%@ include file="staff-header.jsp" %><%
+    } else if (roleID == 3) {
+        // RoleID 3 is admin
+        %><%@ include file="admin-header.jsp" %><%
+    }
+        %>
 
         <div class="container-fluid py-5 bg-secondary">
             <div class="row justify-content-center">

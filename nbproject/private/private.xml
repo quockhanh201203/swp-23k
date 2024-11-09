@@ -3,13 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/newTableOrder.java</file>
-            <file>file:/C:/git25.9/swp-23k/web/menu.jsp</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/Homepage.java</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/odlist.java</file>
-            <file>file:/C:/git25.9/swp-23k/web/Homepage.jsp</file>
-            <file>file:/C:/git25.9/swp-23k/web/homepageB.jsp</file>
-            <file>file:/C:/git25.9/swp-23k/src/java/controller/menu.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/test/swp-23k/web/staffCheckout.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/test/swp-23k/src/java/controller/orderDetail.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/test/swp-23k/src/java/DAO/ingredientDAO.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/test/swp-23k/src/java/DAO/orderDAOt.java</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/test/swp-23k/web/orderDetail.jsp</file>
+            <file>file:/D:/FPTU/HKVIII/SWP392_RE_1/test/swp-23k/web/orderList.jsp</file>
         </group>
     </open-files>
 </project-private>

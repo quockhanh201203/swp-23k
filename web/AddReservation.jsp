@@ -13,7 +13,25 @@
         <link href="css/style.css" rel="stylesheet">
     </head>
     <body>
-        <%@ include file="header.jsp" %>
+        <%
+    // Grab RoleID from the session
+    Integer roleID = (Integer) session.getAttribute("RoleID");
+
+    // Check RoleID and include the appropriate header
+    if (roleID == null) {
+        // If RoleID is not in the session, include the default header.jsp
+        %><%@ include file="header.jsp" %><%
+    } else if (roleID == 1) {
+        // RoleID 1 is customer
+        %><%@ include file="customer-header.jsp" %><%
+    } else if (roleID == 2) {
+        // RoleID 2 is staff
+        %><%@ include file="staff-header.jsp" %><%
+    } else if (roleID == 3) {
+        // RoleID 3 is admin
+        %><%@ include file="admin-header.jsp" %><%
+    }
+        %>
 
         <div class="container-xxl py-5 px-0 wow fadeInUp bg-secondary" data-wow-delay="0.1s">
             <div class="row g-0 justify-content-center">
@@ -84,12 +102,12 @@
                 </div>
             </div>
         </div>
-        
+
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
         <script src="js/bootstrap.bundle.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
         <script>
-            $(document).ready(function() {
+            $(document).ready(function () {
                 $('.select2').select2({
                     placeholder: "Select an option",
                     allowClear: true

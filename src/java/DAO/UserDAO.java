@@ -26,12 +26,13 @@ public class UserDAO extends DBContext{
         }
     }
 
-    public Customer getFirstCustomer() {
-        String query = "SELECT TOP 1 CustomerID, CustomerName, PhoneNumber, Email, Point, AccountID "
-                + "FROM Customer ORDER BY CustomerID ASC";
+    public Customer getCustomerByAccountId(int accountId) {
+        String query = "SELECT CustomerID, CustomerName, PhoneNumber, Email, Point, AccountID "
+                + "FROM Customer WHERE accountID = ? ORDER BY CustomerID ASC";
 
-        try (PreparedStatement statement = connection.prepareStatement(query); ResultSet resultSet = statement.executeQuery()) {
-
+        try (PreparedStatement statement = connection.prepareStatement(query); ) {
+            statement.setInt(1, accountId);
+            ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 Customer customer = new Customer();
                 customer.setCustomerID(resultSet.getInt("CustomerID"));
@@ -139,9 +140,10 @@ public class UserDAO extends DBContext{
         return false;
     }
 
-    public Staff getFirstStaff() {
-        String query = "SELECT TOP 1 [StaffID], [StaffName], [PhoneNumber], [Email], [Salary], [NewAccount], [AccountID] FROM [5AnhLucDB].[dbo].[Staff]";
+    public Staff getStaffByAccountId(int accountID) {
+        String query = "SELECT [StaffID], [StaffName], [PhoneNumber], [Email], [Salary], [NewAccount], [AccountID] FROM [5AnhLucDB].[dbo].[Staff] where AccountID = ?";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
+            ps.setInt(1, accountID);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 int staffID = rs.getInt("StaffID");
@@ -150,7 +152,6 @@ public class UserDAO extends DBContext{
                 String email = rs.getString("Email");
                 double salary = rs.getDouble("Salary");
                 boolean newAccount = rs.getBoolean("NewAccount");
-                int accountID = rs.getInt("AccountID");
                 return new Staff(staffID, staffName, phoneNumber, email, salary, newAccount, accountID);
             }
         } catch (SQLException e) {
@@ -159,7 +160,7 @@ public class UserDAO extends DBContext{
         return null;
     }
     
-    public Admin getFirstAdmin() {
+    public Admin getAdminByAccountId(int accountID) {
         String query = "SELECT TOP 1 [AdminID], [Name], [PhoneNumber], [Email], [AccountID] FROM [5AnhLucDB].[dbo].[Admin]";
         try (PreparedStatement ps = connection.prepareStatement(query)) {
             ResultSet rs = ps.executeQuery();
@@ -168,7 +169,6 @@ public class UserDAO extends DBContext{
                 String name = rs.getString("Name");
                 String phoneNumber = rs.getString("PhoneNumber");
                 String email = rs.getString("Email");
-                int accountID = rs.getInt("AccountID");
 
                 return new Admin(adminID, name, phoneNumber, email, accountID);
             }

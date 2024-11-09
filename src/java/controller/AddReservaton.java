@@ -91,7 +91,7 @@ public class AddReservaton extends HttpServlet {
             // Role ID 1: Sử dụng accountID làm customerID
             request.setAttribute("customerID", cd.getCustomerByAccountID(accountID).getCustomerID());
             request.setAttribute("showCustomerSelect", false);
-        } else if (roleID == 2) {
+        } else if (roleID == 2 || roleID == 3) {
             // Role ID 2: Hiển thị lựa chọn khách hàng
             List<Customer> customers = rd.getAllCustomers();
             request.setAttribute("customerList", customers);

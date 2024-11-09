@@ -122,11 +122,7 @@
                                 
                             </div>
                         </div>
-                        <form action="newtableorder" method="post">
-                            <input type="hidden" name="tableID" value="<%= tableID %>">
-
-                            <button type="submit" class="btn btn-primary py-2 px-4"   >Bắt đầu gọi món</button>
-                        </form>
+                        
                     </div>
                 </nav>
 

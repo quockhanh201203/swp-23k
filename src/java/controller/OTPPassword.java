@@ -128,7 +128,7 @@ public class OTPPassword extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
-     */
+     */     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -137,7 +137,9 @@ public class OTPPassword extends HttpServlet {
         String generatedOtp = (String) session.getAttribute("otp");
 
         if (userOtp != null && userOtp.equals(generatedOtp)) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/changepass");
+            session.removeAttribute("id");
+            session.removeAttribute("RoleID");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/Login.jsp");
             dispatcher.forward(request, response);
         } else {
             request.setAttribute("message", "Invalid OTP. Please try again.");

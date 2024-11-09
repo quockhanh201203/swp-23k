@@ -87,9 +87,9 @@ public class odlist extends HttpServlet {
                 List<Model.dao.orderDrink> drinkOrderListG = od.drinkOrderListG(guestID);
                 List<Model.dao.buffetOrder> buffetOrderListG = od.buffetOrderListG(guestID);
 
-                request.setAttribute("foodOrderList", foodOrderListG);
-                request.setAttribute("drinkOrderList", drinkOrderListG);
-                request.setAttribute("buffetOrderList", buffetOrderListG);
+                request.setAttribute("buffetOrderListG", foodOrderListG);
+                request.setAttribute("buffetOrderListG", drinkOrderListG);
+                request.setAttribute("buffetOrderListG", buffetOrderListG);
                 request.getRequestDispatcher("orderList.jsp").forward(request, response);
                 break;
                 
