@@ -3,6 +3,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<%
+    // Biến session đã có sẵn trong JSP, không cần khai báo lại
+    Integer tableID = (Integer) session.getAttribute("tableID");
+        String message = (String) request.getAttribute("message");
+
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -138,7 +144,12 @@
 <!--                            <a href="index.html" class="nav-item nav-link active">Home</a>
                             <a href="about.html" class="nav-item nav-link">About</a>-->
 <!--                            <a href="service.html" class="nav-item nav-link">Service</a>-->
-                            <a href="menu" class="nav-item nav-link">Menu</a>
+                          
+   <a href="menu" class="nav-item nav-link">Menu</a>
+                            
+                            
+                            
+                            
                             <div class="nav-item dropdown">
                                 
                                 

@@ -5,8 +5,10 @@
 
 package controller;
 
+import DAO.LoginDAO;
 import DAO.homepageDAO;
 import DAO.tableDAOt;
+import DAO.tableOrderDAO;
 import Model.tableT;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +18,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -84,18 +87,64 @@ public class Homepage extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-  String tableParam = request.getParameter("table");
+        tableOrderDAO d = new tableOrderDAO();
+        LoginDAO ld = new LoginDAO();
+        HttpSession session = request.getSession();
+                Date currentDate = new Date();
 
-if (tableParam != null) { 
+  String tableParam = request.getParameter("table");
     int tableID = Integer.parseInt(tableParam);  
+            String goc = (String) session.getAttribute("goc");  
+
+     switch (goc) {
+            case "customer":
+                 int accountID = (int) session.getAttribute("id");
+
+                Integer customerID = ld.getCustomerId(accountID);
+                System.out.println("customerID : " + customerID);
+                d.newOrderTable(0, currentDate, tableID, customerID, null);
+                request.setAttribute("successMessage", "Order placed successfully!");
+                response.sendRedirect("menu?success=true");
+                break;
+            case "guest":
+                int guestID = (int) session.getAttribute("guestID");
+                System.out.println(guestID);
+                d.newOrderTable(0, currentDate, tableID, null, guestID);
+                request.setAttribute("successMessage", "Order placed successfully!");
+
+                response.sendRedirect("menu?success=true");
+                break;
+                
+        }
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+ 
     
-   
-    HttpSession session = request.getSession();
-    session.setAttribute("tableID", tableID);
-    session.setMaxInactiveInterval(1800); 
-    response.sendRedirect("homepageB");
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }
-    }
+    
 
     /** 
      * Returns a short description of the servlet.
