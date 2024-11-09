@@ -137,7 +137,7 @@ public class OTPPassword extends HttpServlet {
         String generatedOtp = (String) session.getAttribute("otp");
 
         if (userOtp != null && userOtp.equals(generatedOtp)) {
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/changepass");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/Login.jsp");
             dispatcher.forward(request, response);
         } else {
             request.setAttribute("message", "Invalid OTP. Please try again.");
