@@ -58,7 +58,7 @@
 
                 <div class="container-xxl py-5 bg-dark hero-header mb-5">
                     <div class="container text-center my-5 pt-5 pb-4">
-                        <h1 class="display-3 text-white mb-3 animated slideInDown">DANH SÁCH GIẢM GIÁ</h1>
+                        <h1 class="display-3 text-white mb-3 animated slideInDown">QUẢN LÝ GIẢM GIÁ</h1>
                         
                     </div>
                 </div>
@@ -67,7 +67,7 @@
 
             <!-- Discount Management -->
             <div class="container-xxl py-5 bg-dark">
-                <h2 class="mb-4 text-white">Danh sách giảm giá</h2>
+                <h2 class="mb-4 text-white">Quản lý giảm giá</h2>
                 <a href="discountForm.jsp" class="btn btn-primary py-2 px-4">Thêm giảm giá mới</a>
                 
                 <!-- Form tìm kiếm -->

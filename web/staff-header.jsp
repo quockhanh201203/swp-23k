@@ -65,6 +65,7 @@
                             <a href="myShift" class="nav-item nav-link">Ca làm của tôi</a>
                             <a href="FeedbackList" class="nav-item nav-link">Danh sách nhận xét</a>
                             <a href="ReservationList" class="nav-item nav-link">Danh sách đặt bàn</a>
+                            <a href="staffcheckout" class="nav-item nav-link">Thanh toán</a>
                         </div>
                         <c:if test="${not empty sessionScope.id}">
                             <a href="staff-profile" class="btn btn-primary py-2 px-4">${sessionScope.username}!</a>

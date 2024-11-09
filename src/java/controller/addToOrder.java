@@ -77,7 +77,7 @@ public class addToOrder extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                        HttpSession session = request.getSession();
+                          HttpSession session = request.getSession();
 
         String addType = request.getParameter("addType");
         orderDAOt d = new orderDAOt();
@@ -166,9 +166,51 @@ public class addToOrder extends HttpServlet {
 
 
                 break;
+                
+                
+                
+                
+                
 
-            case "removeFromOrder":
-                // Xử lý xóa khỏi đơn hàng
+            case "buffet":
+                int buffetID = Integer.parseInt(request.getParameter("buffetID"));
+                String noteB = request.getParameter("note");
+                String gocB = (String) session.getAttribute("goc");
+                switch (gocB) {
+                    case "customer":
+                        int accountID = (int) session.getAttribute("id");
+                        int customerID = ld.getCustomerId(accountID);
+                        int tableOrderIDb = td.getTableOrderIDc(customerID);
+                        order buffetOrderc = d.createOrderWithBuffet(noteB, null, customerID, 0, tableOrderIDb, buffetID);
+                        if (buffetOrderc != null) {
+                            response.sendRedirect("orderlist");
+                        } else {
+                            response.sendRedirect("orderlist");
+                        }
+                        break;
+
+                    case "guest":
+                        int guestID = (int) session.getAttribute("guestID");
+                       
+                        int tableOrderIDbg = td.getTableOrderIDc(guestID);   
+                        System.out.println(guestID);
+                        order buffetOrderg = d.createOrderWithBuffet(noteB, guestID, null, 0, tableOrderIDbg, buffetID);
+                        if (buffetOrderg != null) {
+                            response.sendRedirect("orderlist");
+                        } else {
+                            response.sendRedirect("orderlist");
+                        }
+
+
+
+
+
+
+
+
+
+
+
                 break;
 
             default:
@@ -177,6 +219,7 @@ public class addToOrder extends HttpServlet {
                 break;
         }
 
+    }    
     }
 
     /**

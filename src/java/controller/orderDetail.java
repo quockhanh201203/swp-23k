@@ -60,9 +60,14 @@ public class orderDetail extends HttpServlet {
      orderDAOt od = new orderDAOt();
 
                 int tableOrderID = Integer.parseInt(request.getParameter("tableOrderID"));
-            List<Model.dao.orderN> foodOrderCheckoutList = od.foodOrderCheckout(tableOrderID);        
-        request.setAttribute("foodOrderCheckoutList", foodOrderCheckoutList);
+            List<Model.dao.orderN> foodOrderCheckoutList = od.foodOrderCheckout(tableOrderID); 
+            List<Model.dao.checkoutDrink> drinkOrderCheckoutList = od.drinkOrderCheckout(tableOrderID); 
+            List<Model.dao.checkoutBuffet> buffetOrderCheckoutList = od.buffetOrderCheckout(tableOrderID); 
         
+        request.setAttribute("tableOrderID", tableOrderID);
+        request.setAttribute("foodOrderCheckoutList", foodOrderCheckoutList);
+        request.setAttribute("drinkOrderCheckoutList", drinkOrderCheckoutList);
+        request.setAttribute("buffetOrderCheckoutList", buffetOrderCheckoutList);
         request.getRequestDispatcher("orderDetail.jsp").forward(request, response);    } 
 
     /** 
@@ -75,7 +80,24 @@ public class orderDetail extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+               orderDAOt dao = new orderDAOt();
+        int tableOrderID = Integer.parseInt(request.getParameter("tableOrderID"));
+                
+try {
+       dao.completeCheckout(tableOrderID);
+       dao.deleteTableOrder(tableOrderID);
+        response.sendRedirect("staffcheckout"); // Chuyển hướng thành công
+    } catch (Exception e) {
+        request.setAttribute("errorMessage", e.getMessage());
+        response.sendRedirect("staffcheckout");
+    }
+
+
+
+
+
+
+
     }
 
     /** 

@@ -91,6 +91,7 @@
                                     <a href="foods" class="dropdown-item">Đồ ăn</a>
                                     <a href="buffets" class="dropdown-item">Buffet</a>
                                     <a href="drinks" class="dropdown-item">Nước</a>
+                                    <a href="ingredient" class="dropdown-item">Công thức</a>
                                     <a href="drink-category" class="dropdown-item">Phân loại nước</a>
                                     <a href="food-category" class="dropdown-item">Phân loại đồ ăn</a>
                                     <a href="price-history" class="dropdown-item">Lịch sử giá</a>

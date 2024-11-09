@@ -5,6 +5,8 @@
 package DAO;
 
 import Model.dao.buffetOrder;
+import Model.dao.checkoutBuffet;
+import Model.dao.checkoutDrink;
 import Model.dao.orderDrink;
 import Model.dao.orderN;
 import Model.foodOrder;
@@ -250,7 +252,8 @@ public class orderDAOt extends DBContext {
 "LEFT JOIN Order_Food ON [order].orderID = Order_Food.orderID\n" +
 "LEFT JOIN Product ON Order_Food.foodID = Product.foodID\n" +
 "LEFT JOIN Food ON Order_Food.foodID = Food.foodID\n" +
-"WHERE customerID = ? AND Order_Food.Order_FoodID IS NOT NULL";
+"WHERE customerID = ? AND Order_Food.Order_FoodID IS NOT NULL"
+                + " AND Table_OrderID IS NOT NULL";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -282,7 +285,8 @@ public class orderDAOt extends DBContext {
 "LEFT JOIN Order_Drink ON [order].orderID = Order_Drink.orderID\n" +
 "LEFT JOIN Product ON Order_Drink.DrinkID = Product.DrinkID\n" +
 "LEFT JOIN Drink ON Order_Drink.DrinkID = Drink.DrinkID\n" +
-"WHERE customerID = ? AND Order_Drink.Order_DrinkID IS NOT NULL";
+"WHERE customerID = ? AND Order_Drink.Order_DrinkID IS NOT NULL"
+                             + " AND Table_OrderID IS NOT NULL";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -319,7 +323,8 @@ public class orderDAOt extends DBContext {
 "LEFT JOIN Product ON Order_Buffet.BuffetID = Product.BuffetID\n" +
 "LEFT JOIN Buffet ON Order_Buffet.BuffetID = Buffet.BuffetID\n" +
 "WHERE [order].customerID = ?\n" +
-"  AND Order_Buffet.Order_BuffetID IS NOT NULL;";
+"  AND Order_Buffet.Order_BuffetID IS NOT NULL "
+                              + " AND Table_OrderID IS NOT NULL";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -384,6 +389,7 @@ public class orderDAOt extends DBContext {
 "LEFT JOIN Product ON Order_Drink.DrinkID = Product.DrinkID\n" +
 "LEFT JOIN Drink ON Order_Drink.DrinkID = Drink.DrinkID\n" +
 "WHERE guestID = ? AND Order_Drink.Order_DrinkID IS NOT NULL";
+        
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -594,7 +600,8 @@ public class orderDAOt extends DBContext {
 "LEFT JOIN Order_Food ON [order].orderID = Order_Food.orderID\n" +
 "LEFT JOIN Product ON Order_Food.foodID = Product.foodID\n" +
 "LEFT JOIN Food ON Order_Food.foodID = Food.foodID\n" +
-"WHERE Table_OrderID = ?";
+"WHERE Table_OrderID = ?"
+  + " AND Order_FoodID IS NOT NULL";
 
         try {
             PreparedStatement st = connection.prepareStatement(sql);
@@ -618,6 +625,117 @@ public class orderDAOt extends DBContext {
         }
         return orderList;
     }
+           public List<Model.dao.checkoutDrink> drinkOrderCheckout(int Table_OrderID) {
+        List<Model.dao.checkoutDrink> orderList = new ArrayList<>();
+        String sql = "	SELECT [order].*, Order_Drink.*, Product.price, Drink.drinkName, Drink.image\n" +
+"FROM [order]\n" +
+"LEFT JOIN Order_Drink ON [order].orderID = Order_Drink.orderID\n" +
+"LEFT JOIN Product ON Order_Drink.drinkID = Product.drinkID\n" +
+"LEFT JOIN Drink ON Order_Drink.drinkID = Drink.DrinkID\n" +
+"WHERE Table_OrderID = ?\n" +
+"AND Order_DrinkID IS NOT NULL";
+    
+        
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+                    st.setInt(1, Table_OrderID);
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                checkoutDrink p = new checkoutDrink();
+
+                orderList.add(new checkoutDrink(
+                        rs.getInt(1), rs.getString(2), rs.getInt(3),
+                        rs.getInt(4), rs.getInt(5), rs.getInt(6),
+                        rs.getInt(7), rs.getInt(8), rs.getInt(9),
+                        rs.getInt(10), rs.getInt(11), rs.getString(12), rs.getString(13)
+                )
+                );
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return orderList;
+    }
+            public List<Model.dao.checkoutBuffet> buffetOrderCheckout(int Table_OrderID) {
+        List<Model.dao.checkoutBuffet> orderList = new ArrayList<>();
+        String sql = "	SELECT [order].*, Order_Buffet.*, Product.price, Buffet.buffetName, Buffet.image\n" +
+"FROM [order]\n" +
+"LEFT JOIN Order_Buffet ON [order].orderID = Order_Buffet.orderID\n" +
+"LEFT JOIN Product ON Order_Buffet.buffetID = Product.buffetID\n" +
+"LEFT JOIN Buffet ON Order_Buffet.BuffetID = Buffet.BuffetID\n" +
+"WHERE Table_OrderID = ?\n" +
+
+         " AND Order_DrinkID IS NOT NULL";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+                    st.setInt(1, Table_OrderID);
+
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                checkoutBuffet p = new checkoutBuffet();
+
+                orderList.add(new checkoutBuffet(
+                        rs.getInt(1), rs.getString(2), rs.getInt(3),
+                        rs.getInt(4), rs.getInt(5), rs.getInt(6),
+                        rs.getInt(7), rs.getInt(8), rs.getInt(9),
+                        rs.getInt(10), rs.getString(11), rs.getString(12))
+                
+                );
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return orderList;
+    }
+            
+             public void completeCheckout(int Table_OrderID) throws Exception {
+        String sql = "UPDATE [dbo].[Order]\n" +
+"   SET \n" +
+"      [Table_OrderID] = null \n" +
+" WHERE [Table_OrderID] = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, Table_OrderID);
+           
+            int rowsUpdated = st.executeUpdate();
+            if (rowsUpdated == 0) {
+                throw new Exception("No rows updated, check FoodID and IngredientID.");
+            }
+        } catch (Exception e) {
+            throw new Exception("Error updating quantity: " + e.getMessage());
+        }
+
+    }
+            
+            
+      public void deleteTableOrder(int Table_OrderID) {
+        boolean success = false;
+
+        String sql = "DELETE FROM [dbo].[Table_Order]\n" +
+"      WHERE Table_OrderID = ?";
+
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, Table_OrderID);
+            ResultSet rs = st.executeQuery();
+            int rowsDeleted = st.executeUpdate();
+            if (rowsDeleted > 0) {
+
+                success = true;
+            }
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+    }       
+            
 
   public static void main(String[] args) {
     // Khởi tạo đối tượng DAO
