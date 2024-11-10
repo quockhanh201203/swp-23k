@@ -162,6 +162,6 @@ public class tableOrderDAO extends DBContext {
    public static void main(String[] args) {
         tableOrderDAO d = new tableOrderDAO();
         Date orderDate = new Date(); // Ngày hiện tại
-        d.newOrderTable(0, orderDate, 1, 1, null);
+        d.newOrderTable(0, orderDate, 1, null, null);
     } 
 }

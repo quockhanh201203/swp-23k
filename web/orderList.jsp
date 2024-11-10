@@ -114,7 +114,7 @@
                                     <c:set var="bTotal" value="0" />
                                    
 
-                                 <c:forEach items="${foodOrderList}" var="f">
+                                 <c:forEach items="${goc}" var="f">
     <div class="col-lg-6">
         <div class="d-flex align-items-center">
             <img class="flex-shrink-0 img-fluid rounded" src="${f.getImage()}" alt="" style="width: 80px;">

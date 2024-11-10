@@ -144,7 +144,7 @@ public class orderDAOt extends DBContext {
     return null; // Return null if there was an error
 }
      
-     public order createOrderWithDrink(String guestNote, Integer guestID, Integer customerID, int total, int tableOrderID, int drinkID, int quantity) {
+     public order createOrderWithDrink(String guestNote,Integer orderID, Integer guestID, Integer customerID, int total, int tableOrderID, int drinkID, int quantity) {
     String sql = "DECLARE @NewOrderID INT;\n" +
 "                 INSERT INTO [dbo].[Order]\n" +
 "                 ([GuestNote], [GuestID], [CustomerID], [total], [Table_OrderID])\n" +
@@ -162,8 +162,9 @@ public class orderDAOt extends DBContext {
         st.setObject(3, customerID, java.sql.Types.INTEGER);
         st.setInt(4, total);
         st.setInt(5, tableOrderID);
-        st.setInt(6, drinkID);   // Set FoodID
-        st.setInt(7, quantity);  // Set Quantity
+        st.setInt(6, orderID);
+        st.setInt(7, drinkID);   // Set FoodID
+        st.setInt(8, quantity);  // Set Quantity
 
         // Execute the statement
         boolean hasResultSet = st.execute(); // Use execute() to run the SQL
